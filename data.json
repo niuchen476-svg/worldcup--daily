@@ -1,0 +1,93 @@
+{
+  "date": "2026-06-12",
+  "schedule_round": "小组赛 第1轮",
+  "yesterday_label": "06月11日 · 友谊赛",
+  "today_matches": [
+    {
+      "time": "03:00",
+      "date": "06/12",
+      "home": "墨西哥",
+      "home_code": "MX",
+      "away": "南非",
+      "away_code": "ZA",
+      "group": "A组",
+      "venue": "洛杉矶 SoFi Stadium",
+      "tag": "揭幕战 · Opening Match",
+      "is_opening": true
+    },
+    {
+      "time": "06:00",
+      "date": "06/12",
+      "home": "加拿大",
+      "home_code": "CA",
+      "away": "波黑",
+      "away_code": "BA",
+      "group": "B组",
+      "venue": "多伦多 BMO Field",
+      "is_opening": false
+    },
+    {
+      "time": "09:00",
+      "date": "06/12",
+      "home": "阿根廷",
+      "home_code": "AR",
+      "away": "智利",
+      "away_code": "CL",
+      "group": "C组",
+      "venue": "纽约 MetLife Stadium",
+      "is_opening": false
+    }
+  ],
+  "yesterday_matches": [
+    {
+      "home": "巴西",
+      "home_code": "BR",
+      "home_score": 2,
+      "away": "摩洛哥",
+      "away_code": "MA",
+      "away_score": 1,
+      "group": "B组热身",
+      "scorers": ["维尼修斯 32'", "罗德里戈 67'"],
+      "summary": "巴西主导全场控球率65%，摩洛哥防线坚挺但终场前失球，双方备战状态均佳。"
+    },
+    {
+      "home": "法国",
+      "home_code": "FR",
+      "home_score": 3,
+      "away": "塞内加尔",
+      "away_code": "SN",
+      "away_score": 0,
+      "group": "C组热身",
+      "scorers": ["姆巴佩 12'", "格列兹曼 45'", "姆巴佩 78'"],
+      "summary": "姆巴佩双响，法国阵容磨合状态出色，被多家机构列为本届冠军最大热门。"
+    }
+  ],
+  "hot_topics": [
+    {
+      "title": "梅西赛前训练视频刷爆社交媒体，球迷热情高涨",
+      "summary": "梅西在营地进行一对一训练时的状态视频被多账号转发，引发全球球迷关注，阿根廷队账号单条推文互动破百万。",
+      "sentiment": "正面",
+      "heat": 87,
+      "source": "Twitter · 2h前"
+    },
+    {
+      "title": "传统劲旅核心球星伤情存疑，出场概率引爆讨论",
+      "summary": "某欧洲强队核心球员在训练中拉伤肌肉，官方公告措辞模糊，球迷及媒体对其实际上场概率产生大量质疑。",
+      "sentiment": "负面",
+      "heat": 61,
+      "source": "ESPN · 4h前"
+    },
+    {
+      "title": "世界杯开幕式节目单正式公布，三国艺人联袂献唱",
+      "summary": "FIFA官方宣布开幕式将于06月12日北京时间01:30举行，涵盖美国、墨西哥、加拿大本土艺人，全球观看人次预计超10亿。",
+      "sentiment": "中性",
+      "heat": 44,
+      "source": "FIFA官方 · 6h前"
+    }
+  ],
+  "ai_prediction": {
+    "text": "巴西与法国状态最稳，是夺冠最大热门。阿根廷卫冕压力大但梅西状态回勇，小组赛应无悬念。本届最大黑马关注摩洛哥和日本，两队防守体系成熟，有望再度杀入八强。今日揭幕战墨西哥主场优势明显，预计低比分取胜；阿根廷对阵智利大概率强势出线，梅西首球时间备受关注。",
+    "tags": ["控球率分析", "历史对阵数据", "伤病实时追踪", "赔率模型", "进球预测"],
+    "confidence": 73
+  }
+}

@@ -204,9 +204,7 @@
     background: rgba(34,211,238,.1); color: var(--cyan);
     border: 1px solid rgba(34,211,238,.2);
   }
-  .venue-tag {
-    font-size: 11px; color: var(--text-3); white-space: nowrap;
-  }
+  .venue-tag { font-size: 11px; color: var(--text-3); white-space: nowrap; }
   .opener-tag {
     display: inline-block;
     font-size: 10px; font-weight: 700; padding: 2px 8px;
@@ -273,9 +271,9 @@
   }
   .heat-bar-wrap { flex: 1; height: 3px; background: var(--bg-base); border-radius: 3px; }
   .heat-bar { height: 100%; border-radius: 3px; }
-  .heat-high { background: linear-gradient(90deg, var(--red), var(--amber)); width: 87%; }
-  .heat-mid  { background: linear-gradient(90deg, var(--amber), #fcd34d); width: 61%; }
-  .heat-low  { background: linear-gradient(90deg, var(--blue), var(--cyan)); width: 44%; }
+  .heat-high { background: linear-gradient(90deg, var(--red), var(--amber)); }
+  .heat-mid  { background: linear-gradient(90deg, var(--amber), #fcd34d); }
+  .heat-low  { background: linear-gradient(90deg, var(--blue), var(--cyan)); }
 
   /* ── AI Analysis ── */
   .ai-block {
@@ -295,7 +293,6 @@
   .ai-label { font-size: 11px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; }
   .ai-model { font-size: 13px; font-weight: 600; color: var(--blue); }
   .ai-body { font-size: 13px; color: var(--text-2); line-height: 1.8; }
-  .ai-body strong { color: var(--text-1); font-weight: 600; }
   .ai-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 13px; }
   .ai-tag {
     font-size: 11px; padding: 3px 10px; border-radius: 20px;
@@ -309,8 +306,24 @@
   }
   .conf-label { font-size: 11px; color: var(--text-3); white-space: nowrap; }
   .conf-bar-wrap { flex: 1; height: 4px; background: var(--bg-base); border-radius: 4px; overflow: hidden; }
-  .conf-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--cyan)); width: 73%; }
+  .conf-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
   .conf-val { font-size: 12px; font-weight: 700; color: var(--cyan); white-space: nowrap; }
+
+  /* ── Loading / Error ── */
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid var(--border-hl);
+    border-top-color: var(--cyan);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .state-center {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 60px 20px; gap: 14px;
+  }
+  .error-msg { color: var(--red); font-size: 14px; }
 
   /* ── Footer ── */
   footer {
@@ -347,9 +360,7 @@
       </div>
     </div>
     <div class="header-meta">
-      <div class="date-badge">
-        <strong>2026年06月12日</strong> &nbsp;星期五 &nbsp;北京时间
-      </div>
+      <div class="date-badge" id="date-display">加载中…</div>
       <div class="live-badge">
         <span class="live-dot"></span>
         LIVE
@@ -361,222 +372,28 @@
 <!-- ── Nav ── -->
 <nav class="nav-bar">
   <div class="nav-inner">
-    <div class="nav-tab active"><span class="emoji">📅</span>今日赛程 <span class="count-chip">3</span></div>
+    <div class="nav-tab active">
+      <span class="emoji">📅</span>今日赛程
+      <span class="count-chip" id="match-count">·</span>
+    </div>
     <div class="nav-tab"><span class="emoji">📊</span>昨日战报</div>
-    <div class="nav-tab"><span class="emoji">🔥</span>热点舆情 <span class="count-chip">3</span></div>
+    <div class="nav-tab">
+      <span class="emoji">🔥</span>热点舆情
+      <span class="count-chip" id="topic-count">·</span>
+    </div>
     <div class="nav-tab"><span class="emoji">🎯</span>AI 预测</div>
     <div class="nav-tab"><span class="emoji">🏆</span>积分榜</div>
   </div>
 </nav>
 
-<!-- ── Main ── -->
-<main class="main">
-
-  <!-- 📅 今日赛程 -->
-  <div class="section-card section-full" id="schedule">
-    <div class="section-head">
-      <div class="section-title">
-        <span class="icon">📅</span> 今日赛程
-      </div>
-      <span class="section-badge badge-blue">06月12日 · 小组赛 第1轮</span>
-    </div>
-    <div class="section-body">
-
-      <div class="match-row">
-        <div class="match-time-col">
-          <div class="match-date-label">北京时间</div>
-          <div class="match-time">03:00</div>
-          <div class="match-time-unit">06/12</div>
-        </div>
-        <div class="match-center">
-          <span class="opener-tag">★ 揭幕战 · Opening Match</span>
-          <div class="match-teams">
-            <span class="team-name">🇲🇽 墨西哥</span>
-            <span class="vs-sep">VS</span>
-            <span class="team-name">🇿🇦 南非</span>
-          </div>
-        </div>
-        <div class="match-meta">
-          <span class="group-tag">A 组</span>
-          <span class="venue-tag">📍 洛杉矶 SoFi Stadium</span>
-        </div>
-      </div>
-
-      <div class="match-row">
-        <div class="match-time-col">
-          <div class="match-date-label">北京时间</div>
-          <div class="match-time">06:00</div>
-          <div class="match-time-unit">06/12</div>
-        </div>
-        <div class="match-center">
-          <div class="match-teams">
-            <span class="team-name">🇨🇦 加拿大</span>
-            <span class="vs-sep">VS</span>
-            <span class="team-name">🇧🇦 波黑</span>
-          </div>
-        </div>
-        <div class="match-meta">
-          <span class="group-tag">B 组</span>
-          <span class="venue-tag">📍 多伦多 BMO Field</span>
-        </div>
-      </div>
-
-      <div class="match-row">
-        <div class="match-time-col">
-          <div class="match-date-label">北京时间</div>
-          <div class="match-time">09:00</div>
-          <div class="match-time-unit">06/12</div>
-        </div>
-        <div class="match-center">
-          <div class="match-teams">
-            <span class="team-name">🇦🇷 阿根廷</span>
-            <span class="vs-sep">VS</span>
-            <span class="team-name">🇨🇱 智利</span>
-          </div>
-        </div>
-        <div class="match-meta">
-          <span class="group-tag">C 组</span>
-          <span class="venue-tag">📍 纽约 MetLife Stadium</span>
-        </div>
-      </div>
-
+<!-- ── Main: JS renders all sections here ── -->
+<main class="main" id="app">
+  <div class="section-card section-full">
+    <div class="state-center">
+      <div class="spinner"></div>
+      <span style="color:var(--text-2);font-size:14px;letter-spacing:.3px;">正在加载晨报数据…</span>
     </div>
   </div>
-
-  <!-- 📊 昨日战报 -->
-  <div class="section-card" id="results">
-    <div class="section-head">
-      <div class="section-title">
-        <span class="icon">📊</span> 昨日战报
-      </div>
-      <span class="section-badge badge-green">06月11日 · 友谊赛</span>
-    </div>
-    <div class="section-body">
-
-      <div class="result-row">
-        <div class="result-main">
-          <span class="team-name">🇧🇷 巴西</span>
-          <span class="result-score">2 — 1</span>
-          <span class="team-name">🇲🇦 摩洛哥</span>
-          <span class="group-tag">B 组热身</span>
-        </div>
-        <div class="result-detail">
-          <span class="scorer-tag">⚽ 维尼修斯 32'</span>
-          <span class="scorer-tag">⚽ 罗德里戈 67'</span>
-          巴西主导全场控球率65%，摩洛哥防线坚挺但终场前失球，双方备战状态均佳。
-        </div>
-      </div>
-
-      <div class="result-row">
-        <div class="result-main">
-          <span class="team-name">🇫🇷 法国</span>
-          <span class="result-score">3 — 0</span>
-          <span class="team-name">🇸🇳 塞内加尔</span>
-          <span class="group-tag">C 组热身</span>
-        </div>
-        <div class="result-detail">
-          <span class="scorer-tag">⚽ 姆巴佩 12'</span>
-          <span class="scorer-tag">⚽ 格列兹曼 45'</span>
-          <span class="scorer-tag">⚽ 姆巴佩 78'</span>
-          姆巴佩双响，法国阵容磨合状态出色，被多家机构列为本届冠军最大热门。
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 🔥 热点舆情 -->
-  <div class="section-card" id="sentiment">
-    <div class="section-head">
-      <div class="section-title">
-        <span class="icon">🔥</span> 热点舆情
-      </div>
-      <span class="section-badge badge-amber">实时监控 · 联网抓取</span>
-    </div>
-    <div class="section-body">
-
-      <div class="sent-item">
-        <div class="sent-header">
-          <span class="sent-title">梅西赛前训练视频刷爆社交媒体，球迷热情高涨</span>
-          <span class="sent-tag sent-pos">正面</span>
-        </div>
-        <div class="sent-reason">梅西在营地进行一对一训练时的状态视频被多账号转发，引发全球球迷关注，阿根廷队账号单条推文互动破百万。</div>
-        <div class="sent-source">
-          <span>🔥 热度</span>
-          <div class="heat-bar-wrap"><div class="heat-bar heat-high"></div></div>
-          <span>87</span>
-          <span>· Twitter · 2h前</span>
-        </div>
-      </div>
-
-      <div class="sent-item">
-        <div class="sent-header">
-          <span class="sent-title">传统劲旅核心球星伤情存疑，出场概率引爆讨论</span>
-          <span class="sent-tag sent-neg">负面</span>
-        </div>
-        <div class="sent-reason">某欧洲强队核心球员在训练中拉伤肌肉，官方公告措辞模糊，球迷及媒体对其实际上场概率产生大量质疑。</div>
-        <div class="sent-source">
-          <span>🔥 热度</span>
-          <div class="heat-bar-wrap"><div class="heat-bar heat-mid"></div></div>
-          <span>61</span>
-          <span>· ESPN · 4h前</span>
-        </div>
-      </div>
-
-      <div class="sent-item">
-        <div class="sent-header">
-          <span class="sent-title">世界杯开幕式节目单正式公布，三国艺人联袂献唱</span>
-          <span class="sent-tag sent-neu">中性</span>
-        </div>
-        <div class="sent-reason">FIFA官方宣布开幕式将于06月12日北京时间01:30举行，涵盖美国、墨西哥、加拿大本土艺人，全球观看人次预计超10亿。</div>
-        <div class="sent-source">
-          <span>🔥 热度</span>
-          <div class="heat-bar-wrap"><div class="heat-bar heat-low"></div></div>
-          <span>44</span>
-          <span>· FIFA官方 · 6h前</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 🎯 AI 预测分析 -->
-  <div class="section-card section-full" id="ai">
-    <div class="section-head">
-      <div class="section-title">
-        <span class="icon">🎯</span> AI 预测分析
-      </div>
-      <span class="section-badge badge-purple">模型推理 · 仅供参考</span>
-    </div>
-    <div class="section-body">
-      <div class="ai-block">
-        <div class="ai-header">
-          <div class="ai-icon">🤖</div>
-          <div>
-            <div class="ai-label">Daily Analyst · 06月12日晨报</div>
-            <div class="ai-model">2026世界杯开幕日形势综合研判</div>
-          </div>
-        </div>
-        <div class="ai-body">
-          今日揭幕战<strong>墨西哥 vs 南非</strong>是本届杯赛首场正式较量。从近期热身赛数据看，墨西哥控球率稳定在58%以上，前场压迫效率跻身北美区首位；南非则依靠紧密防线在非洲预选赛中仅失4球，预计比赛以<strong>低比分胶着</strong>开局，主场球迷优势（洛杉矶拉美裔群体庞大）或成关键变量，建议关注比赛前20分钟是否有快速进球。<br><br>
-          另一焦点赛事<strong>阿根廷 vs 智利</strong>：梅西训练状态依影像判定为绿灯，大概率首发出场。智利中场覆盖面广但缺乏顶级中锋，阿根廷大比分获胜概率约 <strong>54%</strong>，平局概率 26%，智利胜出概率 20%。预测均值进球数 2.4 粒，梅西首球时间区间锁定在60分钟内概率较高。<strong>法国与巴西</strong>热身战均胜，若两队在后续赛段碰头，将是本届最受期待的对决。
-        </div>
-        <div class="ai-tags">
-          <span class="ai-tag">控球率分析</span>
-          <span class="ai-tag">历史对阵数据</span>
-          <span class="ai-tag">伤病实时追踪</span>
-          <span class="ai-tag">赔率模型</span>
-          <span class="ai-tag">进球预测</span>
-        </div>
-        <div class="confidence">
-          <span class="conf-label">综合置信度</span>
-          <div class="conf-bar-wrap"><div class="conf-bar"></div></div>
-          <span class="conf-val">73%</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </main>
 
 <!-- ── Footer ── -->
@@ -592,5 +409,187 @@
   <a href="https://niuchen476-svg.github.io/worldcup--daily/" target="_blank">worldcup-daily.github.io</a>
 </footer>
 
+<script>
+  /* ── Helpers ── */
+  const esc = s => String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  const flag = code => [...code.toUpperCase()]
+    .map(c => String.fromCodePoint(c.charCodeAt(0) + 127397)).join('');
+
+  function heatClass(n) {
+    return n >= 80 ? 'heat-high' : n >= 55 ? 'heat-mid' : 'heat-low';
+  }
+
+  function sentClass(s) {
+    return s === '正面' ? 'sent-pos' : s === '负面' ? 'sent-neg' : 'sent-neu';
+  }
+
+  function formatDate(dateStr) {
+    const [y, m, d] = dateStr.split('-');
+    const dt = new Date(`${dateStr}T12:00:00+08:00`);
+    const days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return { display: `${y}年${m}月${d}日`, weekday: days[dt.getDay()] };
+  }
+
+  /* ── Renderers ── */
+  function renderSchedule(data) {
+    const [, mm, dd] = data.date.split('-');
+    const label = `${mm}月${dd}日 · ${esc(data.schedule_round)}`;
+    const rows = data.today_matches.map(m => `
+      <div class="match-row">
+        <div class="match-time-col">
+          <div class="match-date-label">北京时间</div>
+          <div class="match-time">${esc(m.time)}</div>
+          <div class="match-time-unit">${esc(m.date)}</div>
+        </div>
+        <div class="match-center">
+          ${m.is_opening ? `<span class="opener-tag">★ ${esc(m.tag)}</span>` : ''}
+          <div class="match-teams">
+            <span class="team-name">${flag(m.home_code)} ${esc(m.home)}</span>
+            <span class="vs-sep">VS</span>
+            <span class="team-name">${flag(m.away_code)} ${esc(m.away)}</span>
+          </div>
+        </div>
+        <div class="match-meta">
+          <span class="group-tag">${esc(m.group)}</span>
+          <span class="venue-tag">📍 ${esc(m.venue)}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="section-card section-full" id="schedule">
+        <div class="section-head">
+          <div class="section-title"><span class="icon">📅</span> 今日赛程</div>
+          <span class="section-badge badge-blue">${label}</span>
+        </div>
+        <div class="section-body">${rows}</div>
+      </div>`;
+  }
+
+  function renderResults(data) {
+    const rows = data.yesterday_matches.map(m => {
+      const scorers = (m.scorers || [])
+        .map(s => `<span class="scorer-tag">⚽ ${esc(s)}</span>`).join('');
+      return `
+        <div class="result-row">
+          <div class="result-main">
+            <span class="team-name">${flag(m.home_code)} ${esc(m.home)}</span>
+            <span class="result-score">${m.home_score} — ${m.away_score}</span>
+            <span class="team-name">${flag(m.away_code)} ${esc(m.away)}</span>
+            <span class="group-tag">${esc(m.group)}</span>
+          </div>
+          <div class="result-detail">${scorers}${esc(m.summary)}</div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="section-card" id="results">
+        <div class="section-head">
+          <div class="section-title"><span class="icon">📊</span> 昨日战报</div>
+          <span class="section-badge badge-green">${esc(data.yesterday_label)}</span>
+        </div>
+        <div class="section-body">${rows}</div>
+      </div>`;
+  }
+
+  function renderSentiment(data) {
+    const items = data.hot_topics.map(t => `
+      <div class="sent-item">
+        <div class="sent-header">
+          <span class="sent-title">${esc(t.title)}</span>
+          <span class="sent-tag ${sentClass(t.sentiment)}">${esc(t.sentiment)}</span>
+        </div>
+        <div class="sent-reason">${esc(t.summary)}</div>
+        <div class="sent-source">
+          <span>🔥 热度</span>
+          <div class="heat-bar-wrap">
+            <div class="heat-bar ${heatClass(t.heat)}" style="width:${t.heat}%"></div>
+          </div>
+          <span>${t.heat}</span>
+          <span>· ${esc(t.source)}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="section-card" id="sentiment">
+        <div class="section-head">
+          <div class="section-title"><span class="icon">🔥</span> 热点舆情</div>
+          <span class="section-badge badge-amber">实时监控 · 联网抓取</span>
+        </div>
+        <div class="section-body">${items}</div>
+      </div>`;
+  }
+
+  function renderAI(data) {
+    const ai = data.ai_prediction;
+    const [, mm, dd] = data.date.split('-');
+    const tags = (ai.tags || []).map(t => `<span class="ai-tag">${esc(t)}</span>`).join('');
+
+    return `
+      <div class="section-card section-full" id="ai">
+        <div class="section-head">
+          <div class="section-title"><span class="icon">🎯</span> AI 预测分析</div>
+          <span class="section-badge badge-purple">模型推理 · 仅供参考</span>
+        </div>
+        <div class="section-body">
+          <div class="ai-block">
+            <div class="ai-header">
+              <div class="ai-icon">🤖</div>
+              <div>
+                <div class="ai-label">Daily Analyst · ${mm}月${dd}日晨报</div>
+                <div class="ai-model">2026世界杯形势综合研判</div>
+              </div>
+            </div>
+            <div class="ai-body">${esc(ai.text)}</div>
+            ${tags ? `<div class="ai-tags">${tags}</div>` : ''}
+            <div class="confidence">
+              <span class="conf-label">综合置信度</span>
+              <div class="conf-bar-wrap">
+                <div class="conf-bar" style="width:${ai.confidence}%"></div>
+              </div>
+              <span class="conf-val">${ai.confidence}%</span>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ── Render all sections ── */
+  function renderAll(data) {
+    const { display, weekday } = formatDate(data.date);
+    document.getElementById('date-display').innerHTML =
+      `<strong>${esc(display)}</strong> &nbsp;${esc(weekday)} &nbsp;北京时间`;
+
+    document.getElementById('match-count').textContent = data.today_matches.length;
+    document.getElementById('topic-count').textContent = data.hot_topics.length;
+
+    document.getElementById('app').innerHTML =
+      renderSchedule(data) +
+      renderResults(data) +
+      renderSentiment(data) +
+      renderAI(data);
+  }
+
+  /* ── Error state ── */
+  function showError() {
+    document.getElementById('app').innerHTML = `
+      <div class="section-card section-full">
+        <div class="state-center">
+          <span style="font-size:28px;">⚠️</span>
+          <span class="error-msg">数据加载失败，请刷新重试</span>
+        </div>
+      </div>`;
+  }
+
+  /* ── Bootstrap ── */
+  fetch('./data.json')
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(data => renderAll(data))
+    .catch(() => showError());
+</script>
 </body>
 </html>
