@@ -445,6 +445,179 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .empty-state .icon{font-size:40px;margin-bottom:10px}
 .empty-state p{font-size:13px;color:var(--text3);line-height:1.7}
 .next-update{font-size:12px;color:var(--green);margin-top:8px;font-variant-numeric:tabular-nums}
+
+/* ═══════════════════════════════════════════
+   VISUAL ENHANCEMENT OVERRIDES
+   ─────────────────────────────────────────── */
+
+/* ① Banner — 180px tall, gold radial halo, 48px title */
+.banner { min-height: 180px; }
+.banner-pitch {
+  opacity: 1;
+  background-image:
+    radial-gradient(ellipse 80% 65% at 50% 75%, rgba(255,215,0,.13) 0%, transparent 60%),
+    repeating-linear-gradient(90deg, rgba(0,200,83,.055) 0, rgba(0,200,83,.055) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(0deg,  rgba(0,200,83,.04)  0, rgba(0,200,83,.04)  1px, transparent 1px, transparent 60px),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0,200,83,.1) 0%, transparent 70%);
+}
+.banner-inner { padding: 34px 16px 22px; }
+.banner-left h1 {
+  font-size: 48px;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  background: linear-gradient(90deg, #c8920a, var(--gold), #fff8dc, var(--gold), #c8920a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 28px rgba(255,215,0,.4));
+}
+.banner-left p {
+  font-size: 11px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  margin-top: 8px;
+  display: inline-block;
+  border-bottom: 1px solid rgba(255,215,0,.6);
+  padding-bottom: 3px;
+}
+
+/* LIVE dot — red pulse with ring expansion */
+.live-dot { animation: livePulse 1.4s ease-in-out infinite !important; }
+@keyframes livePulse {
+  0%   { opacity:1; transform:scale(1);   box-shadow:0 0 0 0   rgba(255,61,61,.8); }
+  60%  { opacity:.8; transform:scale(1.3); box-shadow:0 0 0 6px rgba(255,61,61,0);  }
+  100% { opacity:1; transform:scale(1);   box-shadow:0 0 0 0   rgba(255,61,61,0); }
+}
+
+/* ② Cards — green glow border + left gradient bar via ::before + hover lift */
+.match-card,
+.result-card,
+.predict-card,
+.prof-card,
+.profile-header,
+.lb-row {
+  border: 1px solid rgba(0,200,83,.4) !important;
+  box-shadow: 0 0 20px rgba(0,200,83,.15) !important;
+}
+/* Left-to-right interior glow bar for match & result cards */
+.match-card::before {
+  background: linear-gradient(90deg, rgba(0,200,83,.22) 0%, rgba(0,200,83,.07) 35%, transparent 70%) !important;
+  border-radius: 14px !important;
+}
+.result-card::before {
+  background:
+    linear-gradient(90deg, rgba(0,200,83,.2) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='rgba(0,200,83,0.04)' stroke-width='2'/%3E%3C/svg%3E") center/60px !important;
+}
+/* Left accent stripe via inset shadow on cards without ::before left bar */
+.predict-card,
+.prof-card,
+.profile-header,
+.lb-row {
+  box-shadow: 0 0 20px rgba(0,200,83,.15), inset 3px 0 8px -3px rgba(0,200,83,.35) !important;
+}
+/* Hover: lift + brighter glow */
+.match-card:hover,
+.result-card:hover,
+.predict-card:hover,
+.prof-card:hover,
+.lb-row:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 0 30px rgba(0,200,83,.3), 0 8px 24px rgba(0,0,0,.3) !important;
+  border-color: rgba(0,200,83,.7) !important;
+}
+
+/* ③ Empty state — football SVG + breathing text */
+.empty-state {
+  background:
+    repeating-linear-gradient(0deg, rgba(0,200,83,.018) 0, rgba(0,200,83,.018) 1px, transparent 1px, transparent 40px);
+  border-radius: 14px;
+}
+.empty-state .icon {
+  font-size: 0 !important;      /* hide original clipboard */
+  display: block;
+  margin-bottom: 14px;
+}
+.empty-state .icon::before {
+  /* CSS-drawn football using SVG data URL */
+  content: '';
+  display: block;
+  width: 56px; height: 56px;
+  margin: 0 auto;
+  animation: fbBreathe 2.2s ease-in-out infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='28' fill='%23f5f5f5' stroke='%23333' stroke-width='1.5'/%3E%3Cpolygon points='30,8 36,22 51,22 40,32 44,47 30,38 16,47 20,32 9,22 24,22' fill='%23222' opacity='.85'/%3E%3Ccircle cx='30' cy='30' r='7' fill='%23111' opacity='.6'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+@keyframes fbBreathe {
+  0%,100% { opacity:.6; transform:scale(1);    }
+  50%      { opacity:1;  transform:scale(1.15); }
+}
+.next-update { animation: textBreathe 2s ease-in-out infinite; }
+@keyframes textBreathe {
+  0%,100% { opacity:.5; }
+  50%      { opacity:1;  }
+}
+
+/* ④ Bottom nav — blur-20 glass + green top line + icon glow */
+.bottom-nav {
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  background: rgba(10,15,10,.82) !important;
+  border-top: 2px solid var(--green) !important;
+  box-shadow: 0 -4px 24px rgba(0,200,83,.14) !important;
+}
+.nav-item.active .nav-icon {
+  filter: drop-shadow(0 0 8px var(--green)) drop-shadow(0 0 16px rgba(0,255,127,.4)) !important;
+}
+
+/* ⑤ Background — diagonal grass texture + corner football */
+.app {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0,200,83,.018) 0, rgba(0,200,83,.018) 1px,
+    transparent 1px, transparent 52px
+  );
+}
+/* Large corner football decoration */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 60px; right: -40px;
+  width: 220px; height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .03;
+  transform: rotate(-20deg);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='28' fill='white'/%3E%3Cpolygon points='30,8 36,22 51,22 40,32 44,47 30,38 16,47 20,32 9,22 24,22' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ⑥ AI card — circular avatar + gold title */
+.ai-icon-wrap {
+  border-radius: 50% !important;
+  box-shadow: 0 0 22px rgba(0,200,83,.55) !important;
+}
+.ai-model-txt {
+  color: var(--gold) !important;
+  text-shadow: 0 0 8px rgba(255,215,0,.35);
+}
+
+/* ⑦ Numbers & labels — glowing text-shadow */
+.stat-num {
+  text-shadow: 0 0 10px #00C853, 0 0 20px rgba(0,200,83,.4);
+}
+.match-time {
+  text-shadow: 0 0 10px rgba(0,255,127,.7);
+}
+.lb-coins {
+  text-shadow: 0 0 8px rgba(255,215,0,.5);
+}
+.badge-gold {
+  border: 1px solid #FFD700 !important;
+  box-shadow: 0 0 6px rgba(255,215,0,.2) !important;
+}
+.prof-coins {
+  text-shadow: 0 0 8px rgba(255,215,0,.4);
+}
+.glow-num,
+.result-score { filter: drop-shadow(0 0 6px rgba(0,200,83,.35)); }
 </style>
 </head>
 <body>
