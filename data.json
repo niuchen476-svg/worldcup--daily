@@ -1,46 +1,17 @@
 {
   "date": "2026-05-27",
   "today_matches": [
-    {
-      "time": "20:00",
-      "home": "德国",
-      "away": "日本"
-    },
-    {
-      "time": "23:00",
-      "home": "巴西",
-      "away": "克罗地亚"
-    }
+    {"time": "20:00", "home": "德国", "home_code": "DE", "away": "日本", "away_code": "JP", "group": "E组", "venue": "柏林"},
+    {"time": "23:00", "home": "巴西", "home_code": "BR", "away": "克罗地亚", "away_code": "HR", "group": "F组", "venue": "圣保罗"}
   ],
   "yesterday_matches": [
-    {
-      "time": "20:00",
-      "home": "法国",
-      "away": "澳大利亚",
-      "home_score": 2,
-      "away_score": 1
-    },
-    {
-      "time": "23:00",
-      "home": "西班牙",
-      "away": "加拿大",
-      "home_score": 3,
-      "away_score": 0
-    }
+    {"home": "法国", "home_code": "FR", "home_score": 2, "away": "澳大利亚", "away_code": "AU", "away_score": 1, "group": "D组", "scorers": ["姆巴佩 23'", "格列兹曼 67'"], "summary": "法国主导全场，姆巴佩状态出色"},
+    {"home": "西班牙", "home_code": "ES", "home_score": 3, "away": "加拿大", "away_code": "CA", "away_score": 0, "group": "B组", "scorers": ["莫拉塔 12'", "佩德里 45'", "亚马尔 78'"], "summary": "西班牙三叉戟火力全开，大胜加拿大"}
   ],
   "hot_topics": [
-    {
-      "title": "德国队公布首发阵容，穆勒领衔出战",
-      "hot": 9852
-    },
-    {
-      "title": "巴西队训练备战，内马尔状态火热",
-      "hot": 8741
-    },
-    {
-      "title": "VAR技术引发争议，多场比赛判罚受关注",
-      "hot": 7623
-    }
+    {"title": "德国队公布首发阵容，穆勒领衔出战", "summary": "德国主帅公布对阵日本首发名单，老将穆勒获得先发资格，球迷热议", "sentiment": "正面", "heat": 9852, "source": "微博 · 1h前", "url": ""},
+    {"title": "巴西队训练备战，内马尔状态火热", "summary": "内马尔在训练中连续破门，状态回勇，被视为今日对阵克罗地亚的关键人物", "sentiment": "正面", "heat": 8741, "source": "Twitter · 2h前", "url": ""},
+    {"title": "VAR技术引发争议，多场比赛判罚受关注", "summary": "本届世界杯VAR介入频繁，多场争议判罚引发球迷和媒体热议", "sentiment": "负面", "heat": 7623, "source": "ESPN · 3h前", "url": ""}
   ],
-  "ai_prediction": "今日世界杯赛事分析：昨日战报：法国2-1澳大利亚，西班牙3-0加拿大。今日焦点：德国vs日本，巴西vs克罗地亚。热点关注：德国队公布首发阵容，穆勒领衔出战。预计今日将上演精彩对决，建议关注强队状态和伤病情况。"
+  "ai_prediction": "今日焦点德国vs日本，两队均有夺冠实力，德国主场优势明显但日本防守体系严密，预计比分1-1或德国险胜。巴西vs克罗地亚，内马尔状态火热，巴西进攻端占优，预计2-0拿下。"
 }
