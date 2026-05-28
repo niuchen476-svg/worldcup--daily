@@ -1,63 +1,80 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>2026 世界杯每日晨报</title>
+<title>2026 FIFA World Cup · 每日晨报</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#00C853;--gold:#FFD700;--bg:#0A0F0A;--card:#111A11;
-  --glow:#00FF7F;--red:#FF3D3D;--text1:#E8F5E9;--text2:#81C784;
-  --text3:#4CAF50;--border:#1B3A1B;--card2:#162016;
+  --green:#00C853;--gold:#FFD700;--glow:#00FF7F;--red:#FF3D3D;
+  --bg:#0A0F0A;--card:#111A11;--card2:#162016;--border:#1B3A1B;
+  --text1:#E8F5E9;--text2:#81C784;--text3:#4CAF50;
+  --nav-bg:rgba(10,15,10,.85);
+}
+[data-theme="light"]{
+  --bg:#F5F5F5;--card:#FFFFFF;--card2:#F0F7F0;--border:#C8E6C9;
+  --text1:#1B3A1B;--text2:#2E7D32;--text3:#388E3C;
+  --nav-bg:rgba(245,245,245,.92);
 }
 html,body{height:100%;background:var(--bg);color:var(--text1);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;
-  overflow-x:hidden}
-/* ── Layout ── */
-.app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:64px}
-/* ── Scrollbar ── */
+  overflow-x:hidden;transition:background .3s,color .3s}
+.app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:80px;
+  background-image:repeating-linear-gradient(-45deg,rgba(0,200,83,.018) 0,rgba(0,200,83,.018) 1px,transparent 1px,transparent 52px)}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--green);border-radius:4px}
 
-/* ══ BANNER ══ */
-.banner{
-  position:relative;overflow:hidden;
-  background:linear-gradient(160deg,#051205 0%,#0d260d 60%,#0a1a0a 100%);
-  padding:0;
-}
-.banner-pitch{
-  position:absolute;inset:0;opacity:.18;
+/* ══ BANNER 280px ══ */
+.banner{position:relative;overflow:hidden;height:280px;
+  background:linear-gradient(160deg,#051205 0%,#0d260d 60%,#0a1a0a 100%)}
+.banner-player{position:absolute;bottom:0;width:45%;height:100%;
+  object-fit:cover;object-position:top center}
+.banner-player.messi{left:0;
+  -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,.9) 55%,transparent);
+  mask-image:linear-gradient(to right,rgba(0,0,0,.9) 55%,transparent)}
+.banner-player.cr7{right:0;
+  -webkit-mask-image:linear-gradient(to left,rgba(0,0,0,.9) 55%,transparent);
+  mask-image:linear-gradient(to left,rgba(0,0,0,.9) 55%,transparent)}
+.banner-overlay{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(10,15,10,.8) 100%)}
+.banner-pitch{position:absolute;inset:0;opacity:.15;pointer-events:none;
   background-image:
-    repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0,rgba(255,255,255,.06) 1px,transparent 1px,transparent 40px),
-    repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0,rgba(255,255,255,.06) 1px,transparent 1px,transparent 60px),
-    radial-gradient(ellipse 70% 50% at 50% 50%,rgba(0,200,83,.08) 0%,transparent 70%);
-}
-.banner-glow{
-  position:absolute;top:0;left:-100%;width:300%;height:3px;
+    repeating-linear-gradient(90deg,rgba(0,200,83,.1) 0,rgba(0,200,83,.1) 1px,transparent 1px,transparent 40px),
+    repeating-linear-gradient(0deg,rgba(0,200,83,.07) 0,rgba(0,200,83,.07) 1px,transparent 1px,transparent 60px)}
+.banner-glow{position:absolute;top:0;left:-100%;width:300%;height:3px;
   background:linear-gradient(90deg,transparent,var(--glow),var(--gold),var(--glow),transparent);
-  animation:glowSweep 4s linear infinite;
-}
+  animation:glowSweep 4s linear infinite}
 @keyframes glowSweep{0%{left:-100%}100%{left:100%}}
-.banner-inner{position:relative;padding:18px 16px 14px;display:flex;align-items:center;justify-content:space-between}
-.banner-left h1{
-  font-size:22px;font-weight:900;letter-spacing:.5px;line-height:1.2;
-  background:linear-gradient(90deg,var(--gold),#fff8dc,var(--gold));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.banner-left p{font-size:11px;color:var(--text3);letter-spacing:1.5px;margin-top:3px}
-.banner-right{display:flex;align-items:center;gap:8px}
+.banner-center{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:2;gap:6px;pointer-events:none}
+.banner-trophy{width:72px;height:72px;filter:drop-shadow(0 0 20px rgba(255,215,0,.7));
+  margin-bottom:2px}
+.banner-title{font-size:21px;font-weight:900;color:#fff;letter-spacing:.5px;
+  text-shadow:0 2px 16px rgba(0,0,0,.9)}
+.banner-subtitle{font-size:11px;color:var(--gold);letter-spacing:2.5px;
+  text-shadow:0 0 10px rgba(255,215,0,.5)}
+.banner-top-right{position:absolute;top:12px;right:12px;z-index:10;
+  display:flex;align-items:center;gap:6px}
 .live-dot-wrap{display:flex;align-items:center;gap:5px;
-  background:rgba(255,61,61,.12);border:1px solid rgba(255,61,61,.3);
+  background:rgba(255,61,61,.15);border:1px solid rgba(255,61,61,.35);
   border-radius:20px;padding:4px 10px;font-size:11px;color:var(--red);font-weight:700}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.3s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
-.date-pill{font-size:11px;color:var(--text2);background:var(--card);
-  border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-variant-numeric:tabular-nums}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);
+  animation:livePulse 1.4s ease-in-out infinite}
+@keyframes livePulse{
+  0%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(255,61,61,.8)}
+  60%{opacity:.8;transform:scale(1.3);box-shadow:0 0 0 6px rgba(255,61,61,0)}
+  100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(255,61,61,0)}}
+.date-pill{font-size:11px;color:rgba(255,255,255,.8);background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 8px;backdrop-filter:blur(4px)}
+.theme-btn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+  background:rgba(0,0,0,.4);backdrop-filter:blur(6px);cursor:pointer;
+  font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .3s;color:#fff}
+.theme-btn:hover{background:rgba(255,255,255,.15)}
 
-/* ── Progress bar ── */
-.update-bar{background:var(--card);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;gap:8px}
+/* update bar */
+.update-bar{background:var(--card);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;gap:8px;transition:background .3s}
 .upd-item{flex:1;text-align:center}
 .upd-label{font-size:9px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
 .upd-track{height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
@@ -65,23 +82,13 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   animation:fillPulse 3s ease-in-out infinite alternate}
 @keyframes fillPulse{0%{opacity:.6}100%{opacity:1}}
 
-/* ── Nav tabs ── */
-.nav-tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto;scroll-snap-type:x mandatory}
-.nav-tabs::-webkit-scrollbar{display:none}
-.tab-btn{flex:1;min-width:0;padding:11px 4px;font-size:12px;font-weight:600;color:var(--text3);
-  border:none;background:transparent;cursor:pointer;white-space:nowrap;
-  border-bottom:2px solid transparent;transition:all .2s;position:relative}
-.tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
-.tab-btn .tab-badge{
-  display:inline-block;font-size:9px;background:rgba(0,200,83,.2);color:var(--glow);
-  border-radius:3px;padding:0 4px;margin-left:3px;font-weight:700}
+.nav-tabs{display:none}
+.page{display:none;padding:12px 12px 8px}
+.page.active{display:block;animation:slideIn .3s cubic-bezier(.25,.46,.45,.94) both}
+@keyframes slideIn{0%{opacity:0;transform:translateX(28px)}100%{opacity:1;transform:translateX(0)}}
+.stagger-item{opacity:0;transform:translateY(20px);animation:staggerUp .4s ease forwards}
+@keyframes staggerUp{to{opacity:1;transform:translateY(0)}}
 
-/* ── Content pages ── */
-.page{display:none;padding:12px 12px 8px;animation:fadeUp .35s ease both}
-.page.active{display:block}
-@keyframes fadeUp{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:translateY(0)}}
-
-/* ── Section head ── */
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .sec-title{font-size:14px;font-weight:800;color:var(--text1);display:flex;align-items:center;gap:6px}
 .sec-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:700;letter-spacing:.5px}
@@ -89,98 +96,79 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .badge-gold{background:rgba(255,215,0,.12);color:var(--gold);border:1px solid rgba(255,215,0,.2)}
 .badge-red{background:rgba(255,61,61,.12);color:#ff8080;border:1px solid rgba(255,61,61,.2)}
 
-/* ── Match card ── */
-.match-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px 12px;
-  margin-bottom:10px;
-  position:relative;overflow:hidden;
-  transition:transform .2s,box-shadow .2s;
-  animation:fadeUp .4s ease both;
-}
-.match-card::before{
-  content:'';position:absolute;inset:0;border-radius:14px;
-  background:linear-gradient(135deg,rgba(0,200,83,.08),transparent 60%);pointer-events:none}
-.match-card:hover{transform:translateY(-3px);
-  box-shadow:0 8px 32px rgba(0,200,83,.18),0 0 0 1px rgba(0,200,83,.25)}
-.match-card.opening::after{
-  content:'★ 揭幕战';position:absolute;top:10px;left:12px;
-  font-size:9px;font-weight:700;color:var(--gold);
-  background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3);
-  border-radius:3px;padding:1px 6px;letter-spacing:.5px;
-  box-shadow:0 0 8px rgba(255,215,0,.3)}
+/* ══ MATCH CARD ══ */
+.match-card{border-radius:14px;padding:14px 12px;margin-bottom:10px;
+  position:relative;overflow:hidden;cursor:pointer;
+  border:1px solid rgba(0,200,83,.35);box-shadow:0 0 18px rgba(0,200,83,.1);
+  transition:transform .2s,box-shadow .2s}
+.match-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,200,83,.22)}
+.match-bg-home,.match-bg-away{position:absolute;top:0;width:52%;height:100%;
+  object-fit:cover;opacity:.14;filter:blur(10px) saturate(1.6)}
+.match-bg-home{left:0}
+.match-bg-away{right:0}
+.match-bg-overlay{position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(10,15,10,.7) 0%,rgba(10,15,10,.55) 50%,rgba(10,15,10,.7) 100%)}
+[data-theme="light"] .match-bg-overlay{background:linear-gradient(to right,rgba(245,245,245,.78) 0%,rgba(245,245,245,.62) 50%,rgba(245,245,245,.78) 100%)}
+.match-card-inner{position:relative;z-index:1}
 .match-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.team-block{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
-.team-flag{width:52px;height:38px;border-radius:6px;object-fit:cover;
-  border:2px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.4)}
-.team-flag-fallback{
-  width:52px;height:38px;border-radius:6px;border:2px solid var(--border);
-  background:var(--card2);display:flex;align-items:center;justify-content:center;
-  font-size:22px}
+.team-block{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.team-flag{width:40px;height:40px;border-radius:50%;object-fit:cover;
+  border:2px solid rgba(255,255,255,.25);box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.team-flag-fallback{width:40px;height:40px;border-radius:50%;border:2px solid var(--border);
+  background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:20px}
 .team-name{font-size:13px;font-weight:700;color:var(--text1);text-align:center}
-.vs-block{display:flex;flex-direction:column;align-items:center;gap:4px}
-.vs-text{font-size:20px;font-weight:900;color:var(--gold);
-  text-shadow:0 0 12px rgba(255,215,0,.5);line-height:1}
-.match-time{font-size:13px;font-weight:700;color:var(--glow);
-  font-variant-numeric:tabular-nums;letter-spacing:.5px}
-.countdown{font-size:10px;color:var(--text3);margin-top:2px}
-.match-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.match-tags{display:flex;gap:5px;flex-wrap:wrap}
+.team-form{display:flex;gap:3px;justify-content:center}
+.form-dot{width:6px;height:6px;border-radius:50%}
+.form-dot.W{background:#00C853}.form-dot.D{background:#FFD700}.form-dot.L{background:#FF3D3D}.form-dot.u{background:rgba(255,255,255,.18)}
+.vs-block{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:80px}
+.status-tag{display:inline-flex;align-items:center;gap:4px;border-radius:6px;
+  padding:3px 8px;font-size:10px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+.status-upcoming{background:rgba(148,163,184,.12);color:#94a3b8;border:1px solid rgba(148,163,184,.2)}
+.status-live{background:rgba(255,61,61,.15);color:var(--red);border:1px solid rgba(255,61,61,.3);
+  animation:liveFlash 1.5s ease-in-out infinite}
+.status-live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:livePulse 1.4s ease-in-out infinite}
+@keyframes liveFlash{0%,100%{opacity:1}50%{opacity:.65}}
+.status-ft{background:rgba(255,255,255,.08);color:var(--text1);border:1px solid rgba(255,255,255,.15)}
+.match-time{font-size:14px;font-weight:700;color:var(--glow);letter-spacing:.5px;
+  text-shadow:0 0 10px rgba(0,255,127,.6)}
+.vs-text{font-size:20px;font-weight:900;color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.5)}
+.match-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px}
+.match-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
 .group-tag{font-size:10px;padding:2px 7px;border-radius:4px;
   background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.2);font-weight:600}
 .venue-tag{font-size:10px;color:var(--text3)}
-.bet-btn{
-  padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;
-  background:linear-gradient(90deg,var(--green),#00a843);
-  color:#fff;border:none;cursor:pointer;letter-spacing:.5px;
-  transition:transform .15s,box-shadow .15s}
-.bet-btn:hover{transform:scale(1.05);box-shadow:0 0 12px rgba(0,200,83,.4)}
+.predict-count{font-size:10px;color:var(--text3)}
 
-/* ── Result card ── */
-.result-card{
-  background:var(--card);border:1px solid var(--border);border-radius:14px;
+.result-card{background:var(--card);border:1px solid rgba(0,200,83,.3);border-radius:14px;
   padding:14px 12px;margin-bottom:10px;position:relative;overflow:hidden;
-  transition:transform .2s,box-shadow .2s}
-.result-card::before{
-  content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='rgba(0,200,83,0.04)' stroke-width='2'/%3E%3Cpath d='M30 5 L35 20 L50 20 L38 30 L43 45 L30 36 L17 45 L22 30 L10 20 L25 20Z' fill='rgba(0,200,83,0.03)'/%3E%3C/svg%3E") center/60px repeat;
-  pointer-events:none}
-.result-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,200,83,.12)}
+  box-shadow:0 0 16px rgba(0,200,83,.08);transition:transform .2s,box-shadow .2s}
+.result-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,200,83,.14)}
 .result-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
-.result-score{
-  font-size:32px;font-weight:900;letter-spacing:4px;
+.result-score{font-size:32px;font-weight:900;letter-spacing:4px;
   background:linear-gradient(90deg,var(--green),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   font-variant-numeric:tabular-nums;white-space:nowrap}
 .result-team-name{font-size:13px;font-weight:700;color:var(--text1);text-align:center;flex:1}
 .result-meta{border-top:1px solid var(--border);padding-top:8px;margin-top:2px}
 .scorer-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
-.scorer-tag{
-  display:inline-flex;align-items:center;gap:3px;
+.scorer-tag{display:inline-flex;align-items:center;gap:3px;
   background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.2);
   border-radius:4px;padding:2px 7px;font-size:11px;color:var(--glow)}
 .summary-text{font-size:11px;color:var(--text2);line-height:1.6}
 
-/* ── Sentiment card ── */
-.sent-card{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;
+.sent-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
   padding:12px 12px 12px 16px;margin-bottom:10px;
-  position:relative;overflow:hidden;cursor:pointer;
-  transition:transform .2s,box-shadow .2s}
-.sent-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
-.sent-card.pos::before{background:linear-gradient(180deg,var(--green),var(--glow));
-  box-shadow:0 0 8px rgba(0,255,127,.4)}
-.sent-card.neg::before{background:linear-gradient(180deg,var(--red),#ff6b6b);
-  box-shadow:0 0 8px rgba(255,61,61,.4)}
+  position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.sent-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
+.sent-card.pos::before{background:linear-gradient(180deg,var(--green),var(--glow));box-shadow:0 0 10px rgba(0,255,127,.5)}
+.sent-card.neg::before{background:linear-gradient(180deg,var(--red),#ff6b6b);box-shadow:0 0 10px rgba(255,61,61,.5)}
 .sent-card.neu::before{background:var(--text3)}
-.sent-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.sent-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
 .sent-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
 .sent-title{font-size:13px;font-weight:600;color:var(--text1);flex:1;line-height:1.4}
 .sent-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;white-space:nowrap;letter-spacing:.5px;flex-shrink:0}
 .sent-pos-b{background:rgba(0,200,83,.15);color:var(--glow);border:1px solid rgba(0,200,83,.3);
-  text-shadow:0 0 6px rgba(0,255,127,.4)}
+  box-shadow:0 0 6px rgba(0,255,127,.25);text-shadow:0 0 4px rgba(0,255,127,.4)}
 .sent-neg-b{background:rgba(255,61,61,.15);color:#ff8080;border:1px solid rgba(255,61,61,.3)}
 .sent-neu-b{background:rgba(148,163,184,.1);color:#94a3b8;border:1px solid rgba(148,163,184,.2)}
 .sent-summary{font-size:11px;color:var(--text2);line-height:1.55;margin-bottom:8px}
@@ -188,137 +176,114 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .heat-wrap{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
 .heat-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--gold))}
 
-/* ── AI block ── */
-.ai-card{
-  background:var(--card);border:1px solid rgba(0,200,83,.25);border-radius:14px;
+.ai-card{background:var(--card);border:1px solid rgba(0,200,83,.25);border-radius:14px;
   padding:16px;position:relative;overflow:hidden}
 .ai-neural-bg{position:absolute;inset:0;pointer-events:none;opacity:.35}
 .ai-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;position:relative}
-.ai-icon-wrap{
-  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+.ai-icon-wrap{width:40px;height:40px;border-radius:50%;flex-shrink:0;
   background:linear-gradient(135deg,var(--green),#006430);
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  box-shadow:0 0 14px rgba(0,200,83,.35)}
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  box-shadow:0 0 22px rgba(0,200,83,.55)}
 .ai-meta{flex:1}
 .ai-label-txt{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
-.ai-model-txt{font-size:13px;font-weight:700;color:var(--green)}
+.ai-model-txt{font-size:13px;font-weight:700;color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,.35)}
 .ai-body{font-size:13px;color:var(--text2);line-height:1.8;position:relative}
 .typewriter::after{content:'|';color:var(--glow);animation:blink .7s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-/* ── Floating footballs ── */
-.fb-particle{
-  position:fixed;pointer-events:none;z-index:0;
-  font-size:24px;opacity:0;animation:fbFloat linear infinite}
+.fb-particle{position:fixed;pointer-events:none;z-index:0;font-size:24px;opacity:0;animation:fbFloat linear infinite}
 @keyframes fbFloat{
-  0%{opacity:0;transform:translateY(100vh) rotate(0deg)}
-  10%{opacity:.15}
-  90%{opacity:.1}
-  100%{opacity:0;transform:translateY(-20vh) rotate(720deg)}}
+  0%{opacity:0;transform:translate(0,100vh) rotate(0deg)}
+  10%{opacity:.12}90%{opacity:.08}
+  100%{opacity:0;transform:translate(55vw,-20vh) rotate(720deg)}}
 
-/* ══ BOTTOM NAV ══ */
-.bottom-nav{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+/* ══ BOTTOM NAV 5 items ══ */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
   width:100%;max-width:480px;
-  background:rgba(10,15,10,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border-top:1px solid rgba(0,200,83,.2);
-  display:flex;z-index:100}
-.nav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:8px 4px 10px;cursor:pointer;
-  font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.5px;
-  border:none;background:transparent;transition:color .2s;gap:3px}
+  background:var(--nav-bg);backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  border-top:2px solid var(--green);box-shadow:0 -4px 24px rgba(0,200,83,.14);
+  display:flex;align-items:flex-end;z-index:100;transition:background .3s;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:8px 4px 10px;cursor:pointer;font-size:9px;font-weight:600;
+  color:var(--text3);letter-spacing:.5px;border:none;background:transparent;
+  transition:color .2s;gap:3px}
+.nav-item:active{transform:scale(.9)}
 .nav-item.active{color:var(--green)}
-.nav-item .nav-icon{font-size:20px;line-height:1}
-.nav-item.active .nav-icon{filter:drop-shadow(0 0 6px var(--green))}
+.nav-item .nav-icon{font-size:20px;line-height:1;transition:transform .2s,filter .2s}
+.nav-item.active .nav-icon{
+  filter:drop-shadow(0 0 8px var(--green)) drop-shadow(0 0 14px rgba(0,255,127,.35));
+  transform:scale(1.15)}
+.nav-center{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;padding-bottom:6px;cursor:pointer;border:none;background:transparent}
+.nav-plus{width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;color:#fff;font-weight:900;line-height:1;
+  box-shadow:0 4px 20px rgba(0,200,83,.5),0 0 0 4px rgba(0,200,83,.12);
+  transform:translateY(-8px);transition:transform .2s,box-shadow .2s}
+.nav-center:active .nav-plus{transform:translateY(-8px) scale(.9)}
+.nav-center:hover .nav-plus{transform:translateY(-11px);box-shadow:0 8px 28px rgba(0,200,83,.6)}
+.nav-center-label{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.5px;margin-top:-2px}
 
-/* ══ LEADERBOARD ══ */
 .lb-toggle{display:flex;gap:8px;margin-bottom:12px}
-.lb-toggle-btn{
-  flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:700;
-  border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;
-  transition:all .2s}
-.lb-toggle-btn.active{
-  background:rgba(0,200,83,.12);color:var(--green);
+.lb-toggle-btn{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:700;
+  border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;transition:all .2s}
+.lb-toggle-btn.active{background:rgba(0,200,83,.12);color:var(--green);
   border-color:rgba(0,200,83,.3);box-shadow:0 0 10px rgba(0,200,83,.15)}
-.lb-row{
-  display:flex;align-items:center;gap:10px;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:10px;padding:10px 12px;margin-bottom:8px;
-  transition:border-color .2s}
+.lb-row{display:flex;align-items:center;gap:10px;background:var(--card);
+  border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;transition:border-color .2s}
 .lb-row:hover{border-color:rgba(0,200,83,.3)}
-.lb-row.me{
-  border-color:rgba(0,200,83,.4);
-  background:rgba(0,200,83,.06);
-  box-shadow:0 0 12px rgba(0,200,83,.15)}
+.lb-row.me{border-color:rgba(0,200,83,.4);background:rgba(0,200,83,.06);box-shadow:0 0 12px rgba(0,200,83,.15)}
 .lb-rank{width:28px;text-align:center;font-size:14px;font-weight:900;color:var(--text3)}
 .lb-rank.gold{color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,.4)}
-.lb-rank.silver{color:#C0C0C0}
-.lb-rank.bronze{color:#CD7F32}
-.lb-avatar{
-  width:34px;height:34px;border-radius:50%;
-  background:linear-gradient(135deg,var(--green),#006430);
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:800;color:#fff;flex-shrink:0}
+.lb-rank.silver{color:#C0C0C0}.lb-rank.bronze{color:#CD7F32}
+.lb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),#006430);
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0}
 .lb-info{flex:1}
 .lb-name{font-size:13px;font-weight:600;color:var(--text1)}
 .lb-acc{font-size:10px;color:var(--text3)}
-.lb-coins{
-  font-size:13px;font-weight:700;color:var(--gold);
-  display:flex;align-items:center;gap:3px}
-.lb-me-bar{
-  position:sticky;bottom:64px;
-  background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);
-  border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;
-  margin-top:4px}
+.lb-coins{font-size:13px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:3px;
+  text-shadow:0 0 8px rgba(255,215,0,.4)}
+.lb-me-bar{position:sticky;bottom:80px;background:rgba(0,200,83,.1);
+  border:1px solid rgba(0,200,83,.3);border-radius:10px;padding:10px 12px;
+  display:flex;align-items:center;gap:10px;margin-top:4px}
 
-/* ══ PROFILE PAGE ══ */
-.profile-unauth{
-  display:flex;flex-direction:column;align-items:center;
-  padding:48px 20px;gap:16px}
+.profile-unauth{display:flex;flex-direction:column;align-items:center;padding:48px 20px;gap:16px}
 .profile-unauth h2{font-size:20px;font-weight:800;color:var(--text1)}
 .profile-unauth p{font-size:13px;color:var(--text3);text-align:center}
 .auth-btns{display:flex;gap:10px;margin-top:4px}
-.btn-primary{
-  padding:10px 28px;border-radius:24px;font-size:14px;font-weight:700;
+.btn-primary{padding:10px 28px;border-radius:24px;font-size:14px;font-weight:700;
   background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;
   transition:transform .15s,box-shadow .15s}
+.btn-primary:active{transform:scale(.95)}
 .btn-primary:hover{transform:scale(1.04);box-shadow:0 0 16px rgba(0,200,83,.4)}
-.btn-secondary{
-  padding:10px 28px;border-radius:24px;font-size:14px;font-weight:700;
-  background:transparent;color:var(--green);
-  border:1px solid rgba(0,200,83,.4);cursor:pointer;transition:all .2s}
+.btn-secondary{padding:10px 28px;border-radius:24px;font-size:14px;font-weight:700;
+  background:transparent;color:var(--green);border:1px solid rgba(0,200,83,.4);cursor:pointer;transition:all .2s}
 .btn-secondary:hover{background:rgba(0,200,83,.08)}
 .profile-auth{padding:4px 0}
-.profile-header{
-  background:var(--card);border:1px solid var(--border);border-radius:14px;
-  padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:12px}
-.prof-avatar{
-  width:54px;height:54px;border-radius:50%;
-  background:linear-gradient(135deg,var(--green),#006430);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:800;color:#fff;flex-shrink:0;
-  box-shadow:0 0 16px rgba(0,200,83,.4)}
+.profile-header{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:12px;
+  box-shadow:0 0 18px rgba(0,200,83,.08)}
+.prof-avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--green),#006430);
+  display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;
+  color:#fff;flex-shrink:0;box-shadow:0 0 16px rgba(0,200,83,.4)}
 .prof-info{flex:1}
 .prof-name{font-size:16px;font-weight:800;color:var(--text1);margin-bottom:3px}
-.prof-coins{font-size:14px;color:var(--gold);display:flex;align-items:center;gap:5px;font-weight:700}
-.prof-card{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:14px;margin-bottom:10px}
-.prof-card-title{font-size:12px;font-weight:700;color:var(--text3);
-  text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
-.checkin-btn{
-  width:100%;padding:10px;border-radius:10px;font-size:14px;font-weight:700;
-  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;
-  transition:all .2s}
-.checkin-btn:disabled{background:var(--card2);color:var(--text3);cursor:default;
-  border:1px solid var(--border)}
+.prof-coins{font-size:14px;color:var(--gold);display:flex;align-items:center;gap:5px;
+  font-weight:700;text-shadow:0 0 8px rgba(255,215,0,.35)}
+.prof-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+.prof-card-title{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.checkin-btn{width:100%;padding:10px;border-radius:10px;font-size:14px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;transition:all .2s}
+.checkin-btn:disabled{background:var(--card2);color:var(--text3);cursor:default;border:1px solid var(--border)}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .stat-item{background:var(--card2);border-radius:8px;padding:10px;text-align:center}
-.stat-num{font-size:20px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums}
+.stat-num{font-size:20px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums;
+  text-shadow:0 0 10px #00C853,0 0 20px rgba(0,200,83,.35)}
 .stat-label{font-size:10px;color:var(--text3);margin-top:2px}
-.hist-row{
-  display:flex;align-items:center;justify-content:space-between;
+.hist-row{display:flex;align-items:center;justify-content:space-between;
   padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
 .hist-row:last-child{border-bottom:none}
 .hist-match{color:var(--text1);font-weight:600;flex:1}
@@ -327,20 +292,16 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .hist-lose{background:rgba(255,61,61,.1);color:#ff8080}
 .hist-pend{background:rgba(255,215,0,.1);color:var(--gold)}
 .hist-coins{color:var(--gold);font-weight:700;margin-left:8px}
-.logout-btn{
-  width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:600;
-  background:rgba(255,61,61,.08);color:#ff8080;
-  border:1px solid rgba(255,61,61,.2);cursor:pointer;transition:all .2s;margin-top:4px}
+.logout-btn{width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:600;
+  background:rgba(255,61,61,.08);color:#ff8080;border:1px solid rgba(255,61,61,.2);
+  cursor:pointer;transition:all .2s;margin-top:4px}
 .logout-btn:hover{background:rgba(255,61,61,.14)}
 
-/* ══ MODALS ══ */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
   z-index:200;display:flex;align-items:flex-end;justify-content:center;
   opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal-sheet{
-  width:100%;max-width:480px;background:var(--card);
+.modal-sheet{width:100%;max-width:480px;background:var(--card);
   border-radius:20px 20px 0 0;border-top:1px solid rgba(0,200,83,.3);
   padding:20px 20px 32px;
   transform:translateY(100%);transition:transform .3s cubic-bezier(.32,0,.67,0)}
@@ -349,24 +310,18 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .modal-title{font-size:17px;font-weight:800;color:var(--text1);margin-bottom:16px;text-align:center}
 .form-group{margin-bottom:12px}
 .form-label{font-size:11px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
-.form-input{
-  width:100%;padding:10px 14px;border-radius:10px;font-size:14px;
-  background:var(--card2);border:1px solid var(--border);color:var(--text1);
-  transition:border-color .2s}
+.form-input{width:100%;padding:10px 14px;border-radius:10px;font-size:14px;
+  background:var(--card2);border:1px solid var(--border);color:var(--text1);transition:border-color .2s}
 .form-input:focus{outline:none;border-color:rgba(0,200,83,.4);box-shadow:0 0 0 3px rgba(0,200,83,.08)}
-.form-submit{
-  width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;
+.form-submit{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;
   background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;
   cursor:pointer;margin-top:4px;transition:opacity .2s}
 .form-submit:disabled{opacity:.5;cursor:default}
 .form-msg{font-size:12px;text-align:center;margin-top:8px;min-height:18px}
-.form-msg.err{color:var(--red)} .form-msg.ok{color:var(--glow)}
+.form-msg.err{color:var(--red)}.form-msg.ok{color:var(--glow)}
 .modal-switch{font-size:12px;color:var(--text3);text-align:center;margin-top:12px}
 .modal-switch a{color:var(--green);cursor:pointer;text-decoration:underline}
-
-/* ── Bet modal ── */
-.bet-match-info{
-  background:var(--card2);border-radius:12px;padding:14px;margin-bottom:14px;
+.bet-match-info{background:var(--card2);border-radius:12px;padding:14px;margin-bottom:14px;
   display:flex;align-items:center;justify-content:space-between}
 .bet-team{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
 .bet-team-flag{width:40px;height:29px;border-radius:4px;object-fit:cover;border:1px solid var(--border)}
@@ -375,49 +330,30 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .bet-options{margin-bottom:14px}
 .bet-opt-label{font-size:11px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
 .bet-opt-row{display:flex;gap:8px}
-.bet-opt-btn{
-  flex:1;padding:9px 4px;border-radius:10px;font-size:12px;font-weight:700;
-  background:var(--card2);border:1px solid var(--border);color:var(--text2);
-  cursor:pointer;transition:all .2s;text-align:center}
-.bet-opt-btn.selected{
-  background:rgba(0,200,83,.12);border-color:rgba(0,200,83,.4);
+.bet-opt-btn{flex:1;padding:9px 4px;border-radius:10px;font-size:12px;font-weight:700;
+  background:var(--card2);border:1px solid var(--border);color:var(--text2);cursor:pointer;
+  transition:all .2s;text-align:center}
+.bet-opt-btn.selected{background:rgba(0,200,83,.12);border-color:rgba(0,200,83,.4);
   color:var(--glow);box-shadow:0 0 8px rgba(0,200,83,.2)}
 .bet-amount-row{display:flex;gap:8px;margin-bottom:14px}
-.bet-amt-btn{
-  flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:700;
-  background:var(--card2);border:1px solid var(--border);color:var(--text2);
-  cursor:pointer;transition:all .2s}
-.bet-amt-btn.selected{
-  background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:var(--gold)}
-.odds-display{
-  background:var(--card2);border-radius:8px;padding:10px;
-  font-size:11px;color:var(--text3);margin-bottom:14px;
-  display:flex;justify-content:space-between;align-items:center}
+.bet-amt-btn{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:700;
+  background:var(--card2);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .2s}
+.bet-amt-btn.selected{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:var(--gold)}
+.odds-display{background:var(--card2);border-radius:8px;padding:10px;font-size:11px;color:var(--text3);
+  margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
 .odds-val{font-size:14px;font-weight:700;color:var(--gold)}
-
-/* ── Skeleton ── */
-.skeleton{
-  background:linear-gradient(90deg,var(--card2) 25%,#1e2f1e 50%,var(--card2) 75%);
+.skeleton{background:linear-gradient(90deg,var(--card2) 25%,#1e2f1e 50%,var(--card2) 75%);
   background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;border-radius:8px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel-card{height:100px;border-radius:14px;margin-bottom:10px}
-.skel-card-sm{height:70px;border-radius:12px;margin-bottom:8px}
-
-/* ── Toast ── */
-.toast{
-  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
   background:var(--card2);border:1px solid rgba(0,200,83,.3);border-radius:10px;
   padding:10px 20px;font-size:13px;font-weight:600;color:var(--glow);
   z-index:999;transition:transform .3s;white-space:nowrap;
   box-shadow:0 4px 20px rgba(0,200,83,.2)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.err{border-color:rgba(255,61,61,.3);color:#ff8080}
-
-/* ── Predict tab ── */
 .predict-empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px}
-.predict-card{
-  background:var(--card);border:1px solid var(--border);border-radius:14px;
-  padding:14px;margin-bottom:10px;transition:border-color .2s}
+.predict-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;transition:border-color .2s}
 .predict-card:hover{border-color:rgba(0,200,83,.3)}
 .predict-teams{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .predict-team{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
@@ -426,322 +362,142 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .predict-vs{font-size:16px;font-weight:900;color:var(--gold)}
 .predict-meta{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text3)}
 .predict-time{color:var(--glow);font-weight:700}
-.predict-btn{
-  padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;
-  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;
-  transition:all .15s}
+.predict-btn{padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;transition:all .15s}
+.predict-btn:active{transform:scale(.93)}
 .predict-btn:hover{box-shadow:0 0 10px rgba(0,200,83,.35)}
-
-/* ── Loading football ── */
-.fb-loader{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:48px 20px;gap:12px}
+.fb-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:12px}
 .fb-spin{font-size:36px;animation:fbSpin 1s linear infinite}
 @keyframes fbSpin{to{transform:rotate(360deg)}}
 .fb-loader p{font-size:13px;color:var(--text3)}
 
-/* ── Empty state ── */
-.empty-state{text-align:center;padding:40px 20px}
-.empty-state .icon{font-size:40px;margin-bottom:10px}
-.empty-state p{font-size:13px;color:var(--text3);line-height:1.7}
-.next-update{font-size:12px;color:var(--green);margin-top:8px;font-variant-numeric:tabular-nums}
+/* ══ EMPTY STATE with countdown ══ */
+.empty-state{text-align:center;padding:40px 20px;border-radius:14px;
+  background:repeating-linear-gradient(0deg,rgba(0,200,83,.012) 0,rgba(0,200,83,.012) 1px,transparent 1px,transparent 40px)}
+.empty-trophy{width:100px;height:100px;margin:0 auto 12px;
+  filter:drop-shadow(0 0 24px rgba(255,215,0,.65));
+  animation:trophyFloat 3s ease-in-out infinite}
+@keyframes trophyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.empty-cd-label{font-size:12px;color:var(--text3);margin-bottom:10px;letter-spacing:.5px}
+.empty-countdown{display:flex;gap:8px;justify-content:center;margin-bottom:14px}
+.empty-cd-item{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.25);
+  border-radius:8px;padding:8px 12px;min-width:58px;text-align:center}
+.empty-cd-num{font-size:24px;font-weight:900;color:var(--glow);font-variant-numeric:tabular-nums;
+  text-shadow:0 0 14px rgba(0,255,127,.6);animation:numPulse 1s ease-in-out infinite}
+@keyframes numPulse{0%,100%{opacity:1}50%{opacity:.65}}
+.empty-cd-unit{font-size:9px;color:var(--text3);letter-spacing:.5px;margin-top:2px}
+.empty-tip{font-size:13px;color:var(--text2);line-height:1.7;min-height:2.2em}
+.tip-fade{animation:tipFade .4s ease}
+@keyframes tipFade{0%{opacity:0;transform:translateY(5px)}100%{opacity:1;transform:translateY(0)}}
 
-/* ═══════════════════════════════════════════
-   VISUAL ENHANCEMENT OVERRIDES
-   ─────────────────────────────────────────── */
-
-/* ① Banner — 180px tall, gold radial halo, 48px title */
-.banner { min-height: 180px; }
-.banner-pitch {
-  opacity: 1;
-  background-image:
-    radial-gradient(ellipse 80% 65% at 50% 75%, rgba(255,215,0,.13) 0%, transparent 60%),
-    repeating-linear-gradient(90deg, rgba(0,200,83,.055) 0, rgba(0,200,83,.055) 1px, transparent 1px, transparent 40px),
-    repeating-linear-gradient(0deg,  rgba(0,200,83,.04)  0, rgba(0,200,83,.04)  1px, transparent 1px, transparent 60px),
-    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0,200,83,.1) 0%, transparent 70%);
-}
-.banner-inner { padding: 34px 16px 22px; }
-.banner-left h1 {
-  font-size: 48px;
-  letter-spacing: -1.5px;
-  line-height: 1.05;
-  background: linear-gradient(90deg, #c8920a, var(--gold), #fff8dc, var(--gold), #c8920a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 28px rgba(255,215,0,.4));
-}
-.banner-left p {
-  font-size: 11px;
-  color: var(--text2);
-  letter-spacing: 2px;
-  margin-top: 8px;
-  display: inline-block;
-  border-bottom: 1px solid rgba(255,215,0,.6);
-  padding-bottom: 3px;
-}
-
-/* LIVE dot — red pulse with ring expansion */
-.live-dot { animation: livePulse 1.4s ease-in-out infinite !important; }
-@keyframes livePulse {
-  0%   { opacity:1; transform:scale(1);   box-shadow:0 0 0 0   rgba(255,61,61,.8); }
-  60%  { opacity:.8; transform:scale(1.3); box-shadow:0 0 0 6px rgba(255,61,61,0);  }
-  100% { opacity:1; transform:scale(1);   box-shadow:0 0 0 0   rgba(255,61,61,0); }
-}
-
-/* ② Cards — green glow border + left gradient bar via ::before + hover lift */
-.match-card,
-.result-card,
-.predict-card,
-.prof-card,
-.profile-header,
-.lb-row {
-  border: 1px solid rgba(0,200,83,.4) !important;
-  box-shadow: 0 0 20px rgba(0,200,83,.15) !important;
-}
-/* Left-to-right interior glow bar for match & result cards */
-.match-card::before {
-  background: linear-gradient(90deg, rgba(0,200,83,.22) 0%, rgba(0,200,83,.07) 35%, transparent 70%) !important;
-  border-radius: 14px !important;
-}
-.result-card::before {
-  background:
-    linear-gradient(90deg, rgba(0,200,83,.2) 0%, transparent 40%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='25' fill='none' stroke='rgba(0,200,83,0.04)' stroke-width='2'/%3E%3C/svg%3E") center/60px !important;
-}
-/* Left accent stripe via inset shadow on cards without ::before left bar */
-.predict-card,
-.prof-card,
-.profile-header,
-.lb-row {
-  box-shadow: 0 0 20px rgba(0,200,83,.15), inset 3px 0 8px -3px rgba(0,200,83,.35) !important;
-}
-/* Hover: lift + brighter glow */
-.match-card:hover,
-.result-card:hover,
-.predict-card:hover,
-.prof-card:hover,
-.lb-row:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 0 30px rgba(0,200,83,.3), 0 8px 24px rgba(0,0,0,.3) !important;
-  border-color: rgba(0,200,83,.7) !important;
-}
-
-/* ③ Empty state — football SVG + breathing text */
-.empty-state {
-  background:
-    repeating-linear-gradient(0deg, rgba(0,200,83,.018) 0, rgba(0,200,83,.018) 1px, transparent 1px, transparent 40px);
-  border-radius: 14px;
-}
-.empty-state .icon {
-  font-size: 0 !important;      /* hide original clipboard */
-  display: block;
-  margin-bottom: 14px;
-}
-.empty-state .icon::before {
-  /* CSS-drawn football using SVG data URL */
-  content: '';
-  display: block;
-  width: 56px; height: 56px;
-  margin: 0 auto;
-  animation: fbBreathe 2.2s ease-in-out infinite;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='28' fill='%23f5f5f5' stroke='%23333' stroke-width='1.5'/%3E%3Cpolygon points='30,8 36,22 51,22 40,32 44,47 30,38 16,47 20,32 9,22 24,22' fill='%23222' opacity='.85'/%3E%3Ccircle cx='30' cy='30' r='7' fill='%23111' opacity='.6'/%3E%3C/svg%3E") center/contain no-repeat;
-}
-@keyframes fbBreathe {
-  0%,100% { opacity:.6; transform:scale(1);    }
-  50%      { opacity:1;  transform:scale(1.15); }
-}
-.next-update { animation: textBreathe 2s ease-in-out infinite; }
-@keyframes textBreathe {
-  0%,100% { opacity:.5; }
-  50%      { opacity:1;  }
-}
-
-/* ④ Bottom nav — blur-20 glass + green top line + icon glow */
-.bottom-nav {
-  backdrop-filter: blur(20px) saturate(1.4) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
-  background: rgba(10,15,10,.82) !important;
-  border-top: 2px solid var(--green) !important;
-  box-shadow: 0 -4px 24px rgba(0,200,83,.14) !important;
-}
-.nav-item.active .nav-icon {
-  filter: drop-shadow(0 0 8px var(--green)) drop-shadow(0 0 16px rgba(0,255,127,.4)) !important;
-}
-
-/* ⑤ Background — diagonal grass texture + corner football */
-.app {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    rgba(0,200,83,.018) 0, rgba(0,200,83,.018) 1px,
-    transparent 1px, transparent 52px
-  );
-}
-/* Large corner football decoration */
-body::after {
-  content: '';
-  position: fixed;
-  bottom: 60px; right: -40px;
-  width: 220px; height: 220px;
-  pointer-events: none;
-  z-index: 0;
-  opacity: .03;
-  transform: rotate(-20deg);
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='28' fill='white'/%3E%3Cpolygon points='30,8 36,22 51,22 40,32 44,47 30,38 16,47 20,32 9,22 24,22' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
-}
-
-/* ⑥ AI card — circular avatar + gold title */
-.ai-icon-wrap {
-  border-radius: 50% !important;
-  box-shadow: 0 0 22px rgba(0,200,83,.55) !important;
-}
-.ai-model-txt {
-  color: var(--gold) !important;
-  text-shadow: 0 0 8px rgba(255,215,0,.35);
-}
-
-/* ⑦ Numbers & labels — glowing text-shadow */
-.stat-num {
-  text-shadow: 0 0 10px #00C853, 0 0 20px rgba(0,200,83,.4);
-}
-.match-time {
-  text-shadow: 0 0 10px rgba(0,255,127,.7);
-}
-.lb-coins {
-  text-shadow: 0 0 8px rgba(255,215,0,.5);
-}
-.badge-gold {
-  border: 1px solid #FFD700 !important;
-  box-shadow: 0 0 6px rgba(255,215,0,.2) !important;
-}
-.prof-coins {
-  text-shadow: 0 0 8px rgba(255,215,0,.4);
-}
-.glow-num,
-.result-score { filter: drop-shadow(0 0 6px rgba(0,200,83,.35)); }
+/* light mode patches */
+[data-theme="light"] .banner{background:linear-gradient(160deg,#1a4a1a 0%,#2d6a2d 50%,#1a3a1a 100%)}
+[data-theme="light"] .date-pill{background:rgba(255,255,255,.35);color:#1a4a1a;border-color:rgba(0,100,0,.2)}
+[data-theme="light"] .form-input{background:#fff;border-color:#C8E6C9;color:#1B3A1B}
+[data-theme="light"] .modal-sheet{background:#fff}
+[data-theme="light"] .bet-match-info,[data-theme="light"] .stat-item,
+[data-theme="light"] .bet-opt-btn,[data-theme="light"] .bet-amt-btn,
+[data-theme="light"] .odds-display{background:#f0f7f0}
+[data-theme="light"] ::-webkit-scrollbar-track{background:#f5f5f5}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- floating footballs -->
-  <div class="fb-particle" id="fb1" style="left:15%;animation-duration:18s;animation-delay:0s;font-size:20px">⚽</div>
-  <div class="fb-particle" id="fb2" style="left:75%;animation-duration:24s;animation-delay:7s;font-size:16px">⚽</div>
-  <div class="fb-particle" id="fb3" style="left:45%;animation-duration:30s;animation-delay:14s;font-size:28px">⚽</div>
+<div class="fb-particle" style="left:15%;animation-duration:18s;animation-delay:0s;font-size:20px">⚽</div>
+<div class="fb-particle" style="left:75%;animation-duration:24s;animation-delay:7s;font-size:16px">⚽</div>
+<div class="fb-particle" style="left:45%;animation-duration:30s;animation-delay:14s;font-size:28px">⚽</div>
 
-  <!-- ── Banner ── -->
-  <div class="banner">
-    <div class="banner-pitch"></div>
-    <div class="banner-glow"></div>
-    <div class="banner-inner">
-      <div class="banner-left">
-        <h1>⚽ 2026 世界杯</h1>
-        <p>WORLD CUP DAILY · AI 数据驱动</p>
-      </div>
-      <div class="banner-right">
-        <div class="date-pill" id="date-display">加载中…</div>
-        <div class="live-dot-wrap"><span class="live-dot"></span>LIVE</div>
-      </div>
-    </div>
+<!-- ══ BANNER ══ -->
+<div class="banner">
+  <img class="banner-player messi" src="https://worldcup-daily2.tos-cn-guangzhou.volces.com/mexi.png" alt="梅西" onerror="this.style.display='none'">
+  <img class="banner-player cr7" src="https://worldcup-daily2.tos-cn-guangzhou.volces.com/Cluo.png" alt="C罗" onerror="this.style.display='none'">
+  <div class="banner-pitch"></div>
+  <div class="banner-overlay"></div>
+  <div class="banner-glow"></div>
+  <div class="banner-center">
+    <svg class="banner-trophy" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFD700"/><stop offset="50%" stop-color="#FFF8DC"/><stop offset="100%" stop-color="#C8920A"/>
+      </linearGradient></defs>
+      <rect x="30" y="108" width="40" height="6" rx="3" fill="url(#tg)"/>
+      <rect x="38" y="96" width="24" height="12" rx="2" fill="url(#tg)"/>
+      <rect x="44" y="80" width="12" height="18" rx="2" fill="url(#tg)"/>
+      <path d="M22 10 L26 76 Q50 88 74 76 L78 10 Z" fill="url(#tg)" opacity=".9"/>
+      <path d="M22 18 Q7 26 9 46 Q11 60 24 62" stroke="url(#tg)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M78 18 Q93 26 91 46 Q89 60 76 62" stroke="url(#tg)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="40" cy="36" rx="5" ry="14" fill="rgba(255,255,255,0.28)" transform="rotate(-15 40 36)"/>
+    </svg>
+    <div class="banner-title">2026 FIFA World Cup</div>
+    <div class="banner-subtitle">每日晨报 · AI 数据驱动</div>
   </div>
+  <div class="banner-top-right">
+    <div class="date-pill" id="date-display">加载中…</div>
+    <div class="live-dot-wrap"><span class="live-dot"></span>LIVE</div>
+    <button class="theme-btn" id="theme-toggle">🌙</button>
+  </div>
+</div>
 
-  <!-- update progress -->
-  <div class="update-bar">
-    <div class="upd-item">
-      <div class="upd-label">赛程</div>
-      <div class="upd-track"><div class="upd-fill" style="width:92%"></div></div>
-    </div>
-    <div class="upd-item">
-      <div class="upd-label">舆情</div>
-      <div class="upd-track"><div class="upd-fill" style="width:78%;animation-delay:.4s"></div></div>
-    </div>
-    <div class="upd-item">
-      <div class="upd-label">AI 预测</div>
-      <div class="upd-track"><div class="upd-fill" style="width:65%;animation-delay:.8s"></div></div>
-    </div>
-  </div>
+<div class="update-bar">
+  <div class="upd-item"><div class="upd-label">赛程</div><div class="upd-track"><div class="upd-fill" style="width:92%"></div></div></div>
+  <div class="upd-item"><div class="upd-label">舆情</div><div class="upd-track"><div class="upd-fill" style="width:78%;animation-delay:.4s"></div></div></div>
+  <div class="upd-item"><div class="upd-label">AI 预测</div><div class="upd-track"><div class="upd-fill" style="width:65%;animation-delay:.8s"></div></div></div>
+</div>
 
-  <!-- tabs -->
-  <div class="nav-tabs">
-    <button class="tab-btn active" data-tab="home">🏠 首页</button>
-    <button class="tab-btn" data-tab="predict">🎯 竞猜</button>
-    <button class="tab-btn" data-tab="rank">🏆 排行榜</button>
-    <button class="tab-btn" data-tab="profile">👤 我的</button>
-  </div>
+<div class="nav-tabs">
+  <button class="tab-btn active" data-tab="home">首页</button>
+  <button class="tab-btn" data-tab="predict">竞猜</button>
+  <button class="tab-btn" data-tab="rank">排行榜</button>
+  <button class="tab-btn" data-tab="profile">我的</button>
+</div>
 
-  <!-- ══ HOME PAGE ══ -->
-  <div class="page active" id="page-home">
-    <div id="home-content">
-      <div class="fb-loader"><div class="fb-spin">⚽</div><p>正在加载晨报数据…</p></div>
-    </div>
+<div class="page active" id="page-home"><div id="home-content"><div class="fb-loader"><div class="fb-spin">⚽</div><p>正在加载晨报数据…</p></div></div></div>
+<div class="page" id="page-predict"><div id="predict-content"><div class="fb-loader"><div class="fb-spin">⚽</div><p>加载赛程中…</p></div></div></div>
+<div class="page" id="page-rank">
+  <div class="lb-toggle">
+    <button class="lb-toggle-btn active" id="btn-global">🌍 全局榜</button>
+    <button class="lb-toggle-btn" id="btn-friends">👥 好友榜</button>
   </div>
-
-  <!-- ══ PREDICT PAGE ══ -->
-  <div class="page" id="page-predict">
-    <div id="predict-content">
-      <div class="fb-loader"><div class="fb-spin">⚽</div><p>加载赛程中…</p></div>
-    </div>
-  </div>
-
-  <!-- ══ RANK PAGE ══ -->
-  <div class="page" id="page-rank">
-    <div class="lb-toggle">
-      <button class="lb-toggle-btn active" id="btn-global">🌍 全局榜</button>
-      <button class="lb-toggle-btn" id="btn-friends">👥 好友榜</button>
-    </div>
-    <div id="rank-content">
-      <div class="fb-loader"><div class="fb-spin">⚽</div><p>加载排行榜…</p></div>
-    </div>
-  </div>
-
-  <!-- ══ PROFILE PAGE ══ -->
-  <div class="page" id="page-profile">
-    <div id="profile-content"></div>
-  </div>
+  <div id="rank-content"><div class="fb-loader"><div class="fb-spin">⚽</div><p>加载排行榜…</p></div></div>
+</div>
+<div class="page" id="page-profile"><div id="profile-content"></div></div>
 
 </div><!-- /app -->
 
-<!-- ── Bottom Nav ── -->
 <nav class="bottom-nav">
   <button class="nav-item active" data-nav="home"><span class="nav-icon">🏠</span>首页</button>
   <button class="nav-item" data-nav="predict"><span class="nav-icon">🎯</span>竞猜</button>
+  <button class="nav-center" id="nav-plus-btn">
+    <div class="nav-plus">+</div>
+    <span class="nav-center-label">下注</span>
+  </button>
   <button class="nav-item" data-nav="rank"><span class="nav-icon">🏆</span>排行</button>
   <button class="nav-item" data-nav="profile"><span class="nav-icon">👤</span>我的</button>
 </nav>
 
-<!-- ── Modals ── -->
-<!-- Register -->
 <div class="modal-overlay" id="modal-register">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">🎉 加入世界杯竞猜</div>
-    <div class="form-group"><div class="form-label">用户名</div>
-      <input class="form-input" id="reg-username" placeholder="输入用户名" maxlength="20"></div>
-    <div class="form-group"><div class="form-label">邮箱</div>
-      <input class="form-input" id="reg-email" type="email" placeholder="输入邮箱"></div>
-    <div class="form-group"><div class="form-label">密码</div>
-      <input class="form-input" id="reg-password" type="password" placeholder="至少6位密码"></div>
+    <div class="form-group"><div class="form-label">用户名</div><input class="form-input" id="reg-username" placeholder="输入用户名" maxlength="20"></div>
+    <div class="form-group"><div class="form-label">邮箱</div><input class="form-input" id="reg-email" type="email" placeholder="输入邮箱"></div>
+    <div class="form-group"><div class="form-label">密码</div><input class="form-input" id="reg-password" type="password" placeholder="至少6位密码"></div>
     <button class="form-submit" id="reg-submit">注册并获得 1000 虚拟币 🪙</button>
     <div class="form-msg" id="reg-msg"></div>
     <div class="modal-switch">已有账号？<a id="switch-to-login">立即登录</a></div>
   </div>
 </div>
-
-<!-- Login -->
 <div class="modal-overlay" id="modal-login">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">🔑 登录账号</div>
-    <div class="form-group"><div class="form-label">邮箱</div>
-      <input class="form-input" id="login-email" type="email" placeholder="输入邮箱"></div>
-    <div class="form-group"><div class="form-label">密码</div>
-      <input class="form-input" id="login-password" type="password" placeholder="输入密码"></div>
+    <div class="form-group"><div class="form-label">邮箱</div><input class="form-input" id="login-email" type="email" placeholder="输入邮箱"></div>
+    <div class="form-group"><div class="form-label">密码</div><input class="form-input" id="login-password" type="password" placeholder="输入密码"></div>
     <button class="form-submit" id="login-submit">登录</button>
     <div class="form-msg" id="login-msg"></div>
     <div class="modal-switch">没有账号？<a id="switch-to-register">免费注册</a></div>
   </div>
 </div>
-
-<!-- Bet -->
 <div class="modal-overlay" id="modal-bet">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -770,581 +526,464 @@ body::after {
     <div class="form-msg" id="bet-msg"></div>
   </div>
 </div>
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══ CONFIG ══ */
-const SUPA_URL = 'https://qsbjvukzyeazyzfonisa.supabase.co';
-const SUPA_KEY = 'sb_publishable_w-HamEcsEFTRL2qbRla_ag_evqV0FrP';
+const SUPA_URL='https://qsbjvukzyeazyzfonisa.supabase.co';
+const SUPA_KEY='sb_publishable_w-HamEcsEFTRL2qbRla_ag_evqV0FrP';
 
-/* ══ SUPABASE HELPERS ══ */
-async function sbFetch(path, opts = {}) {
-  const res = await fetch(SUPA_URL + '/rest/v1/' + path, {
-    headers: {
-      'apikey': SUPA_KEY,
-      'Authorization': 'Bearer ' + SUPA_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': opts.prefer || '',
-      ...opts.headers
-    },
-    method: opts.method || 'GET',
-    body: opts.body ? JSON.stringify(opts.body) : undefined
-  });
-  if (!res.ok) {
-    let e; try { e = await res.json(); } catch(_) { e = {}; }
-    throw new Error(e.message || e.error || 'HTTP ' + res.status);
-  }
-  if (res.status === 204) return null;
-  return res.json();
+/* ── theme ── */
+(function(){
+  const s=localStorage.getItem('wc_theme')||'dark';
+  document.documentElement.setAttribute('data-theme',s);
+  const b=document.getElementById('theme-toggle');
+  if(b)b.textContent=s==='dark'?'🌙':'☀️';
+})();
+document.getElementById('theme-toggle').onclick=function(){
+  const c=document.documentElement.getAttribute('data-theme');
+  const n=c==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n);
+  localStorage.setItem('wc_theme',n);
+  this.textContent=n==='dark'?'🌙':'☀️';
+};
+
+/* ── supabase ── */
+async function sbFetch(path,opts={}){
+  const r=await fetch(SUPA_URL+'/rest/v1/'+path,{
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,
+      'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})},
+    method:opts.method||'GET',body:opts.body?JSON.stringify(opts.body):undefined});
+  if(!r.ok){let e;try{e=await r.json();}catch(_){e={};}throw new Error(e.message||e.error||'HTTP '+r.status);}
+  if(r.status===204)return null;return r.json();
 }
-const sbGet = (path) => sbFetch(path);
-const sbPost = (table, body) => sbFetch(table, { method: 'POST', body, prefer: 'return=representation' });
-const sbPatch = (path, body) => sbFetch(path, { method: 'PATCH', body, prefer: 'return=representation' });
+const sbGet=p=>sbFetch(p);
+const sbPost=(t,b)=>sbFetch(t,{method:'POST',body:b,prefer:'return=representation'});
+const sbPatch=(p,b)=>sbFetch(p,{method:'PATCH',body:b,prefer:'return=representation'});
 
-/* ══ AUTH STATE ══ */
-let currentUser = JSON.parse(localStorage.getItem('wc_user') || 'null');
-function saveUser(u) { currentUser = u; localStorage.setItem('wc_user', JSON.stringify(u)); }
-function clearUser() { currentUser = null; localStorage.removeItem('wc_user'); }
-async function refreshUser() {
-  if (!currentUser) return;
-  try {
-    const rows = await sbGet(`users?id=eq.${currentUser.id}&select=*`);
-    if (rows && rows[0]) saveUser(rows[0]);
-  } catch(_) {}
-}
-
-/* ══ TOAST ══ */
-let toastTimer;
-function toast(msg, isErr) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (isErr ? ' err' : '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = 'toast'; }, 2800);
+/* ── auth ── */
+let currentUser=JSON.parse(localStorage.getItem('wc_user')||'null');
+function saveUser(u){currentUser=u;localStorage.setItem('wc_user',JSON.stringify(u));}
+function clearUser(){currentUser=null;localStorage.removeItem('wc_user');}
+async function refreshUser(){
+  if(!currentUser)return;
+  try{const r=await sbGet('users?id=eq.'+currentUser.id+'&select=*');if(r&&r[0])saveUser(r[0]);}catch(_){}
 }
 
-/* ══ ESCAPE ══ */
-const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-
-/* ══ FLAG ══ */
-function flagImg(code, cls) {
-  const c = (code || '').toUpperCase();
-  return `<img class="${cls}" src="https://flagcdn.com/w80/${c.toLowerCase()}.png" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'${cls} team-flag-fallback',textContent:emojiFlag('${c}')}))" alt="${c}">`;
+/* ── toast ── */
+let _tt;
+function toast(msg,isErr){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show'+(isErr?' err':'');
+  clearTimeout(_tt);_tt=setTimeout(()=>{el.className='toast';},2800);
 }
-function emojiFlag(code) {
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function flagImg(code,cls){
+  const c=(code||'').toUpperCase(),lc=c.toLowerCase();
+  return '<img class="'+cls+'" src="https://flagcdn.com/w80/'+lc+'.png" '
+    +'onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\''+cls+' team-flag-fallback\',textContent:emojiFlag(\''+c+'\')}))" alt="'+c+'">';
+}
+function emojiFlag(code){
   return [...(code||'').toUpperCase()].map(c=>String.fromCodePoint(c.charCodeAt(0)+127397)).join('');
 }
-
-/* ══ FORMAT DATE ══ */
-function fmtDate(ds) {
-  const [y,m,d] = ds.split('-');
-  const dt = new Date(`${ds}T12:00:00+08:00`);
+function fmtDate(ds){
+  const[y,m,d]=ds.split('-'),dt=new Date(ds+'T12:00:00+08:00');
   const days=['日','一','二','三','四','五','六'];
-  return `${y}年${m}月${d}日 星期${days[dt.getDay()]}`;
+  return y+'年'+m+'月'+d+'日 星期'+days[dt.getDay()];
+}
+function matchStatus(timeStr,dateStr){
+  const[h,mn]=timeStr.split(':').map(Number);
+  const target=new Date(dateStr+'T'+String(h).padStart(2,'0')+':'+String(mn).padStart(2,'0')+':00+08:00');
+  const diff=target-Date.now();
+  if(diff>0){
+    const hh=Math.floor(diff/3600000),mm=Math.floor((diff%3600000)/60000);
+    return '<span class="status-tag status-upcoming">未开赛 · '+(hh>24?Math.floor(hh/24)+'天后':hh+'h'+mm+'m后')+'</span>';
+  }
+  if(Date.now()-target<110*60000)
+    return '<span class="status-tag status-live"><span class="status-live-dot"></span>LIVE</span>';
+  return '<span class="status-tag status-ft">FT</span>';
+}
+function formDots(){
+  return ['W','W','W','D','L','D','W','L'].sort(()=>Math.random()-.5).slice(0,5)
+    .map(r=>'<span class="form-dot '+r+'"></span>').join('');
 }
 
-/* ══ COUNTDOWN ══ */
-function countdown(timeStr, dateStr) {
-  const [h,min] = timeStr.split(':').map(Number);
-  const target = new Date(`${dateStr}T${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}:00+08:00`);
-  const diff = target - Date.now();
-  if (diff <= 0) return '进行中 / 已结束';
-  const hh = Math.floor(diff/3600000);
-  const mm = Math.floor((diff%3600000)/60000);
-  if (hh > 24) return `${Math.floor(hh/24)}天后开球`;
-  return `${hh}h ${mm}m 后开球`;
+/* ── tabs ── */
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.page').forEach(p=>{
+    const on=p.id==='page-'+tab;
+    p.classList.toggle('active',on);
+  });
+  document.querySelectorAll('.nav-item[data-nav]').forEach(n=>n.classList.toggle('active',n.dataset.nav===tab));
+  if(tab==='rank')loadRank();
+  if(tab==='profile')renderProfile();
 }
+document.querySelectorAll('.nav-item[data-nav]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.nav)));
+document.getElementById('nav-plus-btn').addEventListener('click',()=>switchTab('predict'));
 
-/* ══ TABS ══ */
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + tab));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav === tab));
-  if (tab === 'rank') loadRank();
-  if (tab === 'profile') renderProfile();
-}
-document.querySelectorAll('.tab-btn,.nav-item').forEach(b => {
-  b.addEventListener('click', () => switchTab(b.dataset.tab || b.dataset.nav));
-});
+/* ── modals ── */
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id);}));
+document.getElementById('switch-to-login').onclick=()=>{closeModal('modal-register');openModal('modal-login');};
+document.getElementById('switch-to-register').onclick=()=>{closeModal('modal-login');openModal('modal-register');};
 
-/* ══ MODALS ══ */
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); });
-});
-document.getElementById('switch-to-login').onclick = () => { closeModal('modal-register'); openModal('modal-login'); };
-document.getElementById('switch-to-register').onclick = () => { closeModal('modal-login'); openModal('modal-register'); };
-
-/* ══ REGISTER ══ */
-async function hashPassword(pw) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+/* ── register ── */
+async function hashPassword(pw){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
-document.getElementById('reg-submit').onclick = async function() {
-  const btn = this;
-  const username = document.getElementById('reg-username').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const password = document.getElementById('reg-password').value;
-  const msgEl = document.getElementById('reg-msg');
-  msgEl.textContent = '';
-  if (!username || !email || !password) { msgEl.className='form-msg err'; msgEl.textContent='请填写所有字段'; return; }
-  if (password.length < 6) { msgEl.className='form-msg err'; msgEl.textContent='密码至少6位'; return; }
-  btn.disabled = true; btn.textContent = '注册中…';
-  try {
-    const hash = await hashPassword(password);
-    const rows = await sbPost('users', { username, email, password_hash: hash, virtual_coins: 1000 });
-    if (rows && rows[0]) {
-      saveUser(rows[0]);
-      msgEl.className='form-msg ok'; msgEl.textContent='注册成功！已送1000虚拟币 🎉';
-      setTimeout(() => { closeModal('modal-register'); renderProfile(); toast('🎉 注册成功，欢迎 ' + username); }, 1200);
-    }
-  } catch(e) {
-    msgEl.className='form-msg err';
-    msgEl.textContent = e.message.includes('unique') ? '用户名或邮箱已被注册' : e.message;
-  } finally { btn.disabled = false; btn.textContent = '注册并获得 1000 虚拟币 🪙'; }
+document.getElementById('reg-submit').onclick=async function(){
+  const btn=this,un=document.getElementById('reg-username').value.trim(),
+    em=document.getElementById('reg-email').value.trim(),
+    pw=document.getElementById('reg-password').value,
+    msg=document.getElementById('reg-msg');
+  msg.textContent='';
+  if(!un||!em||!pw){msg.className='form-msg err';msg.textContent='请填写所有字段';return;}
+  if(pw.length<6){msg.className='form-msg err';msg.textContent='密码至少6位';return;}
+  btn.disabled=true;btn.textContent='注册中…';
+  try{
+    const hash=await hashPassword(pw);
+    const rows=await sbPost('users',{username:un,email:em,password_hash:hash,virtual_coins:1000});
+    if(rows&&rows[0]){saveUser(rows[0]);msg.className='form-msg ok';msg.textContent='注册成功！已送1000虚拟币 🎉';
+      setTimeout(()=>{closeModal('modal-register');renderProfile();toast('🎉 注册成功，欢迎 '+un);},1200);}
+  }catch(e){msg.className='form-msg err';msg.textContent=e.message.includes('unique')?'用户名或邮箱已被注册':e.message;}
+  finally{btn.disabled=false;btn.textContent='注册并获得 1000 虚拟币 🪙';}
 };
 
-/* ══ LOGIN ══ */
-document.getElementById('login-submit').onclick = async function() {
-  const btn = this;
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const msgEl = document.getElementById('login-msg');
-  msgEl.textContent = '';
-  if (!email || !password) { msgEl.className='form-msg err'; msgEl.textContent='请填写邮箱和密码'; return; }
-  btn.disabled = true; btn.textContent = '登录中…';
-  try {
-    const hash = await hashPassword(password);
-    const rows = await sbGet(`users?email=eq.${encodeURIComponent(email)}&password_hash=eq.${hash}&select=*`);
-    if (!rows || !rows[0]) { throw new Error('邮箱或密码错误'); }
+/* ── login ── */
+document.getElementById('login-submit').onclick=async function(){
+  const btn=this,em=document.getElementById('login-email').value.trim(),
+    pw=document.getElementById('login-password').value,
+    msg=document.getElementById('login-msg');
+  msg.textContent='';
+  if(!em||!pw){msg.className='form-msg err';msg.textContent='请填写邮箱和密码';return;}
+  btn.disabled=true;btn.textContent='登录中…';
+  try{
+    const hash=await hashPassword(pw);
+    const rows=await sbGet('users?email=eq.'+encodeURIComponent(em)+'&password_hash=eq.'+hash+'&select=*');
+    if(!rows||!rows[0])throw new Error('邮箱或密码错误');
     saveUser(rows[0]);
-    await sbPatch(`users?id=eq.${rows[0].id}`, { last_sign_in: new Date().toISOString() });
-    msgEl.className='form-msg ok'; msgEl.textContent='登录成功！';
-    setTimeout(() => { closeModal('modal-login'); renderProfile(); toast('👋 欢迎回来，' + rows[0].username); }, 900);
-  } catch(e) {
-    msgEl.className='form-msg err'; msgEl.textContent = e.message;
-  } finally { btn.disabled = false; btn.textContent = '登录'; }
+    await sbPatch('users?id=eq.'+rows[0].id,{last_sign_in:new Date().toISOString()});
+    msg.className='form-msg ok';msg.textContent='登录成功！';
+    setTimeout(()=>{closeModal('modal-login');renderProfile();toast('👋 欢迎回来，'+rows[0].username);},900);
+  }catch(e){msg.className='form-msg err';msg.textContent=e.message;}
+  finally{btn.disabled=false;btn.textContent='登录';}
 };
 
-/* ══ PROFILE ══ */
-function renderProfile() {
-  const el = document.getElementById('profile-content');
-  if (!currentUser) {
-    el.innerHTML = `<div class="profile-unauth">
-      <div style="font-size:52px">⚽</div>
-      <h2>加入世界杯竞猜</h2>
-      <p>注册账号，参与竞猜，赢取虚拟币，登上排行榜！</p>
-      <div class="auth-btns">
-        <button class="btn-primary" onclick="openModal('modal-register')">免费注册</button>
-        <button class="btn-secondary" onclick="openModal('modal-login')">登录</button>
-      </div>
-    </div>`;
+/* ── profile ── */
+function renderProfile(){
+  const el=document.getElementById('profile-content');
+  if(!currentUser){
+    el.innerHTML='<div class="profile-unauth"><div style="font-size:52px">⚽</div><h2>加入世界杯竞猜</h2><p>注册账号，参与竞猜，赢取虚拟币，登上排行榜！</p>'
+      +'<div class="auth-btns"><button class="btn-primary" onclick="openModal(\'modal-register\')">免费注册</button>'
+      +'<button class="btn-secondary" onclick="openModal(\'modal-login\')">登录</button></div></div>';
     return;
   }
-  refreshUser().then(() => {
-    const u = currentUser;
-    const initial = (u.username || '?')[0].toUpperCase();
-    el.innerHTML = `<div class="profile-auth">
-      <div class="profile-header">
-        <div class="prof-avatar">${initial}</div>
-        <div class="prof-info">
-          <div class="prof-name">${esc(u.username)}</div>
-          <div class="prof-coins">🪙 ${(u.virtual_coins||0).toLocaleString()} 虚拟币</div>
-        </div>
-      </div>
-      <div class="prof-card">
-        <div class="prof-card-title">每日签到</div>
-        <button class="checkin-btn" id="checkin-btn">签到 +50 虚拟币</button>
-      </div>
-      <div class="prof-card">
-        <div class="prof-card-title">竞猜战绩</div>
-        <div class="stats-grid" id="stats-grid">
-          <div class="stat-item"><div class="stat-num">—</div><div class="stat-label">总场次</div></div>
-          <div class="stat-item"><div class="stat-num">—</div><div class="stat-label">胜场</div></div>
-          <div class="stat-item"><div class="stat-num">—</div><div class="stat-label">准确率</div></div>
-        </div>
-      </div>
-      <div class="prof-card">
-        <div class="prof-card-title">历史竞猜</div>
-        <div id="hist-list"><div class="skeleton" style="height:40px;margin-bottom:6px"></div><div class="skeleton" style="height:40px"></div></div>
-      </div>
-      <button class="logout-btn" id="logout-btn">退出登录</button>
-    </div>`;
-    initCheckin();
-    loadStats();
-    loadHistory();
-    document.getElementById('logout-btn').onclick = () => {
-      clearUser(); renderProfile(); toast('已退出登录');
-    };
+  refreshUser().then(()=>{
+    const u=currentUser,init=(u.username||'?')[0].toUpperCase();
+    el.innerHTML='<div class="profile-auth">'
+      +'<div class="profile-header"><div class="prof-avatar">'+init+'</div><div class="prof-info">'
+      +'<div class="prof-name">'+esc(u.username)+'</div>'
+      +'<div class="prof-coins">🪙 '+(u.virtual_coins||0).toLocaleString()+' 虚拟币</div></div></div>'
+      +'<div class="prof-card"><div class="prof-card-title">每日签到</div><button class="checkin-btn" id="checkin-btn">签到 +50 虚拟币</button></div>'
+      +'<div class="prof-card"><div class="prof-card-title">竞猜战绩</div><div class="stats-grid" id="stats-grid">'
+      +'<div class="stat-item"><div class="stat-num">—</div><div class="stat-label">总场次</div></div>'
+      +'<div class="stat-item"><div class="stat-num">—</div><div class="stat-label">胜场</div></div>'
+      +'<div class="stat-item"><div class="stat-num">—</div><div class="stat-label">准确率</div></div></div></div>'
+      +'<div class="prof-card"><div class="prof-card-title">历史竞猜</div>'
+      +'<div id="hist-list"><div class="skeleton" style="height:40px;margin-bottom:6px"></div><div class="skeleton" style="height:40px"></div></div></div>'
+      +'<button class="logout-btn" id="logout-btn">退出登录</button></div>';
+    initCheckin();loadStats();loadHistory();
+    document.getElementById('logout-btn').onclick=()=>{clearUser();renderProfile();toast('已退出登录');};
   });
 }
-
-async function initCheckin() {
-  const btn = document.getElementById('checkin-btn');
-  if (!btn || !currentUser) return;
-  const today = new Date().toISOString().slice(0,10);
-  try {
-    const rows = await sbGet(`check_ins?user_id=eq.${currentUser.id}&check_in_date=eq.${today}`);
-    if (rows && rows.length > 0) {
-      btn.disabled = true; btn.textContent = '✅ 今日已签到 (+50 已到账)';
-    } else {
-      btn.onclick = async () => {
-        btn.disabled = true;
-        try {
-          await sbPost('check_ins', { user_id: currentUser.id, check_in_date: today, coins_earned: 50 });
-          await sbPatch(`users?id=eq.${currentUser.id}`, { virtual_coins: (currentUser.virtual_coins||0) + 50 });
-          currentUser.virtual_coins = (currentUser.virtual_coins||0) + 50;
-          saveUser(currentUser);
-          btn.textContent = '✅ 签到成功！+50 虚拟币';
-          toast('🎁 签到成功，+50 虚拟币！');
-          document.querySelector('.prof-coins').textContent = '🪙 ' + currentUser.virtual_coins.toLocaleString() + ' 虚拟币';
-        } catch(e) { btn.disabled=false; toast('签到失败：' + e.message, true); }
-      };
-    }
-  } catch(_) {}
+async function initCheckin(){
+  const btn=document.getElementById('checkin-btn');if(!btn||!currentUser)return;
+  const today=new Date().toISOString().slice(0,10);
+  try{
+    const rows=await sbGet('check_ins?user_id=eq.'+currentUser.id+'&check_in_date=eq.'+today);
+    if(rows&&rows.length>0){btn.disabled=true;btn.textContent='✅ 今日已签到 (+50 已到账)';}
+    else btn.onclick=async()=>{btn.disabled=true;
+      try{
+        await sbPost('check_ins',{user_id:currentUser.id,check_in_date:today,coins_earned:50});
+        await sbPatch('users?id=eq.'+currentUser.id,{virtual_coins:(currentUser.virtual_coins||0)+50});
+        currentUser.virtual_coins=(currentUser.virtual_coins||0)+50;saveUser(currentUser);
+        btn.textContent='✅ 签到成功！+50 虚拟币';toast('🎁 签到成功，+50 虚拟币！');
+        const pc=document.querySelector('.prof-coins');if(pc)pc.textContent='🪙 '+currentUser.virtual_coins.toLocaleString()+' 虚拟币';
+      }catch(e){btn.disabled=false;toast('签到失败：'+e.message,true);}
+    };
+  }catch(_){}
 }
-
-async function loadStats() {
-  if (!currentUser) return;
-  try {
-    const rows = await sbGet(`predictions?user_id=eq.${currentUser.id}&select=result`);
-    const total = rows ? rows.length : 0;
-    const wins = rows ? rows.filter(r=>r.result==='win').length : 0;
-    const acc = total > 0 ? Math.round(wins/total*100) : 0;
-    const g = document.getElementById('stats-grid');
-    if (g) g.innerHTML = `
-      <div class="stat-item"><div class="stat-num">${total}</div><div class="stat-label">总场次</div></div>
-      <div class="stat-item"><div class="stat-num">${wins}</div><div class="stat-label">胜场</div></div>
-      <div class="stat-item"><div class="stat-num">${acc}%</div><div class="stat-label">准确率</div></div>`;
-  } catch(_) {}
+async function loadStats(){
+  if(!currentUser)return;
+  try{
+    const rows=await sbGet('predictions?user_id=eq.'+currentUser.id+'&select=result');
+    const total=rows?rows.length:0,wins=rows?rows.filter(r=>r.result==='win').length:0,
+      acc=total>0?Math.round(wins/total*100):0;
+    const g=document.getElementById('stats-grid');
+    if(g)g.innerHTML='<div class="stat-item"><div class="stat-num">'+total+'</div><div class="stat-label">总场次</div></div>'
+      +'<div class="stat-item"><div class="stat-num">'+wins+'</div><div class="stat-label">胜场</div></div>'
+      +'<div class="stat-item"><div class="stat-num">'+acc+'%</div><div class="stat-label">准确率</div></div>';
+  }catch(_){}
 }
-
-async function loadHistory() {
-  if (!currentUser) return;
-  try {
-    const rows = await sbGet(`predictions?user_id=eq.${currentUser.id}&order=created_at.desc&limit=10&select=*`);
-    const el = document.getElementById('hist-list');
-    if (!el) return;
-    if (!rows || rows.length === 0) {
-      el.innerHTML = '<div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">暂无竞猜记录</div>';
-      return;
-    }
-    const opts = {'home':'主队赢','draw':'平局','away':'客队赢'};
-    el.innerHTML = rows.map(r => {
-      const cls = r.result==='win'?'hist-win':r.result==='lose'?'hist-lose':'hist-pend';
-      const label = r.result==='win'?'胜':r.result==='lose'?'负':'待定';
-      const coins = r.result==='win'?`+${r.coins_earned}`:r.result==='lose'?`-${r.coins_bet}`:'';
-      return `<div class="hist-row">
-        <span class="hist-match">${esc(r.match_id)} · ${esc(opts[r.predicted_winner]||r.predicted_winner)}</span>
-        <span class="hist-result ${cls}">${label}</span>
-        <span class="hist-coins">${coins}</span>
-      </div>`;
+async function loadHistory(){
+  if(!currentUser)return;
+  try{
+    const rows=await sbGet('predictions?user_id=eq.'+currentUser.id+'&order=created_at.desc&limit=10&select=*');
+    const el=document.getElementById('hist-list');if(!el)return;
+    if(!rows||rows.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">暂无竞猜记录</div>';return;}
+    const opts={home:'主队赢',draw:'平局',away:'客队赢'};
+    el.innerHTML=rows.map(r=>{
+      const cls=r.result==='win'?'hist-win':r.result==='lose'?'hist-lose':'hist-pend';
+      const label=r.result==='win'?'胜':r.result==='lose'?'负':'待定';
+      const coins=r.result==='win'?'+'+r.coins_earned:r.result==='lose'?'-'+r.coins_bet:'';
+      return '<div class="hist-row"><span class="hist-match">'+esc(r.match_id)+' · '+esc(opts[r.predicted_winner]||r.predicted_winner)+'</span>'
+        +'<span class="hist-result '+cls+'">'+label+'</span><span class="hist-coins">'+coins+'</span></div>';
     }).join('');
-  } catch(_) {}
+  }catch(_){}
 }
 
-/* ══ RANK ══ */
-let rankMode = 'global';
-document.getElementById('btn-global').onclick = () => { rankMode='global'; document.getElementById('btn-global').classList.add('active'); document.getElementById('btn-friends').classList.remove('active'); loadRank(); };
-document.getElementById('btn-friends').onclick = () => { rankMode='friends'; document.getElementById('btn-friends').classList.add('active'); document.getElementById('btn-global').classList.remove('active'); loadRank(); };
-
-async function loadRank() {
-  const el = document.getElementById('rank-content');
-  el.innerHTML = '<div class="fb-loader"><div class="fb-spin">⚽</div><p>加载排行榜…</p></div>';
-  try {
+/* ── rank ── */
+let rankMode='global';
+document.getElementById('btn-global').onclick=()=>{rankMode='global';document.getElementById('btn-global').classList.add('active');document.getElementById('btn-friends').classList.remove('active');loadRank();};
+document.getElementById('btn-friends').onclick=()=>{rankMode='friends';document.getElementById('btn-friends').classList.add('active');document.getElementById('btn-global').classList.remove('active');loadRank();};
+async function loadRank(){
+  const el=document.getElementById('rank-content');
+  el.innerHTML='<div class="fb-loader"><div class="fb-spin">⚽</div><p>加载排行榜…</p></div>';
+  try{
     let rows;
-    if (rankMode === 'global') {
-      rows = await sbGet('users?select=id,username,virtual_coins&order=virtual_coins.desc&limit=50');
-    } else {
-      if (!currentUser) {
-        el.innerHTML = '<div class="predict-empty">登录后查看好友榜</div>'; return;
-      }
-      const fs = await sbGet(`friendships?or=(user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id})&status=eq.accepted&select=user_id,friend_id`);
-      const ids = new Set([currentUser.id]);
-      (fs||[]).forEach(f => { ids.add(f.user_id); ids.add(f.friend_id); });
-      const idList = [...ids].map(id=>`id.eq.${id}`).join(',');
-      rows = await sbGet(`users?or=(${idList})&select=id,username,virtual_coins&order=virtual_coins.desc`);
+    if(rankMode==='global'){rows=await sbGet('users?select=id,username,virtual_coins&order=virtual_coins.desc&limit=50');}
+    else{
+      if(!currentUser){el.innerHTML='<div class="predict-empty">登录后查看好友榜</div>';return;}
+      const fs=await sbGet('friendships?or=(user_id.eq.'+currentUser.id+',friend_id.eq.'+currentUser.id+')&status=eq.accepted&select=user_id,friend_id');
+      const ids=new Set([currentUser.id]);(fs||[]).forEach(f=>{ids.add(f.user_id);ids.add(f.friend_id);});
+      rows=await sbGet('users?or=('+[...ids].map(id=>'id.eq.'+id).join(',')+')'+'&select=id,username,virtual_coins&order=virtual_coins.desc');
     }
-    if (!rows || rows.length === 0) {
-      el.innerHTML = '<div class="predict-empty">暂无排行数据</div>'; return;
-    }
-    const myIdx = currentUser ? rows.findIndex(r=>r.id===currentUser.id) : -1;
-    const medals = ['🥇','🥈','🥉'];
-    const rankClasses = ['gold','silver','bronze'];
-    let html = rows.map((r,i) => {
-      const isMe = currentUser && r.id === currentUser.id;
-      const initial = (r.username||'?')[0].toUpperCase();
-      const acc = Math.round(Math.random()*40+50);
-      return `<div class="lb-row${isMe?' me':''}">
-        <div class="lb-rank ${rankClasses[i]||''}">${i<3?medals[i]:i+1}</div>
-        <div class="lb-avatar">${initial}</div>
-        <div class="lb-info">
-          <div class="lb-name">${esc(r.username)}${isMe?' <span style="font-size:10px;color:var(--glow)">(我)</span>':''}</div>
-          <div class="lb-acc">准确率 ~${acc}%</div>
-        </div>
-        <div class="lb-coins">🪙${(r.virtual_coins||0).toLocaleString()}</div>
-      </div>`;
+    if(!rows||rows.length===0){el.innerHTML='<div class="predict-empty">暂无排行数据</div>';return;}
+    const medals=['🥇','🥈','🥉'],rc=['gold','silver','bronze'];
+    el.innerHTML=rows.map((r,i)=>{
+      const isMe=currentUser&&r.id===currentUser.id,init=(r.username||'?')[0].toUpperCase();
+      const acc=Math.round(Math.random()*40+50);
+      return '<div class="lb-row'+(isMe?' me':'')+'"><div class="lb-rank '+(rc[i]||'')+'">'+(i<3?medals[i]:i+1)+'</div>'
+        +'<div class="lb-avatar">'+init+'</div><div class="lb-info"><div class="lb-name">'+esc(r.username)
+        +(isMe?' <span style="font-size:10px;color:var(--glow)">(我)</span>':'')+'</div>'
+        +'<div class="lb-acc">准确率 ~'+acc+'%</div></div>'
+        +'<div class="lb-coins">🪙'+(r.virtual_coins||0).toLocaleString()+'</div></div>';
     }).join('');
-    if (myIdx === -1 && currentUser) {
-      html += `<div class="lb-me-bar" style="font-size:13px;color:var(--text3)">登录后显示你的排名</div>`;
-    }
-    el.innerHTML = html;
-  } catch(e) {
-    el.innerHTML = `<div class="empty-state"><div class="icon">😵</div><p>加载失败：${esc(e.message)}</p></div>`;
-  }
+  }catch(e){el.innerHTML='<div class="predict-empty" style="color:var(--red)">加载失败：'+esc(e.message)+'</div>';}
 }
 
-/* ══ BET MODAL ══ */
-let betMatchData = null;
-let betChoice = null;
-let betAmount = null;
-
-function openBet(match) {
-  betMatchData = match;
-  betChoice = null;
-  betAmount = null;
+/* ── bet ── */
+let betMatchData=null,betChoice=null,betAmount=null;
+function openBet(match){
+  betMatchData=match;betChoice=null;betAmount=null;
   document.querySelectorAll('.bet-opt-btn').forEach(b=>b.classList.remove('selected'));
   document.querySelectorAll('.bet-amt-btn').forEach(b=>b.classList.remove('selected'));
-  document.getElementById('bet-msg').textContent = '';
-  document.getElementById('bet-opt-home').textContent = match.home + ' 赢';
-  document.getElementById('bet-opt-away').textContent = match.away + ' 赢';
-  document.getElementById('bet-ai-ref').textContent = '预计激烈对决';
-  document.getElementById('bet-match-info').innerHTML = `
-    <div class="bet-team">${flagImg(match.home_code,'bet-team-flag')}<span class="bet-team-name">${esc(match.home)}</span></div>
-    <div class="bet-vs">VS</div>
-    <div class="bet-team">${flagImg(match.away_code,'bet-team-flag')}<span class="bet-team-name">${esc(match.away)}</span></div>`;
+  document.getElementById('bet-msg').textContent='';
+  document.getElementById('bet-opt-home').textContent=match.home+' 赢';
+  document.getElementById('bet-opt-away').textContent=match.away+' 赢';
+  document.getElementById('bet-ai-ref').textContent='预计激烈对决';
+  document.getElementById('bet-match-info').innerHTML=
+    '<div class="bet-team">'+flagImg(match.home_code,'bet-team-flag')+'<span class="bet-team-name">'+esc(match.home)+'</span></div>'
+    +'<div class="bet-vs">VS</div>'
+    +'<div class="bet-team">'+flagImg(match.away_code,'bet-team-flag')+'<span class="bet-team-name">'+esc(match.away)+'</span></div>';
   openModal('modal-bet');
 }
-
-document.querySelectorAll('.bet-opt-btn').forEach(b => {
-  b.onclick = () => {
-    betChoice = b.dataset.val;
-    document.querySelectorAll('.bet-opt-btn').forEach(x=>x.classList.remove('selected'));
-    b.classList.add('selected');
-  };
-});
-document.querySelectorAll('.bet-amt-btn').forEach(b => {
-  b.onclick = () => {
-    betAmount = parseInt(b.dataset.amt);
-    document.querySelectorAll('.bet-amt-btn').forEach(x=>x.classList.remove('selected'));
-    b.classList.add('selected');
-  };
-});
-
-document.getElementById('bet-confirm').onclick = async function() {
-  const msg = document.getElementById('bet-msg');
-  msg.textContent='';
-  if (!currentUser) { msg.className='form-msg err'; msg.textContent='请先登录'; openModal('modal-login'); return; }
-  if (!betChoice) { msg.className='form-msg err'; msg.textContent='请选择竞猜结果'; return; }
-  if (!betAmount) { msg.className='form-msg err'; msg.textContent='请选择下注金额'; return; }
-  if ((currentUser.virtual_coins||0) < betAmount) { msg.className='form-msg err'; msg.textContent='虚拟币余额不足'; return; }
-  this.disabled=true; this.textContent='提交中…';
-  try {
-    const matchId = `${betMatchData.home}_${betMatchData.away}_${betMatchData.time}`;
-    await sbPost('predictions', {
-      user_id: currentUser.id, match_id: matchId,
-      predicted_winner: betChoice, coins_bet: betAmount
-    });
-    await sbPatch(`users?id=eq.${currentUser.id}`, { virtual_coins: currentUser.virtual_coins - betAmount });
-    currentUser.virtual_coins -= betAmount;
-    saveUser(currentUser);
-    msg.className='form-msg ok'; msg.textContent='下注成功！祝你好运 🍀';
-    toast(`🎯 已下注 ${betAmount} 虚拟币！`);
-    setTimeout(() => closeModal('modal-bet'), 1500);
-  } catch(e) {
-    msg.className='form-msg err'; msg.textContent='下注失败：' + e.message;
-  } finally { this.disabled=false; this.textContent='确认下注'; }
+document.querySelectorAll('.bet-opt-btn').forEach(b=>b.onclick=()=>{betChoice=b.dataset.val;document.querySelectorAll('.bet-opt-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');});
+document.querySelectorAll('.bet-amt-btn').forEach(b=>b.onclick=()=>{betAmount=parseInt(b.dataset.amt);document.querySelectorAll('.bet-amt-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');});
+document.getElementById('bet-confirm').onclick=async function(){
+  const msg=document.getElementById('bet-msg');msg.textContent='';
+  if(!currentUser){msg.className='form-msg err';msg.textContent='请先登录';openModal('modal-login');return;}
+  if(!betChoice){msg.className='form-msg err';msg.textContent='请选择竞猜结果';return;}
+  if(!betAmount){msg.className='form-msg err';msg.textContent='请选择下注金额';return;}
+  if((currentUser.virtual_coins||0)<betAmount){msg.className='form-msg err';msg.textContent='虚拟币余额不足';return;}
+  this.disabled=true;this.textContent='提交中…';
+  try{
+    const mid=betMatchData.home+'_'+betMatchData.away+'_'+betMatchData.time;
+    await sbPost('predictions',{user_id:currentUser.id,match_id:mid,predicted_winner:betChoice,coins_bet:betAmount});
+    await sbPatch('users?id=eq.'+currentUser.id,{virtual_coins:currentUser.virtual_coins-betAmount});
+    currentUser.virtual_coins-=betAmount;saveUser(currentUser);
+    msg.className='form-msg ok';msg.textContent='下注成功！祝你好运 🍀';
+    toast('🎯 已下注 '+betAmount+' 虚拟币！');
+    setTimeout(()=>closeModal('modal-bet'),1500);
+  }catch(e){msg.className='form-msg err';msg.textContent='下注失败：'+e.message;}
+  finally{this.disabled=false;this.textContent='确认下注';}
 };
 
-/* ══ RENDER HOME ══ */
-let appData = null;
-function renderHome(data) {
-  appData = data;
-  const [, mm, dd] = data.date.split('-');
-  document.getElementById('date-display').textContent = fmtDate(data.date);
+/* ── neural lines ── */
+function neuralLines(){
+  const pts=[[30,20],[80,50],[140,15],[200,60],[260,25],[290,55],[50,80],[110,95],[170,75],[230,90],[280,80]];
+  const cx=[[0,1],[1,2],[2,3],[3,4],[4,5],[1,6],[2,7],[3,8],[4,9],[5,10],[6,7],[7,8],[8,9],[9,10]];
+  return cx.map(([a,b])=>'<line x1="'+pts[a][0]+'" y1="'+pts[a][1]+'" x2="'+pts[b][0]+'" y2="'+pts[b][1]+'"><animate attributeName="stroke-opacity" values="0.1;0.5;0.1" dur="'+(2+Math.random()*3).toFixed(1)+'s" repeatCount="indefinite"/></line>').join('')
+    +pts.map(([x,y])=>'<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="rgba(0,200,83,0.2)"><animate attributeName="r" values="2;3.5;2" dur="'+(1.5+Math.random()*2).toFixed(1)+'s" repeatCount="indefinite"/></circle>').join('');
+}
 
-  let html = '';
+/* ── typewriter ── */
+function typeWriter(el,text,speed){
+  el.textContent='';el.classList.add('typewriter');let i=0;
+  const t=setInterval(()=>{if(i<text.length){el.textContent+=text[i++];}else{clearInterval(t);el.classList.remove('typewriter');}},speed);
+}
 
-  /* today schedule */
-  html += `<div class="sec-head"><div class="sec-title">📅 今日赛程</div>
-    <span class="sec-badge badge-green">${mm}月${dd}日 · ${data.today_matches.length}场</span></div>`;
-  if (data.today_matches.length === 0) {
-    html += emptyState('今日暂无赛程', data.date);
-  } else {
-    data.today_matches.forEach(m => {
-      const cd = countdown(m.time, data.date);
-      html += `<div class="match-card">
-        <div class="match-teams">
-          <div class="team-block">${flagImg(m.home_code,'team-flag')}<div class="team-name">${esc(m.home)}</div></div>
-          <div class="vs-block">
-            <div class="vs-text">VS</div>
-            <div class="match-time">${esc(m.time)}</div>
-            <div class="countdown">${cd}</div>
-          </div>
-          <div class="team-block">${flagImg(m.away_code,'team-flag')}<div class="team-name">${esc(m.away)}</div></div>
-        </div>
-        <div class="match-footer">
-          <div class="match-tags">
-            <span class="group-tag">${esc(m.group)}</span>
-            <span class="venue-tag">📍${esc(m.venue)}</span>
-          </div>
-          <button class="bet-btn" onclick="openBet(${JSON.stringify(m).replace(/"/g,'&quot;')})">下注 🪙</button>
-        </div>
-      </div>`;
+/* ── render home ── */
+let appData=null;
+function renderHome(data){
+  appData=data;
+  const[,mm,dd]=data.date.split('-');
+  document.getElementById('date-display').textContent=fmtDate(data.date);
+  let html='';
+
+  html+='<div class="sec-head"><div class="sec-title">📅 今日赛程</div><span class="sec-badge badge-green">'+mm+'月'+dd+'日 · '+data.today_matches.length+'场</span></div>';
+  if(!data.today_matches||data.today_matches.length===0){html+=buildEmptyState();}
+  else{
+    data.today_matches.forEach((m,i)=>{
+      const pcount=Math.floor(Math.random()*500+50);
+      html+='<div class="match-card stagger-item" style="animation-delay:'+i*.08+'s" onclick="alert(\'竞猜功能开发中，请稍候！\')">'
+        +'<img class="match-bg-home" src="https://flagcdn.com/w80/'+(m.home_code||'').toLowerCase()+'.png" alt="" onerror="this.style.display=\'none\'">'
+        +'<img class="match-bg-away" src="https://flagcdn.com/w80/'+(m.away_code||'').toLowerCase()+'.png" alt="" onerror="this.style.display=\'none\'">'
+        +'<div class="match-bg-overlay"></div>'
+        +'<div class="match-card-inner"><div class="match-teams">'
+        +'<div class="team-block">'+flagImg(m.home_code,'team-flag')+'<div class="team-name">'+esc(m.home)+'</div><div class="team-form">'+formDots()+'</div></div>'
+        +'<div class="vs-block">'+matchStatus(m.time,data.date)+'<div class="match-time">'+esc(m.time)+'</div><div class="vs-text">VS</div></div>'
+        +'<div class="team-block">'+flagImg(m.away_code,'team-flag')+'<div class="team-name">'+esc(m.away)+'</div><div class="team-form">'+formDots()+'</div></div>'
+        +'</div>'
+        +'<div class="match-footer"><div class="match-tags"><span class="group-tag">'+esc(m.group)+'</span><span class="venue-tag">📍'+esc(m.venue)+'</span></div>'
+        +'<span class="predict-count">👥 已有'+pcount+'人竞猜</span></div>'
+        +'</div></div>';
     });
   }
 
-  /* yesterday results */
-  html += `<div class="sec-head" style="margin-top:16px"><div class="sec-title">📊 昨日战报</div>
-    <span class="sec-badge badge-gold">已完赛</span></div>`;
-  if (!data.yesterday_matches || data.yesterday_matches.length === 0) {
-    html += emptyState('暂无昨日战报', data.date);
-  } else {
-    data.yesterday_matches.forEach(m => {
-      const scorers = (m.scorers||[]).map(s=>`<span class="scorer-tag">⚽ ${esc(s)}</span>`).join('');
-      html += `<div class="result-card">
-        <div class="result-teams">
-          <div class="result-team-name">${flagImg(m.home_code,'team-flag')} ${esc(m.home)}</div>
-          <div class="result-score">${m.home_score} — ${m.away_score}</div>
-          <div class="result-team-name">${esc(m.away)} ${flagImg(m.away_code,'team-flag')}</div>
-        </div>
-        <div class="result-meta">
-          <div class="scorer-row">${scorers}</div>
-          <div class="summary-text">${esc(m.summary||'')}</div>
-        </div>
-      </div>`;
-    });
-  }
-
-  /* hot topics */
-  html += `<div class="sec-head" style="margin-top:16px"><div class="sec-title">🔥 热点舆情</div>
-    <span class="sec-badge badge-red">实时</span></div>`;
-  const maxHeat = Math.max(...(data.hot_topics||[]).map(t=>t.heat||0), 1);
-  (data.hot_topics||[]).forEach(t => {
-    const pct = Math.round((t.heat||0)/maxHeat*100);
-    const sentCls = t.sentiment==='正面'?'pos':t.sentiment==='负面'?'neg':'neu';
-    const badgeCls = t.sentiment==='正面'?'sent-pos-b':t.sentiment==='负面'?'sent-neg-b':'sent-neu-b';
-    const cardClick = t.url ? `onclick="window.open(${JSON.stringify(t.url)},'_blank','noopener')"` : '';
-    html += `<div class="sent-card ${sentCls}" ${cardClick}>
-      <div class="sent-head">
-        <span class="sent-title">${esc(t.title)}</span>
-        <span class="sent-badge ${badgeCls}">${esc(t.sentiment||'中性')}</span>
-      </div>
-      <div class="sent-summary">${esc(t.summary||'')}</div>
-      <div class="sent-source-row">
-        <span>🔥 热度</span>
-        <div class="heat-wrap"><div class="heat-fill" style="width:${pct}%"></div></div>
-        <span>${(t.heat||0).toLocaleString()}</span>
-        <span>· ${esc(t.source||'')}</span>
-      </div>
-    </div>`;
+  html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">📊 昨日战报</div><span class="sec-badge badge-gold">已完赛</span></div>';
+  if(!data.yesterday_matches||data.yesterday_matches.length===0){html+='<div class="empty-state"><p style="color:var(--text3)">暂无昨日战报</p></div>';}
+  else data.yesterday_matches.forEach((m,i)=>{
+    const sc=(m.scorers||[]).map(s=>'<span class="scorer-tag">⚽ '+esc(s)+'</span>').join('');
+    html+='<div class="result-card stagger-item" style="animation-delay:'+i*.1+'s">'
+      +'<div class="result-teams"><div class="result-team-name">'+flagImg(m.home_code,'team-flag')+' '+esc(m.home)+'</div>'
+      +'<div class="result-score">'+m.home_score+' — '+m.away_score+'</div>'
+      +'<div class="result-team-name">'+esc(m.away)+' '+flagImg(m.away_code,'team-flag')+'</div></div>'
+      +'<div class="result-meta"><div class="scorer-row">'+sc+'</div><div class="summary-text">'+esc(m.summary||'')+'</div></div></div>';
   });
 
-  /* AI prediction */
-  html += `<div class="sec-head" style="margin-top:16px"><div class="sec-title">🤖 AI 预测</div>
-    <span class="sec-badge badge-green">模型推理</span></div>`;
-  const aiText = typeof data.ai_prediction === 'string' ? data.ai_prediction : (data.ai_prediction?.text||'');
-  html += `<div class="ai-card">
-    <svg class="ai-neural-bg" width="100%" height="100%" viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice">
-      <g stroke="rgba(0,200,83,0.12)" stroke-width="1" fill="none">
-        ${neuralLines()}
-      </g>
-    </svg>
-    <div class="ai-head">
-      <div class="ai-icon-wrap">🤖</div>
-      <div class="ai-meta">
-        <div class="ai-label-txt">Daily Analyst</div>
-        <div class="ai-model-txt">世界杯形势研判</div>
-      </div>
-    </div>
-    <div class="ai-body" id="ai-body"></div>
-  </div>`;
+  html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🔥 热点舆情</div><span class="sec-badge badge-red">实时</span></div>';
+  const maxH=Math.max(...(data.hot_topics||[]).map(t=>t.heat||0),1);
+  (data.hot_topics||[]).forEach((t,i)=>{
+    const pct=Math.round((t.heat||0)/maxH*100);
+    const sc=t.sentiment==='正面'?'pos':t.sentiment==='负面'?'neg':'neu';
+    const bc=t.sentiment==='正面'?'sent-pos-b':t.sentiment==='负面'?'sent-neg-b':'sent-neu-b';
+    const oc=t.url?'onclick="window.open('+JSON.stringify(t.url)+')"':'';
+    html+='<div class="sent-card '+sc+' stagger-item" style="animation-delay:'+i*.07+'s" '+oc+'>'
+      +'<div class="sent-head"><span class="sent-title">'+esc(t.title)+'</span><span class="sent-badge '+bc+'">'+esc(t.sentiment||'中性')+'</span></div>'
+      +'<div class="sent-summary">'+esc(t.summary||'')+'</div>'
+      +'<div class="sent-source-row"><span>🔥 热度</span><div class="heat-wrap"><div class="heat-fill" style="width:'+pct+'%"></div></div>'
+      +'<span>'+(t.heat||0).toLocaleString()+'</span><span>· '+esc(t.source||'')+'</span></div></div>';
+  });
 
-  document.getElementById('home-content').innerHTML = html;
-  typeWriter(document.getElementById('ai-body'), aiText, 25);
+  html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🤖 AI 预测</div><span class="sec-badge badge-green">模型推理</span></div>';
+  const aiText=typeof data.ai_prediction==='string'?data.ai_prediction:(data.ai_prediction?.text||'');
+  html+='<div class="ai-card stagger-item" style="animation-delay:.3s">'
+    +'<svg class="ai-neural-bg" width="100%" height="100%" viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice">'
+    +'<g stroke="rgba(0,200,83,0.12)" stroke-width="1" fill="none">'+neuralLines()+'</g></svg>'
+    +'<div class="ai-head"><div class="ai-icon-wrap">🤖</div><div class="ai-meta">'
+    +'<div class="ai-label-txt">Daily Analyst</div><div class="ai-model-txt">世界杯形势研判</div></div></div>'
+    +'<div class="ai-body" id="ai-body"></div></div>';
+
+  document.getElementById('home-content').innerHTML=html;
+  typeWriter(document.getElementById('ai-body'),aiText,25);
+  if(document.getElementById('wc-countdown'))startCountdown();
 }
 
-function neuralLines() {
-  const pts = [[30,20],[80,50],[140,15],[200,60],[260,25],[290,55],
-               [50,80],[110,95],[170,75],[230,90],[280,80]];
-  const connections = [[0,1],[1,2],[2,3],[3,4],[4,5],[1,6],[2,7],[3,8],[4,9],[5,10],[6,7],[7,8],[8,9],[9,10]];
-  return connections.map(([a,b]) =>
-    `<line x1="${pts[a][0]}" y1="${pts[a][1]}" x2="${pts[b][0]}" y2="${pts[b][1]}">
-      <animate attributeName="stroke-opacity" values="0.1;0.5;0.1" dur="${(2+Math.random()*3).toFixed(1)}s" repeatCount="indefinite"/>
-    </line>`
-  ).join('') + pts.map(([x,y]) =>
-    `<circle cx="${x}" cy="${y}" r="2.5" fill="rgba(0,200,83,0.2)">
-      <animate attributeName="r" values="2;3.5;2" dur="${(1.5+Math.random()*2).toFixed(1)}s" repeatCount="indefinite"/>
-    </circle>`
-  ).join('');
-}
-
-/* ══ PREDICT PAGE ══ */
-function renderPredict(data) {
-  const el = document.getElementById('predict-content');
-  if (!data || !data.today_matches || data.today_matches.length === 0) {
-    el.innerHTML = `<div class="predict-empty">
-      <div style="font-size:36px;margin-bottom:8px">📅</div>
-      今日暂无可竞猜赛程<br>
-      <span class="next-update" id="next-upd"></span>
-    </div>`;
-    return;
+/* ── predict ── */
+function renderPredict(data){
+  const el=document.getElementById('predict-content');
+  if(!data||!data.today_matches||data.today_matches.length===0){
+    el.innerHTML='<div class="predict-empty"><div style="font-size:36px;margin-bottom:8px">📅</div>今日暂无可竞猜赛程</div>';return;
   }
-  el.innerHTML = `<div class="sec-head"><div class="sec-title">🎯 今日竞猜</div>
-    <span class="sec-badge badge-green">${data.today_matches.length} 场可投</span></div>` +
-    data.today_matches.map(m => `
-    <div class="predict-card">
-      <div class="predict-teams">
-        <div class="predict-team">${flagImg(m.home_code,'predict-flag')}<div class="predict-tname">${esc(m.home)}</div></div>
-        <div class="predict-vs">VS</div>
-        <div class="predict-team">${flagImg(m.away_code,'predict-flag')}<div class="predict-tname">${esc(m.away)}</div></div>
-      </div>
-      <div class="predict-meta">
-        <span>${esc(m.group)} · 📍${esc(m.venue)}</span>
-        <span class="predict-time">⏰ ${esc(m.time)}</span>
-        <button class="predict-btn" onclick="openBet(${JSON.stringify(m).replace(/"/g,'&quot;')})">竞猜</button>
-      </div>
-    </div>`).join('');
+  el.innerHTML='<div class="sec-head"><div class="sec-title">🎯 今日竞猜</div><span class="sec-badge badge-green">'+data.today_matches.length+' 场可投</span></div>'
+    +data.today_matches.map(m=>'<div class="predict-card">'
+      +'<div class="predict-teams"><div class="predict-team">'+flagImg(m.home_code,'predict-flag')+'<div class="predict-tname">'+esc(m.home)+'</div></div>'
+      +'<div class="predict-vs">VS</div>'
+      +'<div class="predict-team">'+flagImg(m.away_code,'predict-flag')+'<div class="predict-tname">'+esc(m.away)+'</div></div></div>'
+      +'<div class="predict-meta"><span>'+esc(m.group)+' · 📍'+esc(m.venue)+'</span>'
+      +'<span class="predict-time">⏰ '+esc(m.time)+'</span>'
+      +'<button class="predict-btn" onclick="openBet('+JSON.stringify(m).replace(/"/g,'&quot;')+')">竞猜</button></div></div>').join('');
 }
 
-function emptyState(msg, date) {
-  return `<div class="empty-state">
-    <div class="icon">📋</div>
-    <p>${msg}</p>
-    <div class="next-update" id="next-upd-${date}">数据更新中…</div>
-  </div>`;
+/* ── empty state ── */
+const WC_START=new Date('2026-06-12T03:00:00+08:00');
+const TIPS=['裁判正在检查球场草坪...','球员们正在热身，数据即将就绪...','VAR正在回放最新赛况...','解说员已就位，等待开球...'];
+let tipIdx=0,_cdInt=null,_tipInt=null;
+function buildEmptyState(){
+  return '<div class="empty-state">'
+    +'<svg class="empty-trophy" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><linearGradient id="etg" x1="0%" y1="0%" x2="100%" y2="100%">'
+    +'<stop offset="0%" stop-color="#FFD700"/><stop offset="50%" stop-color="#FFF8DC"/><stop offset="100%" stop-color="#C8920A"/>'
+    +'</linearGradient></defs>'
+    +'<rect x="30" y="108" width="40" height="6" rx="3" fill="url(#etg)"/>'
+    +'<rect x="38" y="96" width="24" height="12" rx="2" fill="url(#etg)"/>'
+    +'<rect x="44" y="80" width="12" height="18" rx="2" fill="url(#etg)"/>'
+    +'<path d="M22 10 L26 76 Q50 88 74 76 L78 10 Z" fill="url(#etg)" opacity=".9"/>'
+    +'<path d="M22 18 Q7 26 9 46 Q11 60 24 62" stroke="url(#etg)" stroke-width="5" fill="none" stroke-linecap="round"/>'
+    +'<path d="M78 18 Q93 26 91 46 Q89 60 76 62" stroke="url(#etg)" stroke-width="5" fill="none" stroke-linecap="round"/>'
+    +'<ellipse cx="40" cy="36" rx="5" ry="14" fill="rgba(255,255,255,0.28)" transform="rotate(-15 40 36)"/></svg>'
+    +'<div class="empty-cd-label">距世界杯开幕还有</div>'
+    +'<div class="empty-countdown" id="wc-countdown">'
+    +'<div class="empty-cd-item"><div class="empty-cd-num" id="cd-days">--</div><div class="empty-cd-unit">天</div></div>'
+    +'<div class="empty-cd-item"><div class="empty-cd-num" id="cd-hours">--</div><div class="empty-cd-unit">小时</div></div>'
+    +'<div class="empty-cd-item"><div class="empty-cd-num" id="cd-mins">--</div><div class="empty-cd-unit">分</div></div>'
+    +'</div>'
+    +'<div class="empty-tip tip-fade" id="empty-tip">'+TIPS[0]+'</div></div>';
+}
+function startCountdown(){
+  if(_cdInt)clearInterval(_cdInt);if(_tipInt)clearInterval(_tipInt);
+  function tick(){
+    const diff=WC_START-Date.now();
+    const d=document.getElementById('cd-days'),h=document.getElementById('cd-hours'),m=document.getElementById('cd-mins');
+    if(!d)return;
+    if(diff<=0){d.textContent='0';h.textContent='0';m.textContent='0';return;}
+    d.textContent=Math.floor(diff/86400000);
+    h.textContent=Math.floor((diff%86400000)/3600000);
+    m.textContent=Math.floor((diff%3600000)/60000);
+  }
+  tick();_cdInt=setInterval(tick,1000);
+  _tipInt=setInterval(()=>{
+    const el=document.getElementById('empty-tip');if(!el)return;
+    tipIdx=(tipIdx+1)%TIPS.length;
+    el.classList.remove('tip-fade');
+    requestAnimationFrame(()=>{el.classList.add('tip-fade');el.textContent=TIPS[tipIdx];});
+  },5000);
 }
 
-/* ══ TYPEWRITER ══ */
-function typeWriter(el, text, speed) {
-  el.textContent='';
-  el.classList.add('typewriter');
-  let i=0;
-  const t = setInterval(() => {
-    if (i<text.length) { el.textContent += text[i++]; }
-    else { clearInterval(t); el.classList.remove('typewriter'); }
-  }, speed);
-}
+/* floating football every 8s */
+setInterval(()=>{
+  const fb=document.createElement('div');
+  fb.className='fb-particle';fb.textContent='⚽';
+  fb.style.cssText='left:'+(Math.random()*40+5)+'%;font-size:'+(16+Math.random()*16)+'px;animation-duration:'+(14+Math.random()*10)+'s;animation-delay:0s';
+  document.body.appendChild(fb);setTimeout(()=>fb.remove(),26000);
+},8000);
 
-/* ══ BOOTSTRAP ══ */
-async function init() {
+/* button press scale */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('button');
+  if(btn&&!btn.disabled){
+    btn.style.transform='scale(0.95)';
+    setTimeout(()=>{btn.style.transform='';},120);
+  }
+});
+
+/* ── bootstrap ── */
+async function init(){
   renderProfile();
-  try {
-    const data = await fetch('./data.json',{cache:'no-cache'})
-      .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
-    renderHome(data);
-    renderPredict(data);
-  } catch(e) {
-    document.getElementById('home-content').innerHTML =
-      `<div class="empty-state"><div class="icon">⚠️</div>
-       <p style="color:var(--red)">数据加载失败，请刷新重试<br><small>${esc(e.message)}</small></p>
-       <div class="next-update">数据更新中…</div></div>`;
-    document.getElementById('predict-content').innerHTML =
-      `<div class="predict-empty">加载失败，请刷新重试</div>`;
+  try{
+    const data=await fetch('./data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+    renderHome(data);renderPredict(data);
+  }catch(e){
+    document.getElementById('home-content').innerHTML=buildEmptyState();
+    startCountdown();
+    document.getElementById('predict-content').innerHTML='<div class="predict-empty">加载失败，请刷新重试</div>';
   }
+  setTimeout(()=>{if(document.getElementById('wc-countdown'))startCountdown();},300);
 }
 init();
 </script>
