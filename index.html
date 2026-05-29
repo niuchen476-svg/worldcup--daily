@@ -399,6 +399,186 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 [data-theme="light"] .bet-opt-btn,[data-theme="light"] .bet-amt-btn,
 [data-theme="light"] .odds-display{background:#f0f7f0}
 [data-theme="light"] ::-webkit-scrollbar-track{background:#f5f5f5}
+
+/* ══ FULL-SCREEN MATCH DETAIL MODAL ══ */
+#modal-match-full{position:fixed;inset:0;z-index:500;background:var(--bg);overflow-y:auto;
+  opacity:0;pointer-events:none;transition:opacity .25s}
+#modal-match-full.open{opacity:1;pointer-events:all}
+.mf-close{position:fixed;top:16px;right:16px;z-index:520;width:36px;height:36px;
+  border-radius:50%;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  line-height:1;transition:background .2s}
+.mf-close:hover{background:rgba(255,255,255,.15)}
+.mf-hero{position:relative;height:210px;overflow:hidden;
+  background:linear-gradient(160deg,#051205 0%,#0d2a0d 60%,#0a1a0a 100%)}
+.mf-pitch{position:absolute;inset:0;opacity:.18;
+  background-image:repeating-linear-gradient(90deg,rgba(0,200,83,.15) 0,rgba(0,200,83,.15) 1px,transparent 1px,transparent 38px),
+    repeating-linear-gradient(0deg,rgba(0,200,83,.1) 0,rgba(0,200,83,.1) 1px,transparent 1px,transparent 58px)}
+.mf-circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:90px;height:90px;border-radius:50%;border:1.5px solid rgba(0,200,83,.25)}
+.mf-team-l,.mf-team-r{position:absolute;top:50%;display:flex;flex-direction:column;
+  align-items:center;gap:8px;transition:transform .55s cubic-bezier(.25,.46,.45,.94)}
+.mf-team-l{left:20px;transform:translate(-120px,-50%)}
+.mf-team-r{right:20px;transform:translate(120px,-50%)}
+.mf-team-l.in{transform:translate(0,-50%)}
+.mf-team-r.in{transform:translate(0,-50%)}
+.mf-flag-big{width:62px;height:62px;border-radius:50%;object-fit:cover;
+  border:3px solid rgba(0,200,83,.5);box-shadow:0 0 24px rgba(0,200,83,.35)}
+.mf-tname{font-size:13px;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.9);
+  text-align:center;max-width:80px}
+.mf-vs{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:34px;font-weight:900;color:var(--gold);text-shadow:0 0 22px rgba(255,215,0,.7);line-height:1}
+.mf-body{padding:14px 14px 90px}
+.mf-sec-title{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.odds-btn-row{display:flex;gap:8px;margin-bottom:14px}
+.odds-btn{flex:1;border-radius:10px;padding:10px 4px;background:var(--card);
+  border:1px solid var(--border);cursor:pointer;transition:all .2s;text-align:center}
+.odds-btn.selected{background:rgba(0,200,83,.12);border-color:rgba(0,200,83,.4);
+  box-shadow:0 0 10px rgba(0,200,83,.2)}
+.odds-btn-label{font-size:10px;color:var(--text3);margin-bottom:3px}
+.odds-btn-val{font-size:17px;font-weight:900;color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,.4)}
+.odds-btn-team{font-size:10px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dist-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:11px 12px;margin-bottom:14px}
+.dist-bar{height:8px;border-radius:8px;overflow:hidden;display:flex;margin-bottom:6px}
+.dist-home{background:linear-gradient(90deg,#00C853,#00a843)}
+.dist-draw{background:rgba(255,215,0,.75)}
+.dist-away{background:linear-gradient(90deg,#ff6b35,#ff3d3d)}
+.dist-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3)}
+.mf-ai-box{background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.2);
+  border-radius:12px;padding:12px;font-size:13px;color:var(--text2);line-height:1.7;
+  min-height:38px;margin-bottom:14px}
+.mf-bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:480px;background:rgba(10,15,10,.96);
+  border-top:1px solid rgba(0,200,83,.3);padding:10px 14px;z-index:510;
+  display:flex;align-items:center;gap:10px;backdrop-filter:blur(12px)}
+.mf-balance{flex:1}
+.mf-balance-lbl{font-size:10px;color:var(--text3)}
+.mf-balance-val{font-size:15px;font-weight:700;color:var(--gold)}
+.mf-confirm{padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;
+  border:none;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.mf-confirm:disabled{opacity:.45;cursor:default}
+
+/* ══ TEAM DETAIL PAGE ══ */
+#page-team-detail{position:fixed;inset:0;z-index:500;background:var(--bg);
+  overflow-y:auto;transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.25,.46,.45,.94)}
+#page-team-detail.open{transform:translateY(0)}
+.td-hero{position:relative;height:175px;overflow:hidden;
+  background:linear-gradient(160deg,#051205 0%,#0d260d 60%,#0a1a0a 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.td-flag-big{width:68px;height:68px;border-radius:50%;object-fit:cover;
+  border:3px solid rgba(0,200,83,.5);box-shadow:0 0 28px rgba(0,200,83,.4)}
+.td-team-name{font-size:19px;font-weight:900;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.td-rank-txt{font-size:12px;color:var(--gold)}
+.td-back{position:absolute;top:14px;left:14px;width:34px;height:34px;border-radius:50%;
+  background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;
+  font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  line-height:1}
+.td-body{padding:14px;padding-bottom:40px}
+.td-sec-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;
+  letter-spacing:.8px;margin-bottom:10px}
+.td-match-row{background:var(--card);border:1px solid var(--border);border-radius:9px;
+  padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;
+  justify-content:space-between;font-size:12px}
+.td-match-opp{color:var(--text1);font-weight:600;flex:1}
+.td-match-score{color:var(--green);font-weight:700;font-size:13px;margin-right:8px}
+.td-match-date{color:var(--text3);font-size:10px}
+.circ-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;
+  margin-bottom:14px}
+.circ-val{font-size:22px;font-weight:900;color:var(--green);text-shadow:0 0 12px rgba(0,200,83,.5)}
+.circ-lbl{font-size:11px;color:var(--text3)}
+.comment-input-row{display:flex;gap:8px;margin-bottom:10px}
+.comment-input{flex:1;padding:9px 12px;border-radius:9px;font-size:13px;
+  background:var(--card);border:1px solid var(--border);color:var(--text1)}
+.comment-input:focus{outline:none;border-color:rgba(0,200,83,.4)}
+.comment-send{padding:9px 14px;border-radius:9px;font-size:13px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;white-space:nowrap}
+.comment-card{background:var(--card);border:1px solid var(--border);border-radius:9px;
+  padding:10px 12px;margin-bottom:6px}
+.comment-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.comment-user{font-size:11px;font-weight:700;color:var(--green)}
+.comment-time{font-size:10px;color:var(--text3)}
+.comment-body{font-size:13px;color:var(--text1);line-height:1.6;margin-bottom:6px}
+.comment-like{font-size:11px;color:var(--text3);background:transparent;border:1px solid var(--border);
+  border-radius:5px;padding:2px 8px;cursor:pointer;transition:all .2s}
+.comment-like:hover{border-color:rgba(0,200,83,.3);color:var(--green)}
+
+/* ══ RADAR CHART ══ */
+.radar-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:14px;margin-bottom:12px}
+.radar-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;
+  letter-spacing:.8px;margin-bottom:10px;text-align:center}
+.radar-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.radar-card{background:var(--card2);border-radius:8px;padding:10px;text-align:center}
+.radar-card-val{font-size:18px;font-weight:900;color:var(--green);
+  text-shadow:0 0 10px rgba(0,200,83,.4)}
+.radar-card-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* ══ 3-TAB LEADERBOARD ══ */
+.lb-3tabs{display:flex;gap:6px;margin-bottom:12px}
+.lb-3tab-btn{flex:1;padding:8px 4px;border-radius:8px;font-size:11px;font-weight:700;
+  border:1px solid var(--border);background:var(--card);color:var(--text3);
+  cursor:pointer;transition:all .2s;white-space:nowrap}
+.lb-3tab-btn.active{background:rgba(0,200,83,.12);color:var(--green);
+  border-color:rgba(0,200,83,.3);box-shadow:0 0 10px rgba(0,200,83,.12)}
+.group-section{margin-bottom:18px}
+.group-title{font-size:13px;font-weight:800;color:var(--gold);
+  border-left:3px solid var(--gold);padding-left:8px;margin-bottom:8px}
+.grp-table{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.grp-header{display:grid;grid-template-columns:20px 1fr 26px 26px 26px 26px 30px;
+  font-size:9px;color:var(--text3);letter-spacing:.5px;padding:6px 10px;
+  background:var(--card2);border-bottom:1px solid var(--border);text-align:center;gap:2px}
+.grp-header .gc-name{text-align:left}
+.grp-row{display:grid;grid-template-columns:20px 1fr 26px 26px 26px 26px 30px;
+  font-size:12px;padding:8px 10px;border-bottom:1px solid rgba(0,200,83,.06);
+  align-items:center;text-align:center;gap:2px}
+.grp-row:last-child{border-bottom:none}
+.gc-name{display:flex;align-items:center;gap:5px;text-align:left}
+.gc-rank{font-size:11px;font-weight:700;color:var(--text3)}
+.gc-pts{font-size:13px;font-weight:800;color:var(--green)}
+.gc-flag{width:18px;height:18px;border-radius:50%;object-fit:cover;border:1px solid var(--border);flex-shrink:0}
+.gc-flag-fallback{width:18px;height:18px;border-radius:50%;background:var(--card2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px}
+.grp-qualify{background:rgba(0,200,83,.04)}
+
+/* ══ TASK GUIDE ══ */
+#task-guide{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(120%);
+  width:calc(100% - 24px);max-width:456px;z-index:300;
+  background:var(--card);border:1px solid rgba(0,200,83,.4);border-radius:20px;
+  padding:16px 16px 18px;
+  transition:transform .42s cubic-bezier(.32,0,.67,0);
+  box-shadow:0 -4px 36px rgba(0,200,83,.18)}
+#task-guide.open{transform:translateX(-50%) translateY(0)}
+.task-guide-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.task-guide-title{font-size:14px;font-weight:800;color:var(--gold);
+  text-shadow:0 0 8px rgba(255,215,0,.3)}
+.task-guide-close{background:transparent;border:none;color:var(--text3);font-size:18px;cursor:pointer;line-height:1}
+.task-item{display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:10px;background:var(--card2);
+  border:1px solid var(--border);margin-bottom:7px;transition:all .2s}
+.task-item.done{border-color:rgba(0,200,83,.3);background:rgba(0,200,83,.05)}
+.task-icon{font-size:18px;flex-shrink:0}
+.task-info{flex:1}
+.task-name{font-size:13px;font-weight:600;color:var(--text1)}
+.task-reward{font-size:11px;color:var(--gold)}
+.task-action-btn{padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer}
+.task-done-mark{font-size:16px;color:var(--green);flex-shrink:0}
+
+/* ══ COIN FLY ══ */
+.coin-fly{position:fixed;pointer-events:none;z-index:1000;font-size:20px;
+  animation:coinFly .9s ease-out forwards}
+@keyframes coinFly{
+  0%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-90px) translateX(var(--cx,0px)) scale(.4)}}
+
+/* clickable team block */
+.team-block-click{cursor:pointer}
+.team-block-click:hover .team-flag,.team-block-click:hover .team-flag-fallback{
+  border-color:rgba(0,200,83,.6);box-shadow:0 0 12px rgba(0,200,83,.3)}
 </style>
 </head>
 <body>
@@ -454,9 +634,10 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 <div class="page active" id="page-home"><div id="home-content"><div class="fb-loader"><div class="fb-spin">⚽</div><p>正在加载晨报数据…</p></div></div></div>
 <div class="page" id="page-predict"><div id="predict-content"><div class="fb-loader"><div class="fb-spin">⚽</div><p>加载赛程中…</p></div></div></div>
 <div class="page" id="page-rank">
-  <div class="lb-toggle">
-    <button class="lb-toggle-btn active" id="btn-global">🌍 全局榜</button>
-    <button class="lb-toggle-btn" id="btn-friends">👥 好友榜</button>
+  <div class="lb-3tabs">
+    <button class="lb-3tab-btn active" id="btn-group">⚽ 小组积分</button>
+    <button class="lb-3tab-btn" id="btn-global">🌍 竞猜榜</button>
+    <button class="lb-3tab-btn" id="btn-friends">👥 好友榜</button>
   </div>
   <div id="rank-content"><div class="fb-loader"><div class="fb-spin">⚽</div><p>加载排行榜…</p></div></div>
 </div>
@@ -527,6 +708,79 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- ══ MATCH FULL-SCREEN MODAL ══ -->
+<div id="modal-match-full">
+  <button class="mf-close" id="mf-close-btn">✕</button>
+  <div class="mf-hero" id="mf-hero">
+    <div class="mf-pitch"></div>
+    <div class="mf-circle"></div>
+    <div class="mf-team-l" id="mf-team-l">
+      <img class="mf-flag-big" id="mf-flag-l" src="" alt="">
+      <div class="mf-tname" id="mf-name-l"></div>
+    </div>
+    <div class="mf-vs">VS</div>
+    <div class="mf-team-r" id="mf-team-r">
+      <img class="mf-flag-big" id="mf-flag-r" src="" alt="">
+      <div class="mf-tname" id="mf-name-r"></div>
+    </div>
+  </div>
+  <div class="mf-body">
+    <div style="margin-bottom:14px">
+      <div class="mf-sec-title">AI 赔率</div>
+      <div class="odds-btn-row" id="mf-odds-row"></div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="mf-sec-title">球迷下注分布</div>
+      <div class="dist-wrap" id="mf-dist"></div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="mf-sec-title">AI 赛前分析</div>
+      <div class="mf-ai-box" id="mf-ai-box"></div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="mf-sec-title">选择结果</div>
+      <div class="bet-opt-row" id="mf-bet-opts"></div>
+    </div>
+    <div style="margin-bottom:6px">
+      <div class="mf-sec-title">下注金额</div>
+      <div class="bet-amount-row" id="mf-bet-amts">
+        <button class="bet-amt-btn" data-mfa="10">10🪙</button>
+        <button class="bet-amt-btn" data-mfa="50">50🪙</button>
+        <button class="bet-amt-btn" data-mfa="100">100🪙</button>
+        <button class="bet-amt-btn" data-mfa="500">500🪙</button>
+      </div>
+    </div>
+    <div class="form-msg" id="mf-msg" style="min-height:16px;font-size:12px;text-align:center"></div>
+  </div>
+  <div class="mf-bottom">
+    <div class="mf-balance">
+      <div class="mf-balance-lbl">当前余额</div>
+      <div class="mf-balance-val" id="mf-balance-val">🪙 0</div>
+    </div>
+    <button class="mf-confirm" id="mf-confirm-btn">确认下注</button>
+  </div>
+</div>
+
+<!-- ══ TEAM DETAIL PAGE ══ -->
+<div id="page-team-detail">
+  <div class="td-hero" id="td-hero">
+    <button class="td-back" onclick="closeTeamDetail()">←</button>
+    <img class="td-flag-big" id="td-flag" src="" alt="">
+    <div class="td-team-name" id="td-name"></div>
+    <div class="td-rank-txt" id="td-rank"></div>
+  </div>
+  <div class="td-body" id="td-body"></div>
+</div>
+
+<!-- ══ TASK GUIDE PANEL ══ -->
+<div id="task-guide">
+  <div class="task-guide-hdr">
+    <div class="task-guide-title">🏆 新手任务</div>
+    <button class="task-guide-close" onclick="closeTaskGuide()">×</button>
+  </div>
+  <div id="task-items"></div>
+</div>
 
 <script>
 const SUPA_URL='https://qsbjvukzyeazyzfonisa.supabase.co';
@@ -648,7 +902,7 @@ document.getElementById('reg-submit').onclick=async function(){
     const hash=await hashPassword(pw);
     const rows=await sbPost('users',{username:un,email:em,password_hash:hash,virtual_coins:1000});
     if(rows&&rows[0]){saveUser(rows[0]);msg.className='form-msg ok';msg.textContent='注册成功！已送1000虚拟币 🎉';
-      setTimeout(()=>{closeModal('modal-register');renderProfile();toast('🎉 注册成功，欢迎 '+un);},1200);}
+      setTimeout(()=>{closeModal('modal-register');renderProfile();toast('🎉 注册成功，欢迎 '+un);checkBeginnerTasks();},1200);}
   }catch(e){msg.className='form-msg err';msg.textContent=e.message.includes('unique')?'用户名或邮箱已被注册':e.message;}
   finally{btn.disabled=false;btn.textContent='注册并获得 1000 虚拟币 🪙';}
 };
@@ -668,7 +922,7 @@ document.getElementById('login-submit').onclick=async function(){
     saveUser(rows[0]);
     await sbPatch('users?id=eq.'+rows[0].id,{last_sign_in:new Date().toISOString()});
     msg.className='form-msg ok';msg.textContent='登录成功！';
-    setTimeout(()=>{closeModal('modal-login');renderProfile();toast('👋 欢迎回来，'+rows[0].username);},900);
+    setTimeout(()=>{closeModal('modal-login');renderProfile();toast('👋 欢迎回来，'+rows[0].username);checkBeginnerTasks();},900);
   }catch(e){msg.className='form-msg err';msg.textContent=e.message;}
   finally{btn.disabled=false;btn.textContent='登录';}
 };
@@ -688,6 +942,13 @@ function renderProfile(){
       +'<div class="profile-header"><div class="prof-avatar">'+init+'</div><div class="prof-info">'
       +'<div class="prof-name">'+esc(u.username)+'</div>'
       +'<div class="prof-coins">🪙 '+(u.virtual_coins||0).toLocaleString()+' 虚拟币</div></div></div>'
+      +'<div class="radar-wrap"><div class="radar-title">球迷能力图谱</div>'
+      +'<canvas id="radar-canvas" width="220" height="220" style="display:block;margin:0 auto"></canvas>'
+      +'<div class="radar-cards">'
+      +'<div class="radar-card"><div class="radar-card-val" id="rc-coins">'+(u.virtual_coins||0).toLocaleString()+'</div><div class="radar-card-lbl">总虚拟币</div></div>'
+      +'<div class="radar-card"><div class="radar-card-val" id="rc-acc">—</div><div class="radar-card-lbl">预测准确率</div></div>'
+      +'<div class="radar-card"><div class="radar-card-val" id="rc-streak">—</div><div class="radar-card-lbl">最长连胜</div></div>'
+      +'</div></div>'
       +'<div class="prof-card"><div class="prof-card-title">每日签到</div><button class="checkin-btn" id="checkin-btn">签到 +50 虚拟币</button></div>'
       +'<div class="prof-card"><div class="prof-card-title">竞猜战绩</div><div class="stats-grid" id="stats-grid">'
       +'<div class="stat-item"><div class="stat-num">—</div><div class="stat-label">总场次</div></div>'
@@ -696,7 +957,7 @@ function renderProfile(){
       +'<div class="prof-card"><div class="prof-card-title">历史竞猜</div>'
       +'<div id="hist-list"><div class="skeleton" style="height:40px;margin-bottom:6px"></div><div class="skeleton" style="height:40px"></div></div></div>'
       +'<button class="logout-btn" id="logout-btn">退出登录</button></div>';
-    initCheckin();loadStats();loadHistory();
+    initCheckin();loadStats();loadHistory();loadRadarData();
     document.getElementById('logout-btn').onclick=()=>{clearUser();renderProfile();toast('已退出登录');};
   });
 }
@@ -746,27 +1007,89 @@ async function loadHistory(){
   }catch(_){}
 }
 
-/* ── rank ── */
-let rankMode='global';
-document.getElementById('btn-global').onclick=()=>{rankMode='global';document.getElementById('btn-global').classList.add('active');document.getElementById('btn-friends').classList.remove('active');loadRank();};
-document.getElementById('btn-friends').onclick=()=>{rankMode='friends';document.getElementById('btn-friends').classList.add('active');document.getElementById('btn-global').classList.remove('active');loadRank();};
+/* ── rank 3-tab ── */
+let rankMode='group';
+function setRankTab(mode){
+  rankMode=mode;
+  ['group','global','friends'].forEach(m=>document.getElementById('btn-'+m).classList.toggle('active',m===mode));
+  loadRank();
+}
+document.getElementById('btn-group').onclick=()=>setRankTab('group');
+document.getElementById('btn-global').onclick=()=>setRankTab('global');
+document.getElementById('btn-friends').onclick=()=>setRankTab('friends');
+
+function buildGroupStandings(data){
+  const teams={};
+  function addTeam(name,code,group){
+    if(!name||!group)return;
+    if(!teams[name])teams[name]={name,code:code||'',group,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};
+  }
+  (data.yesterday_matches||[]).forEach(m=>{
+    if(m.home_score===undefined||m.away_score===undefined)return;
+    addTeam(m.home,m.home_code,m.group);addTeam(m.away,m.away_code,m.group);
+    const ht=teams[m.home],at=teams[m.away];
+    ht.p++;at.p++;ht.gf+=+m.home_score;ht.ga+=+m.away_score;
+    at.gf+=+m.away_score;at.ga+=+m.home_score;
+    if(+m.home_score>+m.away_score){ht.w++;ht.pts+=3;at.l++;}
+    else if(+m.home_score<+m.away_score){at.w++;at.pts+=3;ht.l++;}
+    else{ht.d++;ht.pts+=1;at.d++;at.pts+=1;}
+  });
+  (data.today_matches||[]).forEach(m=>{addTeam(m.home,m.home_code,m.group);addTeam(m.away,m.away_code,m.group);});
+  const groups={};
+  Object.values(teams).forEach(t=>{
+    if(!groups[t.group])groups[t.group]=[];
+    groups[t.group].push(t);
+  });
+  Object.values(groups).forEach(g=>g.sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf));
+  return groups;
+}
+
+function renderGroupStandings(groups){
+  const keys=Object.keys(groups).sort();
+  if(!keys.length)return '<div class="predict-empty">暂无积分数据</div>';
+  return keys.map(g=>{
+    const rows=groups[g];
+    return '<div class="group-section"><div class="group-title">'+esc(g)+'</div>'
+      +'<div class="grp-table">'
+      +'<div class="grp-header"><span></span><span class="gc-name">队伍</span><span>场</span><span>胜</span><span>平</span><span>负</span><span style="color:var(--green)">分</span></div>'
+      +rows.map((t,i)=>{
+        const flagEl='<img class="gc-flag" src="https://flagcdn.com/w40/'+t.code.toLowerCase()+'.png" '
+          +'onerror="this.style.display=\'none\'" alt="'+esc(t.code)+'">';
+        return '<div class="grp-row'+(i<2?' grp-qualify':'')+'">'
+          +'<span class="gc-rank">'+(i+1)+'</span>'
+          +'<span class="gc-name">'+flagEl+'<span style="font-size:12px;color:var(--text1)">'+esc(t.name)+'</span></span>'
+          +'<span>'+t.p+'</span><span>'+t.w+'</span><span>'+t.d+'</span><span>'+t.l+'</span>'
+          +'<span class="gc-pts">'+t.pts+'</span></div>';
+      }).join('')
+      +'</div></div>';
+  }).join('');
+}
+
 async function loadRank(){
   const el=document.getElementById('rank-content');
-  el.innerHTML='<div class="fb-loader"><div class="fb-spin">⚽</div><p>加载排行榜…</p></div>';
+  el.innerHTML='<div class="fb-loader"><div class="fb-spin">⚽</div><p>加载中…</p></div>';
   try{
+    if(rankMode==='group'){
+      if(appData){el.innerHTML=renderGroupStandings(buildGroupStandings(appData));}
+      else{el.innerHTML='<div class="predict-empty">请先加载首页数据</div>';}
+      return;
+    }
     let rows;
-    if(rankMode==='global'){rows=await sbGet('users?select=id,username,virtual_coins&order=virtual_coins.desc&limit=50');}
-    else{
+    if(rankMode==='global'){
+      rows=await sbGet('users?select=id,username,virtual_coins&order=virtual_coins.desc&limit=50');
+    }else{
       if(!currentUser){el.innerHTML='<div class="predict-empty">登录后查看好友榜</div>';return;}
       const fs=await sbGet('friendships?or=(user_id.eq.'+currentUser.id+',friend_id.eq.'+currentUser.id+')&status=eq.accepted&select=user_id,friend_id');
       const ids=new Set([currentUser.id]);(fs||[]).forEach(f=>{ids.add(f.user_id);ids.add(f.friend_id);});
-      rows=await sbGet('users?or=('+[...ids].map(id=>'id.eq.'+id).join(',')+')'+'&select=id,username,virtual_coins&order=virtual_coins.desc');
+      const idList=[...ids].map(id=>'id.eq.'+id).join(',');
+      rows=await sbGet('users?or=('+idList+')&select=id,username,virtual_coins&order=virtual_coins.desc');
     }
     if(!rows||rows.length===0){el.innerHTML='<div class="predict-empty">暂无排行数据</div>';return;}
     const medals=['🥇','🥈','🥉'],rc=['gold','silver','bronze'];
     el.innerHTML=rows.map((r,i)=>{
       const isMe=currentUser&&r.id===currentUser.id,init=(r.username||'?')[0].toUpperCase();
-      const acc=Math.round(Math.random()*40+50);
+      const seed=[...(r.username||'')].reduce((a,c)=>a+c.charCodeAt(0),0);
+      const acc=30+seed%40;
       return '<div class="lb-row'+(isMe?' me':'')+'"><div class="lb-rank '+(rc[i]||'')+'">'+(i<3?medals[i]:i+1)+'</div>'
         +'<div class="lb-avatar">'+init+'</div><div class="lb-info"><div class="lb-name">'+esc(r.username)
         +(isMe?' <span style="font-size:10px;color:var(--glow)">(我)</span>':'')+'</div>'
@@ -839,15 +1162,20 @@ function renderHome(data){
   if(!data.today_matches||data.today_matches.length===0){html+=buildEmptyState();}
   else{
     data.today_matches.forEach((m,i)=>{
-      const pcount=Math.floor(Math.random()*500+50);
-      html+='<div class="match-card stagger-item" style="animation-delay:'+i*.08+'s" onclick="alert(\'竞猜功能开发中，请稍候！\')">'
+      const pcount=Math.floor(Math.abs(Math.sin(i*7.3+1))*500+50);
+      const mj=JSON.stringify(m).replace(/"/g,'&quot;');
+      const hj=JSON.stringify({name:m.home,code:m.home_code,group:m.group}).replace(/"/g,'&quot;');
+      const aj=JSON.stringify({name:m.away,code:m.away_code,group:m.group}).replace(/"/g,'&quot;');
+      html+='<div class="match-card stagger-item" style="animation-delay:'+i*.08+'s" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
         +'<img class="match-bg-home" src="https://flagcdn.com/w80/'+(m.home_code||'').toLowerCase()+'.png" alt="" onerror="this.style.display=\'none\'">'
         +'<img class="match-bg-away" src="https://flagcdn.com/w80/'+(m.away_code||'').toLowerCase()+'.png" alt="" onerror="this.style.display=\'none\'">'
         +'<div class="match-bg-overlay"></div>'
         +'<div class="match-card-inner"><div class="match-teams">'
-        +'<div class="team-block">'+flagImg(m.home_code,'team-flag')+'<div class="team-name">'+esc(m.home)+'</div><div class="team-form">'+formDots()+'</div></div>'
+        +'<div class="team-block team-block-click" onclick="event.stopPropagation();openTeamDetail(JSON.parse(this.dataset.t))" data-t="'+hj+'">'
+        +flagImg(m.home_code,'team-flag')+'<div class="team-name">'+esc(m.home)+'</div><div class="team-form">'+formDots()+'</div></div>'
         +'<div class="vs-block">'+matchStatus(m.time,data.date)+'<div class="match-time">'+esc(m.time)+'</div><div class="vs-text">VS</div></div>'
-        +'<div class="team-block">'+flagImg(m.away_code,'team-flag')+'<div class="team-name">'+esc(m.away)+'</div><div class="team-form">'+formDots()+'</div></div>'
+        +'<div class="team-block team-block-click" onclick="event.stopPropagation();openTeamDetail(JSON.parse(this.dataset.t))" data-t="'+aj+'">'
+        +flagImg(m.away_code,'team-flag')+'<div class="team-name">'+esc(m.away)+'</div><div class="team-form">'+formDots()+'</div></div>'
         +'</div>'
         +'<div class="match-footer"><div class="match-tags"><span class="group-tag">'+esc(m.group)+'</span><span class="venue-tag">📍'+esc(m.venue)+'</span></div>'
         +'<span class="predict-count">👥 已有'+pcount+'人竞猜</span></div>'
@@ -901,13 +1229,16 @@ function renderPredict(data){
     el.innerHTML='<div class="predict-empty"><div style="font-size:36px;margin-bottom:8px">📅</div>今日暂无可竞猜赛程</div>';return;
   }
   el.innerHTML='<div class="sec-head"><div class="sec-title">🎯 今日竞猜</div><span class="sec-badge badge-green">'+data.today_matches.length+' 场可投</span></div>'
-    +data.today_matches.map(m=>'<div class="predict-card">'
-      +'<div class="predict-teams"><div class="predict-team">'+flagImg(m.home_code,'predict-flag')+'<div class="predict-tname">'+esc(m.home)+'</div></div>'
-      +'<div class="predict-vs">VS</div>'
-      +'<div class="predict-team">'+flagImg(m.away_code,'predict-flag')+'<div class="predict-tname">'+esc(m.away)+'</div></div></div>'
-      +'<div class="predict-meta"><span>'+esc(m.group)+' · 📍'+esc(m.venue)+'</span>'
-      +'<span class="predict-time">⏰ '+esc(m.time)+'</span>'
-      +'<button class="predict-btn" onclick="openBet('+JSON.stringify(m).replace(/"/g,'&quot;')+')">竞猜</button></div></div>').join('');
+    +data.today_matches.map(m=>{
+      const mj=JSON.stringify(m).replace(/"/g,'&quot;');
+      return '<div class="predict-card" style="cursor:pointer" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
+        +'<div class="predict-teams"><div class="predict-team">'+flagImg(m.home_code,'predict-flag')+'<div class="predict-tname">'+esc(m.home)+'</div></div>'
+        +'<div class="predict-vs">VS</div>'
+        +'<div class="predict-team">'+flagImg(m.away_code,'predict-flag')+'<div class="predict-tname">'+esc(m.away)+'</div></div></div>'
+        +'<div class="predict-meta"><span>'+esc(m.group)+' · 📍'+esc(m.venue)+'</span>'
+        +'<span class="predict-time">⏰ '+esc(m.time)+'</span>'
+        +'<button class="predict-btn" onclick="event.stopPropagation();openMatchDetail(JSON.parse(this.closest(\'[data-m]\').dataset.m))">竞猜</button></div></div>';
+    }).join('');
 }
 
 /* ── empty state ── */
@@ -953,6 +1284,433 @@ function startCountdown(){
     el.classList.remove('tip-fade');
     requestAnimationFrame(()=>{el.classList.add('tip-fade');el.textContent=TIPS[tipIdx];});
   },5000);
+}
+
+/* ── AI odds ── */
+function calcOdds(home,away){
+  const s=[...(home+away)].reduce((a,c)=>a+c.charCodeAt(0),0);
+  const r1=Math.abs(Math.sin(s*1.618)),r2=Math.abs(Math.sin(s*2.718)),r3=Math.abs(Math.sin(s*3.14));
+  let hp=0.35+r1*0.25,dp=0.15+r2*0.15,ap=1-hp-dp;
+  if(ap<0.08){ap=0.08;dp=1-hp-ap;}
+  const mg=1.08;
+  return{home:(mg/hp).toFixed(2),draw:(mg/dp).toFixed(2),away:(mg/ap).toFixed(2),
+    hp:Math.round(hp*100),dp:Math.round(dp*100),ap:Math.round(ap*100)};
+}
+function betDist(home,away){
+  const s=[...(home+away)].reduce((a,c)=>a+c.charCodeAt(0),0);
+  const h=30+Math.floor(Math.abs(Math.sin(s*1.5))*40);
+  const d=10+Math.floor(Math.abs(Math.sin(s*2.5))*20);
+  const a=Math.max(100-h-d,5);
+  return{h,d,a:100-h-d<5?5:100-h-d};
+}
+function genAIText(home,away){
+  const s=[...(home+away)].reduce((a,c)=>a+c.charCodeAt(0),0);
+  const ts=[
+    home+'主场优势明显，整体实力占优，'+away+'需谨慎防守。',
+    '双方势均力敌，'+home+'近期状态更佳，料将主导比赛节奏。',
+    away+'客场表现稳定，与'+home+'将爆发精彩对决。',
+    home+'攻击力出色，'+away+'防线将面临严峻考验。',
+    '两队历史交手互有胜负，期待精彩进球瞬间。',
+  ];
+  return ts[s%ts.length];
+}
+
+/* ── full-screen match detail modal ── */
+let mfMatch=null,mfChoice=null,mfAmount=null;
+
+function openMatchDetail(m){
+  mfMatch=m;mfChoice=null;mfAmount=null;
+  const modal=document.getElementById('modal-match-full');
+  const lc=(m.home_code||'').toLowerCase(),rc=(m.away_code||'').toLowerCase();
+  document.getElementById('mf-flag-l').src='https://flagcdn.com/w80/'+lc+'.png';
+  document.getElementById('mf-flag-l').onerror=function(){this.style.display='none';};
+  document.getElementById('mf-flag-r').src='https://flagcdn.com/w80/'+rc+'.png';
+  document.getElementById('mf-flag-r').onerror=function(){this.style.display='none';};
+  document.getElementById('mf-name-l').textContent=m.home;
+  document.getElementById('mf-name-r').textContent=m.away;
+
+  const odds=calcOdds(m.home,m.away);
+  const dist=betDist(m.home,m.away);
+
+  document.getElementById('mf-odds-row').innerHTML=
+    '<button class="odds-btn" data-mfc="home"><div class="odds-btn-label">主队胜</div>'
+    +'<div class="odds-btn-val">'+odds.home+'x</div>'
+    +'<div class="odds-btn-team">'+esc(m.home)+'</div></button>'
+    +'<button class="odds-btn" data-mfc="draw"><div class="odds-btn-label">平局</div>'
+    +'<div class="odds-btn-val">'+odds.draw+'x</div>'
+    +'<div class="odds-btn-team">—</div></button>'
+    +'<button class="odds-btn" data-mfc="away"><div class="odds-btn-label">客队胜</div>'
+    +'<div class="odds-btn-val">'+odds.away+'x</div>'
+    +'<div class="odds-btn-team">'+esc(m.away)+'</div></button>';
+
+  document.getElementById('mf-dist').innerHTML=
+    '<div class="dist-bar">'
+    +'<div class="dist-home" style="width:'+dist.h+'%"></div>'
+    +'<div class="dist-draw" style="width:'+dist.d+'%"></div>'
+    +'<div class="dist-away" style="flex:1"></div></div>'
+    +'<div class="dist-labels">'
+    +'<span>🟢 '+esc(m.home)+' '+dist.h+'%</span>'
+    +'<span>🟡 平局 '+dist.d+'%</span>'
+    +'<span>🔴 '+esc(m.away)+' '+dist.a+'%</span></div>';
+
+  document.getElementById('mf-bet-opts').innerHTML=
+    '<button class="bet-opt-btn" data-mfv="home">'+esc(m.home)+' 赢</button>'
+    +'<button class="bet-opt-btn" data-mfv="draw">平局</button>'
+    +'<button class="bet-opt-btn" data-mfv="away">'+esc(m.away)+' 赢</button>';
+
+  document.getElementById('mf-ai-box').textContent='';
+  document.getElementById('mf-msg').textContent='';
+  document.getElementById('mf-msg').className='form-msg';
+  updateMFBalance();
+
+  document.getElementById('modal-match-full').classList.add('open');
+  document.body.style.overflow='hidden';
+
+  /* animate flags in */
+  setTimeout(()=>{
+    document.getElementById('mf-team-l').classList.add('in');
+    document.getElementById('mf-team-r').classList.add('in');
+  },80);
+  /* AI typewriter */
+  setTimeout(()=>typeWriter(document.getElementById('mf-ai-box'),genAIText(m.home,m.away),28),600);
+
+  /* bind bet option clicks */
+  document.querySelectorAll('[data-mfc]').forEach(b=>b.onclick=()=>{
+    mfChoice=b.dataset.mfc;
+    document.querySelectorAll('[data-mfc]').forEach(x=>x.classList.remove('selected'));
+    b.classList.add('selected');
+    /* sync bet-opt-btn */
+    document.querySelectorAll('[data-mfv]').forEach(x=>x.classList.toggle('selected',x.dataset.mfv===mfChoice));
+  });
+  document.querySelectorAll('[data-mfv]').forEach(b=>b.onclick=()=>{
+    mfChoice=b.dataset.mfv;
+    document.querySelectorAll('[data-mfv]').forEach(x=>x.classList.remove('selected'));
+    b.classList.add('selected');
+    document.querySelectorAll('[data-mfc]').forEach(x=>x.classList.toggle('selected',x.dataset.mfc===mfChoice));
+  });
+  document.querySelectorAll('[data-mfa]').forEach(b=>b.onclick=()=>{
+    mfAmount=parseInt(b.dataset.mfa);
+    document.querySelectorAll('[data-mfa]').forEach(x=>x.classList.remove('selected'));
+    b.classList.add('selected');
+  });
+}
+
+function closeMatchFull(){
+  const modal=document.getElementById('modal-match-full');
+  modal.classList.remove('open');
+  document.body.style.overflow='';
+  /* reset flag animation for next open */
+  document.getElementById('mf-team-l').classList.remove('in');
+  document.getElementById('mf-team-r').classList.remove('in');
+}
+
+function updateMFBalance(){
+  const el=document.getElementById('mf-balance-val');
+  if(el)el.textContent='🪙 '+(currentUser?currentUser.virtual_coins.toLocaleString():'—');
+}
+
+document.getElementById('mf-close-btn').onclick=closeMatchFull;
+
+document.getElementById('mf-confirm-btn').onclick=async function(){
+  const msg=document.getElementById('mf-msg');
+  msg.textContent='';msg.className='form-msg';
+  if(!currentUser){msg.className='form-msg err';msg.textContent='请先登录';closeMatchFull();openModal('modal-login');return;}
+  if(!mfChoice){msg.className='form-msg err';msg.textContent='请选择竞猜结果';return;}
+  if(!mfAmount){msg.className='form-msg err';msg.textContent='请选择下注金额';return;}
+  if((currentUser.virtual_coins||0)<mfAmount){msg.className='form-msg err';msg.textContent='虚拟币余额不足';return;}
+  this.disabled=true;this.textContent='提交中…';
+  try{
+    const mid=mfMatch.home+'_'+mfMatch.away+'_'+(mfMatch.time||'');
+    await sbPost('predictions',{user_id:currentUser.id,match_id:mid,predicted_winner:mfChoice,coins_bet:mfAmount});
+    await sbPatch('users?id=eq.'+currentUser.id,{virtual_coins:currentUser.virtual_coins-mfAmount});
+    currentUser.virtual_coins-=mfAmount;saveUser(currentUser);
+    updateMFBalance();
+    msg.className='form-msg ok';msg.textContent='下注成功！祝你好运 🍀';
+    toast('🎯 已下注 '+mfAmount+' 虚拟币！');
+    /* mark task 3 done */
+    markTask('t3',100);
+    setTimeout(()=>closeMatchFull(),1600);
+  }catch(e){msg.className='form-msg err';msg.textContent='下注失败：'+e.message;}
+  finally{this.disabled=false;this.textContent='确认下注';}
+};
+
+/* ── radar chart ── */
+function drawRadar(canvas,vals,labels){
+  const dpr=window.devicePixelRatio||1;
+  const w=canvas.offsetWidth||220,h=canvas.offsetHeight||220;
+  canvas.width=w*dpr;canvas.height=h*dpr;
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+  const cx=w/2,cy=h/2,r=Math.min(cx,cy)-28,n=vals.length;
+  ctx.clearRect(0,0,w,h);
+  /* grid */
+  for(let g=1;g<=4;g++){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const a=(i*2*Math.PI/n)-Math.PI/2,pr=r*g/4;
+      const x=cx+pr*Math.cos(a),y=cy+pr*Math.sin(a);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.strokeStyle='rgba(0,200,83,0.2)';ctx.lineWidth=1;ctx.stroke();
+  }
+  /* axes */
+  for(let i=0;i<n;i++){
+    const a=(i*2*Math.PI/n)-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+    ctx.strokeStyle='rgba(0,200,83,0.25)';ctx.lineWidth=1;ctx.stroke();
+  }
+  /* polygon */
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const a=(i*2*Math.PI/n)-Math.PI/2,pr=r*Math.max(0,Math.min(1,vals[i]));
+    const x=cx+pr*Math.cos(a),y=cy+pr*Math.sin(a);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle='rgba(0,200,83,0.22)';ctx.fill();
+  ctx.strokeStyle='#00C853';ctx.lineWidth=2;ctx.stroke();
+  /* dots */
+  for(let i=0;i<n;i++){
+    const a=(i*2*Math.PI/n)-Math.PI/2,pr=r*Math.max(0,Math.min(1,vals[i]));
+    ctx.beginPath();ctx.arc(cx+pr*Math.cos(a),cy+pr*Math.sin(a),3.5,0,Math.PI*2);
+    ctx.fillStyle='#00FF7F';ctx.fill();
+  }
+  /* labels */
+  ctx.font='bold 10px sans-serif';ctx.fillStyle='rgba(232,245,233,0.85)';ctx.textAlign='center';
+  for(let i=0;i<n;i++){
+    const a=(i*2*Math.PI/n)-Math.PI/2,lx=cx+(r+20)*Math.cos(a),ly=cy+(r+20)*Math.sin(a)+4;
+    ctx.fillText(labels[i],lx,ly);
+  }
+}
+
+async function loadRadarData(){
+  if(!currentUser)return;
+  const canvas=document.getElementById('radar-canvas');
+  if(!canvas)return;
+  try{
+    const[preds,checkins,friends]=await Promise.all([
+      sbGet('predictions?user_id=eq.'+currentUser.id+'&select=result,coins_bet,coins_earned,created_at'),
+      sbGet('check_ins?user_id=eq.'+currentUser.id+'&select=check_in_date'),
+      sbGet('friendships?or=(user_id.eq.'+currentUser.id+',friend_id.eq.'+currentUser.id+')&status=eq.accepted&select=id'),
+    ]);
+    const total=(preds||[]).length;
+    const wins=(preds||[]).filter(p=>p.result==='win').length;
+    const acc=total>0?wins/total:0;
+    /* longest win streak */
+    let streak=0,best=0;
+    (preds||[]).forEach(p=>{p.result==='win'?best=Math.max(best,++streak):streak=0;});
+    /* total profit */
+    const profit=(preds||[]).reduce((s,p)=>s+(p.result==='win'?(p.coins_earned||0):(p.result==='lose'?-(p.coins_bet||0):0)),0);
+    const days=(checkins||[]).length;
+    const friendCount=(friends||[]).length;
+    const labels=['预测准确率','活跃天数','连胜场数','总收益','参与场次','好友数量'];
+    const vals=[
+      acc,
+      Math.min(days/30,1),
+      Math.min(best/10,1),
+      Math.min(Math.max(profit+500,0)/2000,1),
+      Math.min(total/50,1),
+      Math.min(friendCount/20,1),
+    ];
+    drawRadar(canvas,vals,labels);
+    const accEl=document.getElementById('rc-acc');if(accEl)accEl.textContent=total>0?Math.round(acc*100)+'%':'—';
+    const strEl=document.getElementById('rc-streak');if(strEl)strEl.textContent=best>0?best+'场':'—';
+  }catch(_){}
+}
+
+/* ── team detail page ── */
+function teamFIFARank(name,code){
+  const s=[...(name||'')].reduce((a,c)=>a+c.charCodeAt(0),0);
+  return 1+s%60;
+}
+function teamWinProb(name){
+  const s=[...(name||'')].reduce((a,c)=>a+c.charCodeAt(0),0);
+  return 3+Math.floor(Math.abs(Math.sin(s*1.23))*35);
+}
+function circleProgressSVG(pct,size){
+  const r=(size-16)/2,circ=2*Math.PI*r,fill=circ*pct/100;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'
+    +'<defs><linearGradient id="cpg'+size+'" x1="0%" y1="0%" x2="100%" y2="0%">'
+    +'<stop offset="0%" stop-color="#00C853"/><stop offset="100%" stop-color="#FFD700"/></linearGradient></defs>'
+    +'<circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="rgba(0,200,83,.15)" stroke-width="8" transform="rotate(-90 '+(size/2)+' '+(size/2)+')" />'
+    +'<circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="url(#cpg'+size+')" stroke-width="8" stroke-linecap="round"'
+    +' transform="rotate(-90 '+(size/2)+' '+(size/2)+')" stroke-dasharray="'+fill.toFixed(1)+' '+(circ-fill).toFixed(1)+'"/>'
+    +'</svg>';
+}
+
+function openTeamDetail(info){
+  if(!info||!info.name)return;
+  const{name,code,group}=info;
+  const lc=(code||'').toLowerCase();
+  document.getElementById('td-flag').src='https://flagcdn.com/w80/'+lc+'.png';
+  document.getElementById('td-flag').onerror=function(){this.style.display='none';};
+  document.getElementById('td-name').textContent=name;
+  document.getElementById('td-rank').textContent='FIFA 排名 #'+teamFIFARank(name,code)+' · '+esc(group||'');
+
+  /* build schedule from appData */
+  let schedRows='<div style="color:var(--text3);font-size:12px;padding:8px">暂无赛程数据</div>';
+  if(appData){
+    const matches=[
+      ...(appData.yesterday_matches||[]).map(m=>({...m,done:true})),
+      ...(appData.today_matches||[]).map(m=>({...m,done:false})),
+    ].filter(m=>m.home===name||m.away===name);
+    if(matches.length){
+      schedRows=matches.map(m=>{
+        const isHome=m.home===name,opp=isHome?m.away:m.home,oppCode=isHome?m.away_code:m.home_code;
+        const scoreStr=m.done?((isHome?m.home_score+' - '+m.away_score:m.away_score+' - '+m.home_score)):'—';
+        const dateStr=m.done?'昨日':(m.time||'今日');
+        return '<div class="td-match-row">'
+          +'<span class="td-match-opp"><img src="https://flagcdn.com/w40/'+(oppCode||'').toLowerCase()+'.png" style="width:18px;height:18px;border-radius:50%;vertical-align:middle;margin-right:3px" onerror="this.style.display=\'none\'"> '+esc(opp)+'</span>'
+          +'<span class="td-match-score">'+scoreStr+'</span>'
+          +'<span class="td-match-date">'+dateStr+'</span></div>';
+      }).join('');
+    }
+  }
+
+  const wp=teamWinProb(name);
+  document.getElementById('td-body').innerHTML=
+    '<div style="margin-bottom:14px"><div class="td-sec-title">本届赛程</div>'+schedRows+'</div>'
+    +'<div class="circ-wrap">'
+    +'<div class="td-sec-title" style="margin-bottom:8px">AI夺冠概率</div>'
+    +circleProgressSVG(wp,100)
+    +'<div class="circ-val">'+wp+'%</div>'
+    +'<div class="circ-lbl">基于赛程强度与近期表现综合评估</div></div>'
+    +'<div style="margin-bottom:8px"><div class="td-sec-title">球迷评论区</div>'
+    +(currentUser?'<div class="comment-input-row"><input class="comment-input" id="td-comment-input" placeholder="写下你的评论…" maxlength="100">'
+      +'<button class="comment-send" onclick="submitComment('+JSON.stringify(name)+')">发送</button></div>':'<div style="font-size:12px;color:var(--text3);margin-bottom:10px">登录后参与评论</div>')
+    +'<div id="td-comments"><div class="skeleton" style="height:60px;margin-bottom:6px"></div><div class="skeleton" style="height:60px"></div></div></div>';
+
+  document.getElementById('page-team-detail').classList.add('open');
+  document.body.style.overflow='hidden';
+  loadTeamComments(name);
+}
+
+function closeTeamDetail(){
+  document.getElementById('page-team-detail').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+async function loadTeamComments(teamName){
+  const el=document.getElementById('td-comments');if(!el)return;
+  try{
+    const rows=await sbGet('comments?team_name=eq.'+encodeURIComponent(teamName)+'&order=created_at.desc&limit=30&select=*');
+    if(!rows||rows.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">暂无评论，来发第一条吧！</div>';return;}
+    el.innerHTML=rows.map(c=>{
+      const uname=c.user_id===currentUser?.id?currentUser.username:'球迷';
+      const dt=new Date(c.created_at);
+      const timeStr=dt.getMonth()+1+'/'+(dt.getDate())+' '+dt.getHours()+':'+String(dt.getMinutes()).padStart(2,'0');
+      return '<div class="comment-card">'
+        +'<div class="comment-top"><span class="comment-user">'+esc(uname)+'</span><span class="comment-time">'+timeStr+'</span></div>'
+        +'<div class="comment-body">'+esc(c.content)+'</div>'
+        +'<button class="comment-like" onclick="likeComment(\''+c.id+'\','+c.likes+',this)">👍 '+c.likes+'</button>'
+        +'</div>';
+    }).join('');
+  }catch(_){if(el)el.innerHTML='<div style="font-size:12px;color:var(--red);padding:8px">加载评论失败</div>';}
+}
+
+async function submitComment(teamName){
+  if(!currentUser){toast('请先登录',true);return;}
+  const input=document.getElementById('td-comment-input');
+  const content=(input?.value||'').trim();
+  if(!content){toast('请输入评论',true);return;}
+  try{
+    await sbPost('comments',{user_id:currentUser.id,team_name:teamName,content});
+    input.value='';
+    loadTeamComments(teamName);
+    toast('评论发布成功！');
+  }catch(e){toast('发布失败：'+e.message,true);}
+}
+
+async function likeComment(id,currentLikes,btn){
+  btn.disabled=true;
+  try{
+    await sbPatch('comments?id=eq.'+id,{likes:currentLikes+1});
+    btn.textContent='👍 '+(currentLikes+1);
+  }catch(_){btn.disabled=false;}
+}
+
+/* ── beginner task guide ── */
+function getTaskState(){
+  if(!currentUser)return null;
+  const def={t1:true,t2:false,t3:false};
+  return JSON.parse(localStorage.getItem('wc_tasks_'+currentUser.id)||JSON.stringify(def));
+}
+function saveTaskState(state){
+  if(!currentUser)return;
+  localStorage.setItem('wc_tasks_'+currentUser.id,JSON.stringify(state));
+}
+function checkBeginnerTasks(){
+  if(!currentUser)return;
+  const state=getTaskState();
+  if(state.t1&&state.t2&&state.t3)return;
+  const shownKey='wc_tasks_shown_'+currentUser.id;
+  if(!localStorage.getItem(shownKey)){
+    localStorage.setItem(shownKey,'1');
+    setTimeout(showTaskGuide,1500);
+  }
+}
+function showTaskGuide(){
+  if(!currentUser)return;
+  const state=getTaskState();
+  if(state.t1&&state.t2&&state.t3){closeTaskGuide();return;}
+  const el=document.getElementById('task-items');
+  el.innerHTML=
+    '<div class="task-item done">'
+    +'<span class="task-icon">📝</span>'
+    +'<div class="task-info"><div class="task-name">完成注册</div><div class="task-reward">+1000 虚拟币</div></div>'
+    +'<span class="task-done-mark">✅</span></div>'
+    +'<div class="task-item'+(state.t2?' done':'')+'">'
+    +'<span class="task-icon">📅</span>'
+    +'<div class="task-info"><div class="task-name">今日签到</div><div class="task-reward">+50 虚拟币</div></div>'
+    +(state.t2?'<span class="task-done-mark">✅</span>':'<button class="task-action-btn" onclick="taskCheckin()">完成</button>')
+    +'</div>'
+    +'<div class="task-item'+(state.t3?' done':'')+'">'
+    +'<span class="task-icon">🎯</span>'
+    +'<div class="task-info"><div class="task-name">完成第一次竞猜</div><div class="task-reward">+100 虚拟币</div></div>'
+    +(state.t3?'<span class="task-done-mark">✅</span>':'<button class="task-action-btn" onclick="taskGoBet()">去竞猜</button>')
+    +'</div>';
+  document.getElementById('task-guide').classList.add('open');
+}
+function closeTaskGuide(){document.getElementById('task-guide').classList.remove('open');}
+
+async function markTask(taskKey,bonus){
+  if(!currentUser)return;
+  const state=getTaskState();
+  if(state[taskKey])return;
+  state[taskKey]=true;saveTaskState(state);
+  await sbPatch('users?id=eq.'+currentUser.id,{virtual_coins:(currentUser.virtual_coins||0)+bonus});
+  currentUser.virtual_coins=(currentUser.virtual_coins||0)+bonus;saveUser(currentUser);
+  flyCoins(window.innerWidth/2,window.innerHeight/2);
+  toast('🏆 任务完成！+'+bonus+' 虚拟币');
+  showTaskGuide();
+}
+
+async function taskCheckin(){
+  const btn=document.querySelector('.task-guide .task-action-btn');if(btn)btn.disabled=true;
+  const today=new Date().toISOString().slice(0,10);
+  try{
+    const rows=await sbGet('check_ins?user_id=eq.'+currentUser.id+'&check_in_date=eq.'+today);
+    if(!rows||rows.length===0){
+      await sbPost('check_ins',{user_id:currentUser.id,check_in_date:today,coins_earned:50});
+    }
+    await markTask('t2',50);
+    /* update profile checkin button if visible */
+    const cb=document.getElementById('checkin-btn');
+    if(cb){cb.disabled=true;cb.textContent='✅ 今日已签到 (+50 已到账)';}
+  }catch(e){toast('签到失败：'+e.message,true);if(btn)btn.disabled=false;}
+}
+
+function taskGoBet(){closeTaskGuide();switchTab('predict');}
+
+function flyCoins(cx,cy){
+  for(let i=0;i<8;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');c.className='coin-fly';c.textContent='🪙';
+      const dx=(Math.random()-0.5)*80;
+      c.style.cssText='left:'+(cx+dx-10)+'px;top:'+(cy-10)+'px;--cx:'+dx.toFixed(0)+'px';
+      document.body.appendChild(c);setTimeout(()=>c.remove(),900);
+    },i*70);
+  }
 }
 
 /* floating football every 8s */

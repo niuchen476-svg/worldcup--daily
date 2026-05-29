@@ -32,3 +32,17 @@ CREATE TABLE friendships (
   friend_id uuid REFERENCES users(id),
   status text DEFAULT 'pending'
 );
+
+CREATE TABLE IF NOT EXISTS comments (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id uuid REFERENCES users(id),
+  team_name text NOT NULL,
+  content text NOT NULL,
+  likes integer DEFAULT 0,
+  created_at timestamp DEFAULT now()
+);
+
+ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "允许插入评论" ON comments FOR INSERT WITH CHECK (true);
+CREATE POLICY "允许读取评论" ON comments FOR SELECT USING (true);
+CREATE POLICY "允许更新评论" ON comments FOR UPDATE USING (true);
