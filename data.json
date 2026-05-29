@@ -1,85 +1,48 @@
 {
   "date": "2026-05-29",
-  "today_matches": [
-    {
-      "time": "03:00",
-      "home": "墨西哥",
-      "home_code": "mx",
-      "away": "南非",
-      "away_code": "za",
-      "group": "小组赛第1轮",
-      "status": "TIMED",
-      "home_score": null,
-      "away_score": null,
-      "days_until": 14
-    },
-    {
-      "time": "10:00",
-      "home": "韩国",
-      "home_code": "kr",
-      "away": "捷克",
-      "away_code": "cz",
-      "group": "小组赛第1轮",
-      "status": "TIMED",
-      "home_score": null,
-      "away_score": null,
-      "days_until": 14
-    },
-    {
-      "time": "03:00",
-      "home": "加拿大",
-      "home_code": "ca",
-      "away": "波黑",
-      "away_code": "ba",
-      "group": "小组赛第1轮",
-      "status": "TIMED",
-      "home_score": null,
-      "away_score": null,
-      "days_until": 15
-    },
-    {
-      "time": "09:00",
-      "home": "美国",
-      "home_code": "us",
-      "away": "巴拉圭",
-      "away_code": "py",
-      "group": "小组赛第1轮",
-      "status": "TIMED",
-      "home_score": null,
-      "away_score": null,
-      "days_until": 15
-    },
-    {
-      "time": "03:00",
-      "home": "卡塔尔",
-      "home_code": "qa",
-      "away": "瑞士",
-      "away_code": "ch",
-      "group": "小组赛第1轮",
-      "status": "TIMED",
-      "home_score": null,
-      "away_score": null,
-      "days_until": 16
-    }
-  ],
+  "today_matches": [],
   "yesterday_matches": [],
   "hot_topics": [
     {
-      "title": "球迷热议",
-      "summary": "名单不准确，莫名其妙又尴尬的幽默感",
-      "sentiment": "中性",
-      "heat": 100,
+      "title": "英格兰阵容争议较大",
+      "summary": "球迷指出名单不准确，多名主力未入选引发讨论",
+      "sentiment": "负面",
+      "heat": 83,
       "source": "B站评论",
       "url": ""
     },
     {
-      "title": "夺冠热门讨论",
-      "summary": "我不管，我要克罗地亚夺冠🏆",
+      "title": "西班牙夺冠呼声最高",
+      "summary": "多位球迷看好西班牙，认为斗牛军团强势回归",
       "sentiment": "正面",
-      "heat": 70,
+      "heat": 33,
+      "source": "B站评论",
+      "url": ""
+    },
+    {
+      "title": "克罗地亚受球迷支持",
+      "summary": "部分球迷坚定支持克罗地亚夺冠",
+      "sentiment": "正面",
+      "heat": 17,
+      "source": "B站评论",
+      "url": ""
+    },
+    {
+      "title": "传统四强被广泛看好",
+      "summary": "英法西葡四支传统强队被认为是夺冠热门",
+      "sentiment": "中性",
+      "heat": 17,
+      "source": "B站评论",
+      "url": ""
+    },
+    {
+      "title": "期待打破欧美垄断",
+      "summary": "球迷希望看到非欧美球队突破传统格局",
+      "sentiment": "中性",
+      "heat": 17,
       "source": "B站评论",
       "url": ""
     }
   ],
-  "ai_prediction": "距离开赛还有14天，墨西哥vs南非、韩国vs捷克、加拿大vs波黑、美国vs巴拉圭、卡塔尔vs瑞士等对决引人关注。热点：球迷热议。各队正积极备战，建议关注阵容磨合与伤病情况，期待精彩赛事呈现。"
+  "ai_prediction": "【世界杯赛事前瞻】舆情观察：英格兰阵容争议较大。传统强队悉数登场，首轮对决精彩可期。西班牙、英格兰、法国等热门球队状态备受关注，黑马球队或制造惊喜。建议重点关注球星发挥和战术调整。"
 }
