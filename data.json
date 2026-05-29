@@ -8,33 +8,54 @@
       "away": "南非",
       "away_code": "za",
       "group": "小组赛第1轮",
-      "venue": "洛杉矶",
       "status": "TIMED",
       "home_score": null,
       "away_score": null,
       "days_until": 14
     },
     {
-      "time": "08:00",
+      "time": "10:00",
+      "home": "韩国",
+      "home_code": "kr",
+      "away": "捷克",
+      "away_code": "cz",
+      "group": "小组赛第1轮",
+      "status": "TIMED",
+      "home_score": null,
+      "away_score": null,
+      "days_until": 14
+    },
+    {
+      "time": "03:00",
+      "home": "加拿大",
+      "home_code": "ca",
+      "away": "波黑",
+      "away_code": "ba",
+      "group": "小组赛第1轮",
+      "status": "TIMED",
+      "home_score": null,
+      "away_score": null,
+      "days_until": 15
+    },
+    {
+      "time": "09:00",
       "home": "美国",
       "home_code": "us",
-      "away": "加拿大",
-      "away_code": "ca",
+      "away": "巴拉圭",
+      "away_code": "py",
       "group": "小组赛第1轮",
-      "venue": "纽约",
       "status": "TIMED",
       "home_score": null,
       "away_score": null,
-      "days_until": 14
+      "days_until": 15
     },
     {
-      "time": "02:00",
-      "home": "巴西",
-      "home_code": "br",
-      "away": "日本",
-      "away_code": "jp",
+      "time": "03:00",
+      "home": "卡塔尔",
+      "home_code": "qa",
+      "away": "瑞士",
+      "away_code": "ch",
       "group": "小组赛第1轮",
-      "venue": "达拉斯",
       "status": "TIMED",
       "home_score": null,
       "away_score": null,
@@ -44,13 +65,21 @@
   "yesterday_matches": [],
   "hot_topics": [
     {
-      "title": "其他热点",
-      "summary": "",
+      "title": "球迷热议",
+      "summary": "名单不准确，莫名其妙又尴尬的幽默感",
       "sentiment": "中性",
-      "heat": 80,
+      "heat": 100,
+      "source": "B站评论",
+      "url": ""
+    },
+    {
+      "title": "夺冠热门讨论",
+      "summary": "我不管，我要克罗地亚夺冠🏆",
+      "sentiment": "正面",
+      "heat": 70,
       "source": "B站评论",
       "url": ""
     }
   ],
-  "ai_prediction": "距离开幕还有14天，墨西哥vs南非、美国vs加拿大、巴西vs日本等对决引人关注。热点：其他热点。各队正积极备战，建议关注阵容磨合与伤病情况，期待精彩赛事呈现。"
+  "ai_prediction": "距离开赛还有14天，墨西哥vs南非、韩国vs捷克、加拿大vs波黑、美国vs巴拉圭、卡塔尔vs瑞士等对决引人关注。热点：球迷热议。各队正积极备战，建议关注阵容磨合与伤病情况，期待精彩赛事呈现。"
 }
