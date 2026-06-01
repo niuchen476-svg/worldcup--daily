@@ -544,36 +544,6 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px}
 .grp-qualify{background:rgba(0,200,83,.04)}
 
-/* ══ TASK GUIDE ══ */
-#task-guide{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(120%);
-  width:calc(100% - 24px);max-width:456px;z-index:300;
-  background:var(--card);border:1px solid rgba(0,200,83,.4);border-radius:20px;
-  padding:16px 16px 18px;
-  transition:transform .42s cubic-bezier(.32,0,.67,0);
-  box-shadow:0 -4px 36px rgba(0,200,83,.18)}
-#task-guide.open{transform:translateX(-50%) translateY(0)}
-.task-guide-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.task-guide-title{font-size:14px;font-weight:800;color:var(--gold);
-  text-shadow:0 0 8px rgba(255,215,0,.3)}
-.task-guide-close{background:transparent;border:none;color:var(--text3);font-size:18px;cursor:pointer;line-height:1}
-.task-item{display:flex;align-items:center;gap:10px;
-  padding:10px 12px;border-radius:10px;background:var(--card2);
-  border:1px solid var(--border);margin-bottom:7px;transition:all .2s}
-.task-item.done{border-color:rgba(0,200,83,.3);background:rgba(0,200,83,.05)}
-.task-icon{font-size:18px;flex-shrink:0}
-.task-info{flex:1}
-.task-name{font-size:13px;font-weight:600;color:var(--text1)}
-.task-reward{font-size:11px;color:var(--gold)}
-.task-action-btn{padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;
-  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer}
-.task-done-mark{font-size:16px;color:var(--green);flex-shrink:0}
-
-/* ══ COIN FLY ══ */
-.coin-fly{position:fixed;pointer-events:none;z-index:1000;font-size:20px;
-  animation:coinFly .9s ease-out forwards}
-@keyframes coinFly{
-  0%{opacity:1;transform:translateY(0) scale(1)}
-  100%{opacity:0;transform:translateY(-90px) translateX(var(--cx,0px)) scale(.4)}}
 
 /* clickable team block */
 .team-block-click{cursor:pointer}
@@ -879,14 +849,6 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   <div class="td-body" id="td-body"></div>
 </div>
 
-<!-- ══ TASK GUIDE PANEL ══ -->
-<div id="task-guide">
-  <div class="task-guide-hdr">
-    <div class="task-guide-title">🏆 新手任务</div>
-    <button class="task-guide-close" id="task-guide-close-btn" type="button">×</button>
-  </div>
-  <div id="task-items"></div>
-</div>
 
 <!-- ══ SEARCH OVERLAY ══ -->
 <div class="search-overlay" id="search-overlay">
@@ -1035,7 +997,7 @@ document.getElementById('reg-submit').onclick=async function(){
     const hash=await hashPassword(pw);
     const rows=await sbPost('users',{username:un,email:em,password_hash:hash,virtual_coins:1000});
     if(rows&&rows[0]){saveUser(rows[0]);msg.className='form-msg ok';msg.textContent='注册成功！已送1000虚拟币 🎉';
-      setTimeout(()=>{closeModal('modal-register');renderProfile();toast('🎉 注册成功，欢迎 '+un);checkBeginnerTasks();},1200);}
+      setTimeout(()=>{closeModal('modal-register');renderProfile();toast('🎉 注册成功，欢迎 '+un);},1200);}
   }catch(e){msg.className='form-msg err';msg.textContent=e.message.includes('unique')?'用户名或邮箱已被注册':e.message;}
   finally{btn.disabled=false;btn.textContent='注册并获得 1000 虚拟币 🪙';}
 };
@@ -1055,7 +1017,7 @@ document.getElementById('login-submit').onclick=async function(){
     saveUser(rows[0]);
     await sbPatch('users?id=eq.'+rows[0].id,{last_sign_in:new Date().toISOString()});
     msg.className='form-msg ok';msg.textContent='登录成功！';
-    setTimeout(()=>{closeModal('modal-login');renderProfile();toast('👋 欢迎回来，'+rows[0].username);checkBeginnerTasks();},900);
+    setTimeout(()=>{closeModal('modal-login');renderProfile();toast('👋 欢迎回来，'+rows[0].username);},900);
   }catch(e){msg.className='form-msg err';msg.textContent=e.message;}
   finally{btn.disabled=false;btn.textContent='登录';}
 };
@@ -1586,8 +1548,6 @@ document.getElementById('mf-confirm-btn').onclick=async function(){
     updateMFBalance();
     msg.className='form-msg ok';msg.textContent='下注成功！祝你好运 🍀';
     toast('🎯 已下注 '+mfAmount+' 虚拟币！');
-    /* mark task 3 done */
-    markTask('t3',100);
     setTimeout(()=>closeMatchFull(),1600);
   }catch(e){msg.className='form-msg err';msg.textContent='下注失败：'+e.message;}
   finally{this.disabled=false;this.textContent='确认下注';}
@@ -1788,106 +1748,6 @@ async function likeComment(id,currentLikes,btn){
   }catch(_){btn.disabled=false;}
 }
 
-/* ── beginner task guide ── */
-function getTaskState(){
-  if(!currentUser)return null;
-  const def={t1:true,t2:false,t3:false};
-  return JSON.parse(localStorage.getItem('wc_tasks_'+currentUser.id)||JSON.stringify(def));
-}
-function saveTaskState(state){
-  if(!currentUser)return;
-  localStorage.setItem('wc_tasks_'+currentUser.id,JSON.stringify(state));
-}
-function checkBeginnerTasks(){
-  if(!currentUser)return;
-  if(localStorage.getItem(TASK_CLOSED_KEY))return;
-  const state=getTaskState();
-  if(state.t1&&state.t2&&state.t3)return;
-  const shownKey='wc_tasks_shown_'+currentUser.id;
-  if(!localStorage.getItem(shownKey)){
-    localStorage.setItem(shownKey,'1');
-    setTimeout(showTaskGuide,1500);
-  }
-}
-/* ── newbie task guide close ── */
-const TASK_CLOSED_KEY='newbie_task_closed';
-document.getElementById('task-guide-close-btn').addEventListener('click',function(e){
-  e.stopPropagation();
-  document.getElementById('task-guide').classList.remove('open');
-  localStorage.setItem(TASK_CLOSED_KEY,'1');
-});
-
-function showTaskGuide(){
-  if(!currentUser)return;
-  if(localStorage.getItem(TASK_CLOSED_KEY))return;
-  const state=getTaskState();
-  if(state.t1&&state.t2&&state.t3){
-    document.getElementById('task-guide').classList.remove('open');
-    return;
-  }
-  const el=document.getElementById('task-items');
-  el.innerHTML=
-    '<div class="task-item done">'
-    +'<span class="task-icon">📝</span>'
-    +'<div class="task-info"><div class="task-name">完成注册</div><div class="task-reward">+1000 虚拟币</div></div>'
-    +'<span class="task-done-mark">✅</span></div>'
-    +'<div class="task-item'+(state.t2?' done':'')+'">'
-    +'<span class="task-icon">📅</span>'
-    +'<div class="task-info"><div class="task-name">今日签到</div><div class="task-reward">+50 虚拟币</div></div>'
-    +(state.t2?'<span class="task-done-mark">✅</span>':'<button class="task-action-btn" onclick="taskCheckin()">完成</button>')
-    +'</div>'
-    +'<div class="task-item'+(state.t3?' done':'')+'">'
-    +'<span class="task-icon">🎯</span>'
-    +'<div class="task-info"><div class="task-name">完成第一次竞猜</div><div class="task-reward">+100 虚拟币</div></div>'
-    +(state.t3?'<span class="task-done-mark">✅</span>':'<button class="task-action-btn" onclick="taskGoBet()">去竞猜</button>')
-    +'</div>';
-  document.getElementById('task-guide').classList.add('open');
-}
-function closeTaskGuide(){
-  document.getElementById('task-guide').classList.remove('open');
-  localStorage.setItem(TASK_CLOSED_KEY,'1');
-}
-
-async function markTask(taskKey,bonus){
-  if(!currentUser)return;
-  const state=getTaskState();
-  if(state[taskKey])return;
-  state[taskKey]=true;saveTaskState(state);
-  await sbPatch('users?id=eq.'+currentUser.id,{virtual_coins:(currentUser.virtual_coins||0)+bonus});
-  currentUser.virtual_coins=(currentUser.virtual_coins||0)+bonus;saveUser(currentUser);
-  flyCoins(window.innerWidth/2,window.innerHeight/2);
-  toast('🏆 任务完成！+'+bonus+' 虚拟币');
-  /* only reopen if user hasn't dismissed — showTaskGuide checks the flag */
-  showTaskGuide();
-}
-
-async function taskCheckin(){
-  const btn=document.querySelector('.task-guide .task-action-btn');if(btn)btn.disabled=true;
-  const today=new Date().toISOString().slice(0,10);
-  try{
-    const rows=await sbGet('check_ins?user_id=eq.'+currentUser.id+'&check_in_date=eq.'+today);
-    if(!rows||rows.length===0){
-      await sbPost('check_ins',{user_id:currentUser.id,check_in_date:today,coins_earned:50});
-    }
-    await markTask('t2',50);
-    /* update profile checkin button if visible */
-    const cb=document.getElementById('checkin-btn');
-    if(cb){cb.disabled=true;cb.textContent='✅ 今日已签到 (+50 已到账)';}
-  }catch(e){toast('签到失败：'+e.message,true);if(btn)btn.disabled=false;}
-}
-
-function taskGoBet(){closeTaskGuide();switchTab('predict');}
-
-function flyCoins(cx,cy){
-  for(let i=0;i<8;i++){
-    setTimeout(()=>{
-      const c=document.createElement('div');c.className='coin-fly';c.textContent='🪙';
-      const dx=(Math.random()-0.5)*80;
-      c.style.cssText='left:'+(cx+dx-10)+'px;top:'+(cy-10)+'px;--cx:'+dx.toFixed(0)+'px';
-      document.body.appendChild(c);setTimeout(()=>c.remove(),900);
-    },i*70);
-  }
-}
 
 /* ══ REALTIME POLLING ══ */
 let _pollTimer=null,_lastDataStr=null;
