@@ -36,7 +36,8 @@ CREATE TABLE friendships (
 CREATE TABLE IF NOT EXISTS comments (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id uuid REFERENCES users(id),
-  team_name text NOT NULL,
+  team_name text,
+  topic_id text,
   content text NOT NULL,
   likes integer DEFAULT 0,
   created_at timestamp DEFAULT now()

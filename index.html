@@ -579,6 +579,111 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .team-block-click{cursor:pointer}
 .team-block-click:hover .team-flag,.team-block-click:hover .team-flag-fallback{
   border-color:rgba(0,200,83,.6);box-shadow:0 0 12px rgba(0,200,83,.3)}
+
+/* ══ SEARCH ══ */
+.search-icon-btn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+  background:rgba(0,0,0,.4);backdrop-filter:blur(6px);cursor:pointer;
+  font-size:15px;display:flex;align-items:center;justify-content:center;
+  transition:all .3s;color:#fff;flex-shrink:0}
+.search-icon-btn:hover{background:rgba(255,255,255,.15)}
+.search-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.85);
+  backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .25s}
+.search-overlay.open{opacity:1;pointer-events:all}
+.search-box{margin:64px 16px 0;position:relative}
+.search-input{width:100%;padding:12px 44px 12px 16px;border-radius:12px;font-size:15px;
+  background:var(--card);border:1px solid rgba(0,200,83,.4);color:var(--text1);
+  box-shadow:0 4px 24px rgba(0,200,83,.15)}
+.search-input:focus{outline:none;border-color:var(--green)}
+.search-close-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:transparent;border:none;color:var(--text3);font-size:18px;cursor:pointer;line-height:1}
+.search-results{margin:8px 16px 0;max-height:60vh;overflow-y:auto;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;display:none}
+.search-result-item{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:rgba(0,200,83,.06)}
+.search-result-icon{font-size:16px;flex-shrink:0}
+.search-result-main{font-size:13px;color:var(--text1);font-weight:600}
+.search-result-sub{font-size:11px;color:var(--text3)}
+.search-empty{text-align:center;padding:24px;font-size:13px;color:var(--text3)}
+
+/* ══ TIMELINE VIEW ══ */
+.view-toggle{display:flex;gap:6px;margin-bottom:12px}
+.view-toggle-btn{padding:6px 14px;border-radius:8px;font-size:11px;font-weight:700;
+  border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;transition:all .2s}
+.view-toggle-btn.active{background:rgba(0,200,83,.12);color:var(--green);border-color:rgba(0,200,83,.3)}
+.timeline-wrap{position:relative;padding-left:72px;margin-top:4px}
+.timeline-line{position:absolute;left:44px;top:8px;bottom:0;width:2px;background:rgba(0,200,83,.2)}
+.tl-group{position:relative;margin-bottom:24px}
+.tl-date-node{position:absolute;left:-72px;width:58px;text-align:center;
+  background:var(--card2);border:1px solid rgba(0,200,83,.25);border-radius:7px;
+  padding:5px 0;font-size:10px;font-weight:700;color:var(--text3);top:0;line-height:1.3}
+.tl-date-node.today{background:rgba(0,200,83,.14);border-color:rgba(0,200,83,.5);color:var(--green)}
+.tl-dot{position:absolute;left:-30px;width:10px;height:10px;border-radius:50%;
+  background:var(--green);border:2px solid var(--bg);box-shadow:0 0 8px rgba(0,200,83,.5);top:20px}
+.tl-dot.done{background:var(--text3);box-shadow:none}
+.tl-item{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:border-color .2s}
+.tl-item:hover{border-color:rgba(0,200,83,.3)}
+.tl-item.done-item{opacity:.65;cursor:default}
+.tl-item-teams{font-size:13px;font-weight:700;color:var(--text1);margin-bottom:3px}
+.tl-item-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
+
+/* ══ TOPIC COMMENTS ══ */
+.topic-comment-toggle{display:flex;align-items:center;gap:5px;font-size:11px;
+  color:var(--text3);cursor:pointer;border-top:1px solid var(--border);
+  padding-top:8px;margin-top:6px;transition:color .2s;user-select:none}
+.topic-comment-toggle:hover{color:var(--green)}
+.tc-arrow{margin-left:auto;font-size:9px;transition:transform .2s}
+.topic-comments{overflow:hidden;max-height:0;transition:max-height .35s ease}
+.topic-comments.open{max-height:800px}
+.topic-comment-input-row{display:flex;gap:8px;padding:8px 0 4px}
+.topic-comment-input{flex:1;padding:8px 12px;border-radius:8px;font-size:13px;
+  background:var(--card2);border:1px solid var(--border);color:var(--text1)}
+.topic-comment-input:focus{outline:none;border-color:rgba(0,200,83,.4)}
+.topic-comment-send{padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer;white-space:nowrap}
+.comment-report-btn{font-size:11px;color:var(--text3);background:transparent;border:1px solid var(--border);
+  border-radius:5px;padding:2px 8px;cursor:pointer;transition:all .2s;margin-left:auto}
+.comment-report-btn:hover{border-color:rgba(255,61,61,.3);color:#ff8080}
+
+/* ══ POSTER PREVIEW ══ */
+.poster-overlay{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.92);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;padding:16px}
+.poster-overlay.open{opacity:1;pointer-events:all}
+.poster-preview-wrap{width:min(340px,88vw);overflow:hidden;border-radius:12px;
+  box-shadow:0 8px 40px rgba(0,200,83,.25);margin-bottom:16px;
+  max-height:60vh;overflow-y:auto}
+.poster-preview-wrap canvas{width:100%;display:block}
+.poster-btns{display:flex;gap:10px}
+.poster-dl-btn{padding:10px 24px;border-radius:20px;font-size:14px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),#00a843);color:#fff;border:none;cursor:pointer}
+.poster-close-btn{padding:10px 24px;border-radius:20px;font-size:14px;font-weight:700;
+  background:transparent;color:var(--text2);border:1px solid var(--border);cursor:pointer}
+
+/* ══ MATCH REMINDER BAR ══ */
+.reminder-bar{position:fixed;top:-90px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 24px);max-width:456px;z-index:800;
+  background:var(--green);border-radius:0 0 16px 16px;padding:12px 14px;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 6px 24px rgba(0,200,83,.45);
+  transition:top .4s cubic-bezier(.32,0,.67,0)}
+.reminder-bar.show{top:0}
+.reminder-bar-text{flex:1;font-size:13px;font-weight:700;color:#fff;line-height:1.35}
+.reminder-go-btn{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:700;
+  background:rgba(0,0,0,.2);color:#fff;border:1px solid rgba(255,255,255,.3);cursor:pointer;white-space:nowrap}
+.reminder-close-btn{background:transparent;border:none;color:rgba(255,255,255,.85);
+  font-size:18px;cursor:pointer;padding:2px;line-height:1;flex-shrink:0}
+
+/* ══ DATA UPDATE FLASH ══ */
+@keyframes flashGreen{
+  0%{box-shadow:inset 0 0 0 0 rgba(0,200,83,0)}
+  40%{box-shadow:inset 0 0 0 3px rgba(0,200,83,.5)}
+  100%{box-shadow:inset 0 0 0 0 rgba(0,200,83,0)}}
+.data-flash{animation:flashGreen .7s ease-out}
+@keyframes numBump{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.score-bump{animation:numBump .35s ease-out}
 </style>
 </head>
 <body>
@@ -614,6 +719,7 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   <div class="banner-top-right">
     <div class="date-pill" id="date-display">加载中…</div>
     <div class="live-dot-wrap"><span class="live-dot"></span>LIVE</div>
+    <button class="search-icon-btn" onclick="openSearch()" title="搜索">🔍</button>
     <button class="theme-btn" id="theme-toggle">🌙</button>
   </div>
 </div>
@@ -782,6 +888,33 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   <div id="task-items"></div>
 </div>
 
+<!-- ══ SEARCH OVERLAY ══ -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-box">
+    <input class="search-input" id="search-input" placeholder="搜索球队、比赛、热点话题…" autocomplete="off">
+    <button class="search-close-btn" onclick="closeSearch()">✕</button>
+  </div>
+  <div class="search-results" id="search-results"></div>
+</div>
+
+<!-- ══ POSTER PREVIEW ══ -->
+<div class="poster-overlay" id="poster-overlay">
+  <div class="poster-preview-wrap">
+    <canvas id="poster-canvas" width="750" height="1334"></canvas>
+  </div>
+  <div class="poster-btns">
+    <button class="poster-dl-btn" onclick="downloadPoster()">⬇ 下载海报</button>
+    <button class="poster-close-btn" onclick="closePoster()">关闭</button>
+  </div>
+</div>
+
+<!-- ══ MATCH REMINDER BAR ══ -->
+<div class="reminder-bar" id="reminder-bar">
+  <div class="reminder-bar-text" id="reminder-text"></div>
+  <button class="reminder-go-btn" onclick="goToReminderMatch()">去竞猜</button>
+  <button class="reminder-close-btn" onclick="closeReminder()">✕</button>
+</div>
+
 <script>
 const SUPA_URL='https://qsbjvukzyeazyzfonisa.supabase.co';
 const SUPA_KEY='sb_publishable_w-HamEcsEFTRL2qbRla_ag_evqV0FrP';
@@ -835,7 +968,7 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 
 function flagImg(code,cls){
   const c=(code||'').toUpperCase(),lc=c.toLowerCase();
-  return '<img class="'+cls+'" src="https://flagcdn.com/w80/'+lc+'.png" '
+  return '<img class="'+cls+'" src="https://flagcdn.com/w80/'+lc+'.png" loading="lazy" '
     +'onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\''+cls+' team-flag-fallback\',textContent:emojiFlag(\''+c+'\')}))" alt="'+c+'">';
 }
 function emojiFlag(code){
@@ -956,6 +1089,9 @@ function renderProfile(){
       +'<div class="stat-item"><div class="stat-num">—</div><div class="stat-label">准确率</div></div></div></div>'
       +'<div class="prof-card"><div class="prof-card-title">历史竞猜</div>'
       +'<div id="hist-list"><div class="skeleton" style="height:40px;margin-bottom:6px"></div><div class="skeleton" style="height:40px"></div></div></div>'
+      +'<div class="prof-card" style="text-align:center"><div class="prof-card-title">战绩海报</div>'
+      +'<button class="btn-primary" style="width:100%;border-radius:10px" onclick="generatePoster()">🎨 生成战绩海报</button>'
+      +'<div style="font-size:11px;color:var(--text3);margin-top:8px">可预览并下载到本地</div></div>'
       +'<button class="logout-btn" id="logout-btn">退出登录</button></div>';
     initCheckin();loadStats();loadHistory();loadRadarData();
     document.getElementById('logout-btn').onclick=()=>{clearUser();renderProfile();toast('已退出登录');};
@@ -1201,11 +1337,24 @@ function renderHome(data){
     const sc=t.sentiment==='正面'?'pos':t.sentiment==='负面'?'neg':'neu';
     const bc=t.sentiment==='正面'?'sent-pos-b':t.sentiment==='负面'?'sent-neg-b':'sent-neu-b';
     const oc=t.url?'onclick="window.open('+JSON.stringify(t.url)+')"':'';
+    const tcId='tc'+i;
+    const te=esc(t.title);
     html+='<div class="sent-card '+sc+' stagger-item" style="animation-delay:'+i*.07+'s" '+oc+'>'
-      +'<div class="sent-head"><span class="sent-title">'+esc(t.title)+'</span><span class="sent-badge '+bc+'">'+esc(t.sentiment||'中性')+'</span></div>'
+      +'<div class="sent-head"><span class="sent-title">'+te+'</span><span class="sent-badge '+bc+'">'+esc(t.sentiment||'中性')+'</span></div>'
       +'<div class="sent-summary">'+esc(t.summary||'')+'</div>'
       +'<div class="sent-source-row"><span>🔥 热度</span><div class="heat-wrap"><div class="heat-fill" style="width:'+pct+'%"></div></div>'
-      +'<span>'+(t.heat||0).toLocaleString()+'</span><span>· '+esc(t.source||'')+'</span></div></div>';
+      +'<span>'+(t.heat||0).toLocaleString()+'</span><span>· '+esc(t.source||'')+'</span></div>'
+      +'<div class="topic-comment-toggle" onclick="event.stopPropagation();toggleTopicComments(this)" data-tcid="'+tcId+'" data-title="'+te+'">'
+      +'💬 <span id="tcc-'+tcId+'">评论</span><span class="tc-arrow">▼</span></div>'
+      +'<div class="topic-comments" id="'+tcId+'" onclick="event.stopPropagation()">'
+      +'<div class="topic-comment-input-row" style="display:none" id="tci-row-'+tcId+'">'
+      +(currentUser
+        ?'<input class="topic-comment-input" id="tci-'+tcId+'" placeholder="写评论…" maxlength="100">'
+          +'<button class="topic-comment-send" data-title="'+te+'" data-tcid="'+tcId+'" onclick="submitTopicComment(this.dataset.title,this.dataset.tcid)">发送</button>'
+        :'<span style="font-size:11px;color:var(--text3);padding:4px 0">登录后参与评论</span>')
+      +'</div>'
+      +'<div class="topic-comment-list" id="tcl-'+tcId+'"></div>'
+      +'</div></div>';
   });
 
   html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🤖 AI 预测</div><span class="sec-badge badge-green">模型推理</span></div>';
@@ -1223,12 +1372,22 @@ function renderHome(data){
 }
 
 /* ── predict ── */
+let schedView='list';
+function switchScheduleView(mode){
+  schedView=mode;
+  if(appData)renderPredict(appData);
+}
 function renderPredict(data){
   const el=document.getElementById('predict-content');
+  const toggleHtml='<div class="view-toggle">'
+    +'<button class="view-toggle-btn'+(schedView==='list'?' active':'')+'" onclick="switchScheduleView(\'list\')">≡ 列表视图</button>'
+    +'<button class="view-toggle-btn'+(schedView==='timeline'?' active':'')+'" onclick="switchScheduleView(\'timeline\')">⏱ 时间轴</button>'
+    +'</div>';
+  if(schedView==='timeline'){el.innerHTML=toggleHtml+renderTimeline(data);return;}
   if(!data||!data.today_matches||data.today_matches.length===0){
-    el.innerHTML='<div class="predict-empty"><div style="font-size:36px;margin-bottom:8px">📅</div>今日暂无可竞猜赛程</div>';return;
+    el.innerHTML=toggleHtml+'<div class="predict-empty"><div style="font-size:36px;margin-bottom:8px">📅</div>今日暂无可竞猜赛程</div>';return;
   }
-  el.innerHTML='<div class="sec-head"><div class="sec-title">🎯 今日竞猜</div><span class="sec-badge badge-green">'+data.today_matches.length+' 场可投</span></div>'
+  el.innerHTML=toggleHtml+'<div class="sec-head"><div class="sec-title">🎯 今日竞猜</div><span class="sec-badge badge-green">'+data.today_matches.length+' 场可投</span></div>'
     +data.today_matches.map(m=>{
       const mj=JSON.stringify(m).replace(/"/g,'&quot;');
       return '<div class="predict-card" style="cursor:pointer" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
@@ -1713,6 +1872,358 @@ function flyCoins(cx,cy){
   }
 }
 
+/* ══ REALTIME POLLING ══ */
+let _pollTimer=null,_lastDataStr=null;
+function computeHasLive(data){
+  if(!data||!data.today_matches)return false;
+  const now=Date.now();
+  return data.today_matches.some(m=>{
+    if(!m.time)return false;
+    const[h,mn]=m.time.split(':').map(Number);
+    const t=new Date(data.date+'T'+String(h).padStart(2,'0')+':'+String(mn).padStart(2,'0')+':00+08:00');
+    const diff=now-t;return diff>=0&&diff<110*60000;
+  });
+}
+function startPolling(hasLive){
+  clearInterval(_pollTimer);
+  _pollTimer=setInterval(doPoll,hasLive?30000:60000);
+}
+async function doPoll(){
+  try{
+    const data=await fetch('./data.json',{cache:'no-cache'}).then(r=>r.json());
+    const str=JSON.stringify(data);
+    if(_lastDataStr&&_lastDataStr!==str){
+      toast('✅ 数据已更新');
+      const hc=document.getElementById('home-content');
+      if(hc){hc.classList.remove('data-flash');requestAnimationFrame(()=>hc.classList.add('data-flash'));}
+      renderHome(data);renderPredict(data);
+    }
+    _lastDataStr=str;
+    startPolling(computeHasLive(data));
+    checkMatchReminders(data);
+  }catch(_){}
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){clearInterval(_pollTimer);}
+  else{doPoll();}
+});
+
+/* ══ TOPIC COMMENTS ══ */
+async function toggleTopicComments(btn){
+  const tcId=btn.dataset.tcid,title=btn.dataset.title;
+  const container=document.getElementById(tcId);if(!container)return;
+  const isOpen=container.classList.contains('open');
+  const arrow=btn.querySelector('.tc-arrow');
+  if(isOpen){
+    container.classList.remove('open');
+    if(arrow)arrow.textContent='▼';
+  }else{
+    container.classList.add('open');
+    if(arrow)arrow.textContent='▲';
+    const row=document.getElementById('tci-row-'+tcId);if(row)row.style.display='flex';
+    loadTopicComments(tcId,title);
+  }
+}
+async function loadTopicComments(tcId,title){
+  const listEl=document.getElementById('tcl-'+tcId);
+  const countEl=document.getElementById('tcc-'+tcId);
+  if(!listEl)return;
+  listEl.innerHTML='<div style="font-size:11px;color:var(--text3);padding:6px 0">加载中…</div>';
+  try{
+    const rows=await sbGet('comments?topic_id=eq.'+encodeURIComponent(title)+'&order=created_at.desc&limit=30&select=*');
+    const cnt=rows?rows.length:0;
+    if(countEl)countEl.textContent=cnt+' 条评论';
+    if(!rows||rows.length===0){listEl.innerHTML='<div style="font-size:11px;color:var(--text3);text-align:center;padding:8px">暂无评论，来发第一条吧！</div>';return;}
+    listEl.innerHTML=rows.map(c=>{
+      const uname=currentUser&&c.user_id===currentUser.id?currentUser.username:(c.username||'球迷');
+      const dt=new Date(c.created_at);
+      const ts=(dt.getMonth()+1)+'/'+(dt.getDate())+' '+dt.getHours()+':'+String(dt.getMinutes()).padStart(2,'0');
+      return '<div class="comment-card">'
+        +'<div class="comment-top"><span class="comment-user">'+esc(uname)+'</span><span class="comment-time">'+ts+'</span></div>'
+        +'<div class="comment-body">'+esc(c.content)+'</div>'
+        +'<div style="display:flex;align-items:center;gap:6px">'
+        +'<button class="comment-like" onclick="likeComment(\''+c.id+'\','+c.likes+',this)">👍 '+c.likes+'</button>'
+        +'<button class="comment-report-btn" onclick="reportComment(this)">举报</button>'
+        +'</div></div>';
+    }).join('');
+  }catch(_){if(listEl)listEl.innerHTML='<div style="font-size:11px;color:var(--red);padding:6px">加载失败</div>';}
+}
+async function submitTopicComment(title,tcId){
+  if(!currentUser){toast('请先登录',true);return;}
+  const input=document.getElementById('tci-'+tcId);
+  const content=(input?.value||'').trim();
+  if(!content){toast('请输入评论',true);return;}
+  try{
+    await sbPost('comments',{user_id:currentUser.id,topic_id:title,content,likes:0});
+    input.value='';loadTopicComments(tcId,title);toast('评论发布成功！');
+  }catch(e){toast('发布失败：'+e.message,true);}
+}
+function reportComment(btn){btn.textContent='已举报';btn.disabled=true;toast('已举报，我们会尽快处理');}
+async function loadTopicCommentCounts(data){
+  if(!data||!data.hot_topics)return;
+  data.hot_topics.forEach(async(t,i)=>{
+    const el=document.getElementById('tcc-tc'+i);if(!el)return;
+    try{
+      const rows=await sbGet('comments?topic_id=eq.'+encodeURIComponent(t.title)+'&select=id');
+      el.textContent=(rows?rows.length:0)+' 条评论';
+    }catch(_){el.textContent='0 条评论';}
+  });
+}
+
+/* ══ POSTER GENERATION ══ */
+function _roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+async function generatePoster(){
+  if(!currentUser){toast('请先登录',true);return;}
+  const canvas=document.getElementById('poster-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=750,H=1334;canvas.width=W;canvas.height=H;
+  /* BG */
+  ctx.fillStyle='#0A0F0A';ctx.fillRect(0,0,W,H);
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'rgba(0,100,50,.25)');bg.addColorStop(1,'rgba(0,40,20,.45)');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  /* grid */
+  ctx.strokeStyle='rgba(0,200,83,.05)';ctx.lineWidth=1;
+  for(let x=0;x<W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  /* title */
+  ctx.textAlign='center';
+  ctx.font='bold 38px "Segoe UI",sans-serif';ctx.fillStyle='#FFD700';
+  ctx.fillText('2026 FIFA World Cup',W/2,82);
+  ctx.font='bold 30px "Segoe UI",sans-serif';ctx.fillStyle='#00FF7F';
+  ctx.fillText('我的竞猜战绩',W/2,128);
+  /* divider */
+  const dl=ctx.createLinearGradient(60,0,W-60,0);
+  dl.addColorStop(0,'transparent');dl.addColorStop(.5,'rgba(0,200,83,.7)');dl.addColorStop(1,'transparent');
+  ctx.strokeStyle=dl;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(60,148);ctx.lineTo(W-60,148);ctx.stroke();
+  /* avatar */
+  const ag=ctx.createRadialGradient(W/2-14,210,0,W/2,230,62);
+  ag.addColorStop(0,'#00C853');ag.addColorStop(1,'#006430');
+  ctx.beginPath();ctx.arc(W/2,230,62,0,Math.PI*2);
+  ctx.fillStyle=ag;ctx.fill();
+  ctx.strokeStyle='#FFD700';ctx.lineWidth=3;ctx.stroke();
+  ctx.font='bold 54px "Segoe UI",sans-serif';ctx.fillStyle='#fff';
+  ctx.fillText((currentUser.username||'?')[0].toUpperCase(),W/2,252);
+  /* username */
+  ctx.font='bold 34px "Segoe UI",sans-serif';ctx.fillStyle='#E8F5E9';
+  ctx.fillText(currentUser.username||'',W/2,318);
+  /* load stats */
+  let total=0,wins=0,profit=0,bestStreak=0,recentPreds=[];
+  try{
+    const preds=await sbGet('predictions?user_id=eq.'+currentUser.id+'&order=created_at.desc&select=*');
+    if(preds){
+      total=preds.length;wins=preds.filter(p=>p.result==='win').length;
+      recentPreds=preds.slice(0,5);
+      let s=0;preds.forEach(p=>{p.result==='win'?bestStreak=Math.max(bestStreak,++s):s=0;});
+      profit=preds.reduce((a,p)=>a+(p.result==='win'?(p.coins_earned||0):p.result==='lose'?-(p.coins_bet||0):0),0);
+    }
+  }catch(_){}
+  const acc=total>0?Math.round(wins/total*100):0;
+  /* stat cards */
+  const stats=[{l:'预测准确率',v:acc+'%'},{l:'总收益',v:(profit>=0?'+':'')+profit+' coins'},{l:'最长连胜',v:bestStreak+'场'}];
+  const cW=200,cH=100,gap=25,startX=(W-3*cW-2*gap)/2;
+  stats.forEach((st,i)=>{
+    const x=startX+i*(cW+gap),y=352;
+    _roundRect(ctx,x,y,cW,cH,12);ctx.fillStyle='rgba(0,200,83,.1)';ctx.fill();
+    ctx.strokeStyle='rgba(0,200,83,.3)';ctx.lineWidth=1;_roundRect(ctx,x,y,cW,cH,12);ctx.stroke();
+    ctx.font='bold 32px "Segoe UI",sans-serif';ctx.fillStyle='#00FF7F';ctx.textAlign='center';
+    ctx.fillText(st.v,x+cW/2,y+50);
+    ctx.font='18px "Segoe UI",sans-serif';ctx.fillStyle='rgba(255,255,255,.55)';
+    ctx.fillText(st.l,x+cW/2,y+80);
+  });
+  /* section divider */
+  ctx.beginPath();ctx.moveTo(60,492);ctx.lineTo(W-60,492);
+  ctx.strokeStyle='rgba(0,200,83,.25)';ctx.lineWidth=1;ctx.stroke();
+  ctx.font='bold 26px "Segoe UI",sans-serif';ctx.fillStyle='#FFD700';ctx.textAlign='center';
+  ctx.fillText('最近5次竞猜',W/2,530);
+  /* recent predictions */
+  const predOpts={home:'主队赢',draw:'平局',away:'客队赢'};
+  if(!recentPreds.length){
+    ctx.font='22px "Segoe UI",sans-serif';ctx.fillStyle='rgba(255,255,255,.35)';
+    ctx.fillText('暂无竞猜记录',W/2,590);
+  }else{
+    recentPreds.forEach((p,i)=>{
+      const y=556+i*90;const isW=p.result==='win',isL=p.result==='lose';
+      _roundRect(ctx,60,y,W-120,78,10);
+      ctx.fillStyle=isW?'rgba(0,200,83,.09)':isL?'rgba(255,61,61,.08)':'rgba(255,255,255,.04)';ctx.fill();
+      ctx.font='bold 20px "Segoe UI",sans-serif';ctx.fillStyle='#E8F5E9';ctx.textAlign='left';
+      ctx.fillText((p.match_id||'').substring(0,22),80,y+30);
+      ctx.font='bold 20px "Segoe UI",sans-serif';
+      ctx.fillStyle=isW?'#00FF7F':isL?'#ff8080':'#FFD700';ctx.textAlign='right';
+      ctx.fillText(isW?'胜 ✓':isL?'负 ✗':'待定',W-80,y+30);
+      ctx.font='18px "Segoe UI",sans-serif';ctx.fillStyle='#FFD700';ctx.textAlign='left';
+      ctx.fillText(isW?'+'+p.coins_earned+' coins':isL?'-'+p.coins_bet+' coins':'',80,y+62);
+      ctx.fillStyle='rgba(255,255,255,.45)';ctx.textAlign='right';
+      ctx.fillText(predOpts[p.predicted_winner]||'',W-80,y+62);
+    });
+  }
+  /* footer */
+  const fy=H-110;
+  const fl=ctx.createLinearGradient(60,0,W-60,0);
+  fl.addColorStop(0,'transparent');fl.addColorStop(.5,'rgba(0,200,83,.4)');fl.addColorStop(1,'transparent');
+  ctx.strokeStyle=fl;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(60,fy);ctx.lineTo(W-60,fy);ctx.stroke();
+  ctx.font='bold 24px "Segoe UI",sans-serif';ctx.fillStyle='#00C853';ctx.textAlign='center';
+  ctx.fillText('晨哨 · AI数据驱动',W/2,fy+42);
+  ctx.font='18px "Segoe UI",sans-serif';ctx.fillStyle='rgba(255,255,255,.35)';
+  ctx.fillText('niuchen476-svg.github.io/worldcup--daily/',W/2,fy+74);
+  document.getElementById('poster-overlay').classList.add('open');
+}
+function closePoster(){document.getElementById('poster-overlay').classList.remove('open');}
+function downloadPoster(){
+  const canvas=document.getElementById('poster-canvas');
+  const a=document.createElement('a');a.download='世界杯竞猜战绩.png';
+  a.href=canvas.toDataURL('image/png');a.click();
+}
+
+/* ══ MATCH REMINDER ══ */
+let _reminderTimer=null,_reminderMatch=null;
+function startReminderCheck(data){
+  clearInterval(_reminderTimer);
+  if(!data)return;
+  checkMatchReminders(data);
+  _reminderTimer=setInterval(()=>{if(appData)checkMatchReminders(appData);},60000);
+}
+function checkMatchReminders(data){
+  if(!currentUser||!data||!data.today_matches)return;
+  const now=Date.now();
+  data.today_matches.forEach(m=>{
+    if(!m.time)return;
+    const[h,mn]=m.time.split(':').map(Number);
+    const mt=new Date(data.date+'T'+String(h).padStart(2,'0')+':'+String(mn).padStart(2,'0')+':00+08:00');
+    const diff=mt-now;
+    const key='wc_reminded_'+m.home+'_'+m.away+'_'+m.time;
+    if(diff>0&&diff<=30*60000&&!localStorage.getItem(key)){
+      localStorage.setItem(key,'1');
+      showReminder(m);
+      if(typeof Notification!=='undefined'&&Notification.permission==='granted'){
+        new Notification('⚽ 开赛提醒',{body:m.home+' vs '+m.away+' 将在30分钟后开球！'});
+      }else if(typeof Notification!=='undefined'&&Notification.permission!=='denied'){
+        Notification.requestPermission().then(p=>{
+          if(p==='granted')new Notification('⚽ 开赛提醒',{body:m.home+' vs '+m.away+' 将在30分钟后开球！'});
+        });
+      }
+    }
+  });
+}
+function showReminder(m){
+  _reminderMatch=m;
+  document.getElementById('reminder-text').textContent='⚽ '+m.home+' vs '+m.away+' 将在30分钟后开球，快去竞猜！';
+  const bar=document.getElementById('reminder-bar');
+  bar.classList.add('show');
+  setTimeout(()=>bar.classList.remove('show'),8000);
+}
+function closeReminder(){document.getElementById('reminder-bar').classList.remove('show');}
+function goToReminderMatch(){
+  closeReminder();switchTab('predict');
+  if(_reminderMatch)setTimeout(()=>openMatchDetail(_reminderMatch),300);
+}
+
+/* ══ TIMELINE VIEW ══ */
+function renderTimeline(data){
+  const all=[
+    ...(data.yesterday_matches||[]).map(m=>({...m,_done:true})),
+    ...(data.today_matches||[]).map(m=>({...m,_done:false})),
+  ];
+  if(!all.length)return '<div class="predict-empty">暂无赛程数据</div>';
+  const todayStr=data.date||new Date().toISOString().slice(0,10);
+  const[,tmm,tdd]=todayStr.split('-');
+  const yDate=new Date(todayStr);yDate.setDate(yDate.getDate()-1);
+  const ymm=String(yDate.getMonth()+1).padStart(2,'0'),ydd=String(yDate.getDate()).padStart(2,'0');
+  const groups={};
+  all.forEach(m=>{const k=m._done?'昨日':'今日';if(!groups[k])groups[k]=[];groups[k].push(m);});
+  let html='<div class="timeline-wrap"><div class="timeline-line"></div>';
+  ['昨日','今日'].forEach(label=>{
+    if(!groups[label])return;
+    const isToday=label==='今日';
+    const dl=isToday?tmm+'/'+tdd:ymm+'/'+ydd;
+    html+='<div class="tl-group">';
+    html+='<div class="tl-date-node'+(isToday?' today':'')+'">'
+      +dl+(isToday?'<br><span style="font-size:9px">今日</span>':'')+'</div>';
+    html+='<div class="tl-dot'+(isToday?'':' done')+'"></div>';
+    html+='<div>';
+    groups[label].forEach(m=>{
+      if(m._done){
+        html+='<div class="tl-item done-item">'
+          +'<div class="tl-item-teams">'+esc(m.home)+' <span style="color:var(--green)">'+m.home_score+' — '+m.away_score+'</span> '+esc(m.away)+'</div>'
+          +'<div class="tl-item-meta"><span>'+esc(m.group||'')+'</span><span style="color:rgba(255,255,255,.3)">FT</span></div></div>';
+      }else{
+        const mj=JSON.stringify(m).replace(/"/g,'&quot;');
+        html+='<div class="tl-item" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
+          +'<div class="tl-item-teams">'+esc(m.home)+' <span style="color:var(--text3)">vs</span> '+esc(m.away)+'</div>'
+          +'<div class="tl-item-meta"><span>⏰ '+esc(m.time)+'</span><span>'+esc(m.group||'')+'</span><span>📍'+esc(m.venue||'')+'</span></div></div>';
+      }
+    });
+    html+='</div></div>';
+  });
+  html+='</div>';
+  return html;
+}
+
+/* ══ SEARCH ══ */
+function openSearch(){
+  document.getElementById('search-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('search-input').focus(),80);
+}
+function closeSearch(){
+  document.getElementById('search-overlay').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('search-input').value='';
+  const r=document.getElementById('search-results');r.innerHTML='';r.style.display='none';
+}
+document.getElementById('search-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('search-overlay'))closeSearch();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();});
+document.getElementById('search-input').addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  const rEl=document.getElementById('search-results');
+  if(!q||!appData){rEl.style.display='none';return;}
+  const results=[];
+  const teams=new Map();
+  [...(appData.today_matches||[]),...(appData.yesterday_matches||[])].forEach(m=>{
+    if(!teams.has(m.home))teams.set(m.home,{name:m.home,code:m.home_code,group:m.group});
+    if(!teams.has(m.away))teams.set(m.away,{name:m.away,code:m.away_code,group:m.group});
+  });
+  teams.forEach((info,name)=>{
+    if(name.toLowerCase().includes(q))
+      results.push({icon:'🏳️',main:name,sub:info.group||'球队',action:()=>{closeSearch();openTeamDetail(info);}});
+  });
+  (appData.today_matches||[]).forEach(m=>{
+    if(m.home.toLowerCase().includes(q)||m.away.toLowerCase().includes(q)){
+      const mc={...m};
+      results.push({icon:'⚽',main:m.home+' vs '+m.away,sub:'今日 '+m.time,action:()=>{closeSearch();openMatchDetail(mc);}});
+    }
+  });
+  (appData.hot_topics||[]).forEach((t,i)=>{
+    if(t.title.toLowerCase().includes(q)||(t.summary||'').toLowerCase().includes(q))
+      results.push({icon:'🔥',main:t.title,sub:t.sentiment||'热点',action:()=>{
+        closeSearch();switchTab('home');
+        setTimeout(()=>{const cards=document.querySelectorAll('.sent-card');if(cards[i])cards[i].scrollIntoView({behavior:'smooth',block:'center'});},400);
+      }});
+  });
+  if(!results.length){rEl.innerHTML='<div class="search-empty">没有找到相关结果</div>';}
+  else{
+    window._srActions=results;
+    rEl.innerHTML=results.slice(0,8).map((_,idx)=>'<div class="search-result-item" data-ridx="'+idx+'">'
+      +'<span class="search-result-icon">'+results[idx].icon+'</span>'
+      +'<div><div class="search-result-main">'+esc(results[idx].main)+'</div>'
+      +(results[idx].sub?'<div class="search-result-sub">'+esc(results[idx].sub)+'</div>':'')
+      +'</div></div>').join('');
+    rEl.querySelectorAll('.search-result-item').forEach(el=>{
+      el.addEventListener('click',()=>{const idx=parseInt(el.dataset.ridx);if(window._srActions&&window._srActions[idx])window._srActions[idx].action();});
+    });
+  }
+  rEl.style.display='block';
+});
+
 /* floating football every 8s */
 setInterval(()=>{
   const fb=document.createElement('div');
@@ -1735,7 +2246,11 @@ async function init(){
   renderProfile();
   try{
     const data=await fetch('./data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+    _lastDataStr=JSON.stringify(data);
     renderHome(data);renderPredict(data);
+    startPolling(computeHasLive(data));
+    startReminderCheck(data);
+    loadTopicCommentCounts(data);
   }catch(e){
     document.getElementById('home-content').innerHTML=buildEmptyState();
     startCountdown();
