@@ -1808,10 +1808,13 @@ function checkBeginnerTasks(){
     setTimeout(showTaskGuide,1500);
   }
 }
+function _taskDismissedKey(){return currentUser?'wc_tasks_dismissed_'+currentUser.id:null;}
 function showTaskGuide(){
   if(!currentUser)return;
   const state=getTaskState();
   if(state.t1&&state.t2&&state.t3){closeTaskGuide();return;}
+  /* respect explicit dismiss — don't reopen unless all tasks just completed */
+  if(localStorage.getItem(_taskDismissedKey()))return;
   const el=document.getElementById('task-items');
   el.innerHTML=
     '<div class="task-item done">'
@@ -1830,7 +1833,12 @@ function showTaskGuide(){
     +'</div>';
   document.getElementById('task-guide').classList.add('open');
 }
-function closeTaskGuide(){document.getElementById('task-guide').classList.remove('open');}
+function closeTaskGuide(){
+  document.getElementById('task-guide').classList.remove('open');
+  /* persist dismissed state so panel stays closed after refresh */
+  const key=_taskDismissedKey();
+  if(key)localStorage.setItem(key,'1');
+}
 
 async function markTask(taskKey,bonus){
   if(!currentUser)return;
@@ -1841,6 +1849,7 @@ async function markTask(taskKey,bonus){
   currentUser.virtual_coins=(currentUser.virtual_coins||0)+bonus;saveUser(currentUser);
   flyCoins(window.innerWidth/2,window.innerHeight/2);
   toast('🏆 任务完成！+'+bonus+' 虚拟币');
+  /* only reopen if user hasn't dismissed — showTaskGuide checks the flag */
   showTaskGuide();
 }
 
