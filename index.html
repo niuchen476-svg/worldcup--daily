@@ -883,7 +883,7 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 <div id="task-guide">
   <div class="task-guide-hdr">
     <div class="task-guide-title">🏆 新手任务</div>
-    <button class="task-guide-close" onclick="closeTaskGuide()">×</button>
+    <button class="task-guide-close" id="task-guide-close-btn" type="button">×</button>
   </div>
   <div id="task-items"></div>
 </div>
@@ -1800,6 +1800,7 @@ function saveTaskState(state){
 }
 function checkBeginnerTasks(){
   if(!currentUser)return;
+  if(localStorage.getItem(TASK_CLOSED_KEY))return;
   const state=getTaskState();
   if(state.t1&&state.t2&&state.t3)return;
   const shownKey='wc_tasks_shown_'+currentUser.id;
@@ -1808,13 +1809,22 @@ function checkBeginnerTasks(){
     setTimeout(showTaskGuide,1500);
   }
 }
-function _taskDismissedKey(){return currentUser?'wc_tasks_dismissed_'+currentUser.id:null;}
+/* ── newbie task guide close ── */
+const TASK_CLOSED_KEY='newbie_task_closed';
+document.getElementById('task-guide-close-btn').addEventListener('click',function(e){
+  e.stopPropagation();
+  document.getElementById('task-guide').classList.remove('open');
+  localStorage.setItem(TASK_CLOSED_KEY,'1');
+});
+
 function showTaskGuide(){
   if(!currentUser)return;
+  if(localStorage.getItem(TASK_CLOSED_KEY))return;
   const state=getTaskState();
-  if(state.t1&&state.t2&&state.t3){closeTaskGuide();return;}
-  /* respect explicit dismiss — don't reopen unless all tasks just completed */
-  if(localStorage.getItem(_taskDismissedKey()))return;
+  if(state.t1&&state.t2&&state.t3){
+    document.getElementById('task-guide').classList.remove('open');
+    return;
+  }
   const el=document.getElementById('task-items');
   el.innerHTML=
     '<div class="task-item done">'
@@ -1835,9 +1845,7 @@ function showTaskGuide(){
 }
 function closeTaskGuide(){
   document.getElementById('task-guide').classList.remove('open');
-  /* persist dismissed state so panel stays closed after refresh */
-  const key=_taskDismissedKey();
-  if(key)localStorage.setItem(key,'1');
+  localStorage.setItem(TASK_CLOSED_KEY,'1');
 }
 
 async function markTask(taskKey,bonus){
