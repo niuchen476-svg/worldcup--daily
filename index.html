@@ -654,6 +654,32 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .data-flash{animation:flashGreen .7s ease-out}
 @keyframes numBump{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
 .score-bump{animation:numBump .35s ease-out}
+
+/* ══ PREDICTION BARS ══ */
+.pred-bar-wrap{margin:8px 0 4px;display:flex;flex-direction:column;gap:4px}
+.pred-bar-row{display:flex;align-items:center;gap:5px}
+.pred-bar-label{width:44px;color:var(--text3);text-align:right;flex-shrink:0;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pred-bar-track{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden}
+.pred-bar-fill-h{height:100%;border-radius:5px;background:linear-gradient(90deg,#00C853,#00a843);transition:width .6s ease}
+.pred-bar-fill-d{height:100%;border-radius:5px;background:rgba(255,215,0,.75);transition:width .6s ease}
+.pred-bar-fill-a{height:100%;border-radius:5px;background:linear-gradient(90deg,#ff6b35,#ff3d3d);transition:width .6s ease}
+.pred-bar-pct{width:30px;color:var(--text2);font-weight:700;font-size:10px;text-align:right}
+.pred-score-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;
+  background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.2);
+  border-radius:4px;padding:2px 7px;color:var(--glow);font-weight:600}
+.pred-winner-badge{display:inline-flex;align-items:center;font-size:10px;
+  background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);
+  color:var(--gold);border-radius:4px;padding:2px 7px;font-weight:700}
+.date-group-label{font-size:12px;font-weight:800;color:var(--gold);
+  border-left:3px solid var(--gold);padding-left:8px;margin:14px 0 8px;
+  display:flex;align-items:center;justify-content:space-between}
+.date-group-label span{font-size:10px;color:var(--text3);font-weight:400}
+.odds-chip-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.odds-chip{font-size:9px;padding:2px 6px;border-radius:4px;
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);
+  color:var(--gold);font-weight:600;white-space:nowrap}
+.elo-row{display:flex;justify-content:space-between;font-size:9px;color:var(--text3);
+  margin-top:5px;padding-top:5px;border-top:1px solid rgba(255,255,255,.06)}
 </style>
 </head>
 <body>
@@ -928,6 +954,117 @@ function toast(msg,isErr){
 
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+/* ── team country codes (ISO 3166-1 alpha-2 for flagcdn) ── */
+const TEAM_CODES={
+  'Mexico':'mx','South Africa':'za','South Korea':'kr','Czechia':'cz',
+  'Canada':'ca','Bosnia-Herzegovina':'ba','Qatar':'qa','Switzerland':'ch',
+  'United States':'us','Paraguay':'py','Turkey':'tr','Australia':'au',
+  'Brazil':'br','Morocco':'ma','Scotland':'gb-sct','Haiti':'ht',
+  'Germany':'de','Curaçao':'cw','Ivory Coast':'ci','Ecuador':'ec',
+  'Netherlands':'nl','Japan':'jp','Sweden':'se','Tunisia':'tn',
+  'Spain':'es','Cape Verde Islands':'cv','Saudi Arabia':'sa','Uruguay':'uy',
+  'Belgium':'be','Egypt':'eg','Iran':'ir','New Zealand':'nz',
+  'France':'fr','Senegal':'sn','Iraq':'iq','Norway':'no',
+  'Argentina':'ar','Algeria':'dz','Austria':'at','Jordan':'jo',
+  'Portugal':'pt','Congo DR':'cd','Uzbekistan':'uz','Colombia':'co',
+  'England':'gb-eng','Croatia':'hr','Ghana':'gh','Panama':'pa',
+};
+const WC_GROUPS={
+  'Mexico':'A组','South Africa':'A组','South Korea':'A组','Czechia':'A组',
+  'Canada':'B组','Bosnia-Herzegovina':'B组','Qatar':'B组','Switzerland':'B组',
+  'United States':'C组','Paraguay':'C组','Turkey':'C组','Australia':'C组',
+  'Brazil':'D组','Morocco':'D组','Scotland':'D组','Haiti':'D组',
+  'Germany':'E组','Curaçao':'E组','Ivory Coast':'E组','Ecuador':'E组',
+  'Netherlands':'F组','Japan':'F组','Sweden':'F组','Tunisia':'F组',
+  'Spain':'G组','Cape Verde Islands':'G组','Saudi Arabia':'G组','Uruguay':'G组',
+  'Belgium':'H组','Egypt':'H组','Iran':'H组','New Zealand':'H组',
+  'France':'I组','Senegal':'I组','Iraq':'I组','Norway':'I组',
+  'Argentina':'J组','Algeria':'J组','Austria':'J组','Jordan':'J组',
+  'Portugal':'K组','Congo DR':'K组','Uzbekistan':'K组','Colombia':'K组',
+  'England':'L组','Croatia':'L组','Ghana':'L组','Panama':'L组',
+};
+
+function transformData(raw){
+  const bjNow=new Date(Date.now()+8*3600000);
+  const bjToday=bjNow.toISOString().slice(0,10);
+  const bjYesterday=new Date(bjNow.getTime()-86400000).toISOString().slice(0,10);
+  function parseLocal(lt){
+    if(!lt)return{date:'',time:''};
+    const m=lt.match(/(\d+)月(\d+)日\s*(\d+:\d+)/);
+    if(!m)return{date:'',time:lt};
+    return{date:'2026-'+m[1].padStart(2,'0')+'-'+m[2].padStart(2,'0'),time:m[3]};
+  }
+  const allMatches=(raw.matches||[]).filter(m=>m.home_team&&m.away_team).map(m=>{
+    const{date:mdate,time}=parseLocal(m.local_time);
+    return{match_id:m.match_id,home:m.home_team,away:m.away_team,
+      home_code:TEAM_CODES[m.home_team]||'',away_code:TEAM_CODES[m.away_team]||'',
+      time,date:mdate,group:WC_GROUPS[m.home_team]||'',venue:'',
+      status:m.status,utc_date:m.utc_date,local_time:m.local_time};
+  });
+  const matchesByDate={};
+  allMatches.forEach(m=>{if(!matchesByDate[m.date])matchesByDate[m.date]=[];matchesByDate[m.date].push(m);});
+  const hot_topics=(raw.hot_topics||[]).map(t=>({
+    title:t.title,summary:(t.keywords||[]).join('、')||'世界杯相关',
+    sentiment:'中性',heat:t.heat_score||0,source:'直播吧',url:t.source_url||'',
+  }));
+  return{
+    date:bjToday,
+    today_matches:matchesByDate[bjToday]||[],
+    yesterday_matches:(matchesByDate[bjYesterday]||[]).filter(m=>m.status==='FINISHED'),
+    hot_topics,ai_prediction:'',
+    _matchesByDate:matchesByDate,_allMatches:allMatches,_raw:raw,
+  };
+}
+
+function buildPredBar(pred,homeLabel,awayLabel){
+  if(!pred)return'';
+  const hp=Math.round(pred.final_home_win_probability*100);
+  const dp=Math.round(pred.final_draw_probability*100);
+  const ap=Math.round(pred.final_away_win_probability*100);
+  const hl=(homeLabel||'主队').slice(0,5),al=(awayLabel||'客队').slice(0,5);
+  return'<div class="pred-bar-wrap">'
+    +'<div class="pred-bar-row"><span class="pred-bar-label">'+esc(hl)+'</span><div class="pred-bar-track"><div class="pred-bar-fill-h" style="width:'+hp+'%"></div></div><span class="pred-bar-pct">'+hp+'%</span></div>'
+    +'<div class="pred-bar-row"><span class="pred-bar-label">平局</span><div class="pred-bar-track"><div class="pred-bar-fill-d" style="width:'+dp+'%"></div></div><span class="pred-bar-pct">'+dp+'%</span></div>'
+    +'<div class="pred-bar-row"><span class="pred-bar-label">'+esc(al)+'</span><div class="pred-bar-track"><div class="pred-bar-fill-a" style="width:'+ap+'%"></div></div><span class="pred-bar-pct">'+ap+'%</span></div>'
+    +'</div>'
+    +'<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:4px">'
+    +(pred.final_score?'<span class="pred-score-tag">🎯 '+esc(pred.final_score)+'</span>':'')
+    +'<span class="pred-winner-badge">⭐ '+esc(pred.final_predicted_winner)+'</span>'
+    +(pred.final_confidence?'<span style="font-size:9px;color:var(--text3)">置信 '+Math.round(pred.final_confidence*100)+'%</span>':'')
+    +'</div>';
+}
+
+function buildOddsChips(m){
+  const od=appOdds[m.home+'_'+m.away];
+  if(!od||!od.bookmakers)return'';
+  const p=od.bookmakers.pinnacle||od.bookmakers.marathonbet||Object.values(od.bookmakers)[0];
+  if(!p)return'';
+  return'<div class="odds-chip-row">'
+    +'<span class="odds-chip">主胜 '+p.home_win+'</span>'
+    +'<span class="odds-chip">平局 '+p.draw+'</span>'
+    +'<span class="odds-chip">客胜 '+p.away_win+'</span>'
+    +'<span class="odds-chip" style="opacity:.5;font-size:8px">Pinnacle</span>'
+    +'</div>';
+}
+
+function buildAISummary(){
+  const preds=Object.values(appPreds);
+  if(!preds.length)return'世界杯将于2026年6月12日在北美三国（美国、加拿大、墨西哥）正式开幕，首届48队扩大赛制共72场小组赛。AI模型持续更新预测中…';
+  const total=preds.length;
+  const hw=preds.filter(p=>p.final_result==='HOME_WIN').length;
+  const dr=preds.filter(p=>p.final_result==='DRAW').length;
+  const aw=preds.filter(p=>p.final_result==='AWAY_WIN').length;
+  const hc=preds.filter(p=>p.final_confidence>0.6).length;
+  const top=preds.reduce((b,p)=>(!b||p.final_confidence>b.final_confidence)?p:b,null);
+  return'【ELO+泊松模型 v1 · 共预测 '+total+' 场小组赛】\n\n'
+    +'本届世界杯首次扩军至48队，三支球队举办，小组赛 '+total+' 场激战。模型预测主队胜率约 '
+    +Math.round(hw/total*100)+'%、平局 '+Math.round(dr/total*100)+'%、客队胜 '+Math.round(aw/total*100)
+    +'%，主场优势在北美赛场依然是关键变量。\n\n'
+    +'其中 '+hc+' 场比赛模型置信度超60%，强弱差距悬殊。'
+    +(top?'最高置信对阵：'+top.match_name+'（预测 '+esc(top.final_predicted_winner)+'胜，置信度 '+Math.round(top.final_confidence*100)+'%）':'')
+    +'，敬请期待！';
+}
+
 function flagImg(code,cls){
   const c=(code||'').toUpperCase(),lc=c.toLowerCase();
   return '<img class="'+cls+'" src="https://flagcdn.com/w80/'+lc+'.png" loading="lazy" '
@@ -1132,7 +1269,8 @@ function buildGroupStandings(data){
     else if(+m.home_score<+m.away_score){at.w++;at.pts+=3;ht.l++;}
     else{ht.d++;ht.pts+=1;at.d++;at.pts+=1;}
   });
-  (data.today_matches||[]).forEach(m=>{addTeam(m.home,m.home_code,m.group);addTeam(m.away,m.away_code,m.group);});
+  /* populate all teams from full schedule so groups always show */
+  (data._allMatches||data.today_matches||[]).forEach(m=>{addTeam(m.home,m.home_code,m.group);addTeam(m.away,m.away_code,m.group);});
   const groups={};
   Object.values(teams).forEach(t=>{
     if(!groups[t.group])groups[t.group]=[];
@@ -1249,17 +1387,20 @@ function typeWriter(el,text,speed){
 }
 
 /* ── render home ── */
-let appData=null;
+let appData=null,appPreds={},appOdds={};
 function renderHome(data){
   appData=data;
   const[,mm,dd]=data.date.split('-');
   document.getElementById('date-display').textContent=fmtDate(data.date);
   let html='';
 
-  html+='<div class="sec-head"><div class="sec-title">📅 今日赛程</div><span class="sec-badge badge-green">'+mm+'月'+dd+'日 · '+data.today_matches.length+'场</span></div>';
-  if(!data.today_matches||data.today_matches.length===0){html+=buildEmptyState();}
-  else{
+  /* ── 今日赛程 ── */
+  html+='<div class="sec-head"><div class="sec-title">📅 今日赛程</div><span class="sec-badge badge-green">'+mm+'月'+dd+'日</span></div>';
+  if(!data.today_matches||data.today_matches.length===0){
+    html+=buildEmptyState();
+  }else{
     data.today_matches.forEach((m,i)=>{
+      const pred=appPreds[m.match_id];
       const pcount=Math.floor(Math.abs(Math.sin(i*7.3+1))*500+50);
       const mj=JSON.stringify(m).replace(/"/g,'&quot;');
       const hj=JSON.stringify({name:m.home,code:m.home_code,group:m.group}).replace(/"/g,'&quot;');
@@ -1271,19 +1412,55 @@ function renderHome(data){
         +'<div class="match-card-inner"><div class="match-teams">'
         +'<div class="team-block team-block-click" onclick="event.stopPropagation();openTeamDetail(JSON.parse(this.dataset.t))" data-t="'+hj+'">'
         +flagImg(m.home_code,'team-flag')+'<div class="team-name">'+esc(m.home)+'</div><div class="team-form">'+formDots()+'</div></div>'
-        +'<div class="vs-block">'+matchStatus(m.time,data.date)+'<div class="match-time">'+esc(m.time)+'</div><div class="vs-text">VS</div></div>'
+        +'<div class="vs-block">'+matchStatus(m.time,m.date||data.date)+'<div class="match-time">'+esc(m.time)+'</div><div class="vs-text">VS</div></div>'
         +'<div class="team-block team-block-click" onclick="event.stopPropagation();openTeamDetail(JSON.parse(this.dataset.t))" data-t="'+aj+'">'
         +flagImg(m.away_code,'team-flag')+'<div class="team-name">'+esc(m.away)+'</div><div class="team-form">'+formDots()+'</div></div>'
         +'</div>'
-        +'<div class="match-footer"><div class="match-tags"><span class="group-tag">'+esc(m.group)+'</span><span class="venue-tag">📍'+esc(m.venue)+'</span></div>'
-        +'<span class="predict-count">👥 已有'+pcount+'人竞猜</span></div>'
+        +buildPredBar(pred,m.home,m.away)
+        +buildOddsChips(m)
+        +'<div class="match-footer" style="margin-top:6px"><div class="match-tags"><span class="group-tag">'+esc(m.group)+'</span></div>'
+        +'<span class="predict-count">👥 '+pcount+'人竞猜</span></div>'
         +'</div></div>';
     });
   }
 
+  /* ── 近期赛程预测（最近5天） ── */
+  if(data._matchesByDate){
+    const upcoming=Object.keys(data._matchesByDate).filter(d=>d>data.date).sort().slice(0,5);
+    if(upcoming.length){
+      html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">⚡ 近期赛程预测</div><span class="sec-badge badge-gold">ELO模型</span></div>';
+      upcoming.forEach(dk=>{
+        const ms=data._matchesByDate[dk];
+        const lbl=dk.slice(5).replace('-','月')+'日';
+        html+='<div class="date-group-label">'+lbl+'<span>'+ms.length+' 场</span></div>';
+        ms.slice(0,4).forEach((m,i)=>{
+          const pred=appPreds[m.match_id];
+          const mj=JSON.stringify(m).replace(/"/g,'&quot;');
+          html+='<div class="match-card stagger-item" style="animation-delay:'+i*.06+'s;cursor:pointer" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
+            +'<img class="match-bg-home" src="https://flagcdn.com/w80/'+(m.home_code||'').toLowerCase()+'.png" alt="" onerror="this.style.display=\'none\'">'
+            +'<img class="match-bg-away" src="https://flagcdn.com/w80/'+(m.away_code||'').toLowerCase()+'.png" alt="" onerror="this.style.display=\'none\'">'
+            +'<div class="match-bg-overlay"></div>'
+            +'<div class="match-card-inner">'
+            +'<div class="match-teams" style="margin-bottom:4px">'
+            +'<div class="team-block">'+flagImg(m.home_code,'team-flag')+'<div class="team-name">'+esc(m.home)+'</div></div>'
+            +'<div class="vs-block"><div class="match-time" style="font-size:12px">'+esc(m.time)+'</div><div class="vs-text" style="font-size:16px">VS</div>'
+            +(m.group?'<div style="font-size:9px;color:var(--text3)">'+esc(m.group)+'</div>':'')+'</div>'
+            +'<div class="team-block">'+flagImg(m.away_code,'team-flag')+'<div class="team-name">'+esc(m.away)+'</div></div>'
+            +'</div>'
+            +buildPredBar(pred,m.home,m.away)
+            +buildOddsChips(m)
+            +'</div></div>';
+        });
+        if(ms.length>4)html+='<div style="text-align:center;font-size:11px;color:var(--text3);margin:2px 0 6px">另有 '+(ms.length-4)+' 场 · 去竞猜页查看全部</div>';
+      });
+    }
+  }
+
+  /* ── 昨日战报 ── */
   html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">📊 昨日战报</div><span class="sec-badge badge-gold">已完赛</span></div>';
-  if(!data.yesterday_matches||data.yesterday_matches.length===0){html+='<div class="empty-state"><p style="color:var(--text3)">暂无昨日战报</p></div>';}
-  else data.yesterday_matches.forEach((m,i)=>{
+  if(!data.yesterday_matches||data.yesterday_matches.length===0){
+    html+='<div style="text-align:center;padding:16px;color:var(--text3);font-size:12px">暂无昨日战报</div>';
+  }else data.yesterday_matches.forEach((m,i)=>{
     const sc=(m.scorers||[]).map(s=>'<span class="scorer-tag">⚽ '+esc(s)+'</span>').join('');
     html+='<div class="result-card stagger-item" style="animation-delay:'+i*.1+'s">'
       +'<div class="result-teams"><div class="result-team-name">'+flagImg(m.home_code,'team-flag')+' '+esc(m.home)+'</div>'
@@ -1292,44 +1469,46 @@ function renderHome(data){
       +'<div class="result-meta"><div class="scorer-row">'+sc+'</div><div class="summary-text">'+esc(m.summary||'')+'</div></div></div>';
   });
 
+  /* ── 热点舆情 ── */
   html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🔥 热点舆情</div><span class="sec-badge badge-red">实时</span></div>';
   const maxH=Math.max(...(data.hot_topics||[]).map(t=>t.heat||0),1);
-  (data.hot_topics||[]).forEach((t,i)=>{
-    const pct=Math.round((t.heat||0)/maxH*100);
-    const sc=t.sentiment==='正面'?'pos':t.sentiment==='负面'?'neg':'neu';
-    const bc=t.sentiment==='正面'?'sent-pos-b':t.sentiment==='负面'?'sent-neg-b':'sent-neu-b';
-    const oc=t.url?'onclick="window.open('+JSON.stringify(t.url)+')"':'';
-    const tcId='tc'+i;
-    const te=esc(t.title);
-    html+='<div class="sent-card '+sc+' stagger-item" style="animation-delay:'+i*.07+'s" '+oc+'>'
-      +'<div class="sent-head"><span class="sent-title">'+te+'</span><span class="sent-badge '+bc+'">'+esc(t.sentiment||'中性')+'</span></div>'
-      +'<div class="sent-summary">'+esc(t.summary||'')+'</div>'
-      +'<div class="sent-source-row"><span>🔥 热度</span><div class="heat-wrap"><div class="heat-fill" style="width:'+pct+'%"></div></div>'
-      +'<span>'+(t.heat||0).toLocaleString()+'</span><span>· '+esc(t.source||'')+'</span></div>'
-      +'<div class="topic-comment-toggle" onclick="event.stopPropagation();toggleTopicComments(this)" data-tcid="'+tcId+'" data-title="'+te+'">'
-      +'💬 <span id="tcc-'+tcId+'">评论</span><span class="tc-arrow">▼</span></div>'
-      +'<div class="topic-comments" id="'+tcId+'" onclick="event.stopPropagation()">'
-      +'<div class="topic-comment-input-row" style="display:none" id="tci-row-'+tcId+'">'
-      +(currentUser
-        ?'<input class="topic-comment-input" id="tci-'+tcId+'" placeholder="写评论…" maxlength="100">'
-          +'<button class="topic-comment-send" data-title="'+te+'" data-tcid="'+tcId+'" onclick="submitTopicComment(this.dataset.title,this.dataset.tcid)">发送</button>'
-        :'<span style="font-size:11px;color:var(--text3);padding:4px 0">登录后参与评论</span>')
-      +'</div>'
-      +'<div class="topic-comment-list" id="tcl-'+tcId+'"></div>'
-      +'</div></div>';
-  });
+  if(!data.hot_topics||!data.hot_topics.length){
+    html+='<div style="text-align:center;padding:16px;color:var(--text3);font-size:12px">暂无热点话题</div>';
+  }else{
+    (data.hot_topics||[]).forEach((t,i)=>{
+      const pct=Math.round((t.heat||0)/maxH*100);
+      const sc=t.sentiment==='正面'?'pos':t.sentiment==='负面'?'neg':'neu';
+      const bc=t.sentiment==='正面'?'sent-pos-b':t.sentiment==='负面'?'sent-neg-b':'sent-neu-b';
+      const oc=t.url?'onclick="window.open('+JSON.stringify(t.url)+')"':'';
+      const tcId='tc'+i,te=esc(t.title);
+      html+='<div class="sent-card '+sc+' stagger-item" style="animation-delay:'+i*.07+'s" '+oc+'>'
+        +'<div class="sent-head"><span class="sent-title">'+te+'</span><span class="sent-badge '+bc+'">'+esc(t.sentiment||'中性')+'</span></div>'
+        +'<div class="sent-summary">'+esc(t.summary||'')+'</div>'
+        +'<div class="sent-source-row"><span>🔥 热度</span><div class="heat-wrap"><div class="heat-fill" style="width:'+pct+'%"></div></div>'
+        +'<span>'+(t.heat||0).toLocaleString()+'</span><span>· '+esc(t.source||'')+'</span></div>'
+        +'<div class="topic-comment-toggle" onclick="event.stopPropagation();toggleTopicComments(this)" data-tcid="'+tcId+'" data-title="'+te+'">'
+        +'💬 <span id="tcc-'+tcId+'">评论</span><span class="tc-arrow">▼</span></div>'
+        +'<div class="topic-comments" id="'+tcId+'" onclick="event.stopPropagation()">'
+        +'<div class="topic-comment-input-row" style="display:none" id="tci-row-'+tcId+'">'
+        +(currentUser
+          ?'<input class="topic-comment-input" id="tci-'+tcId+'" placeholder="写评论…" maxlength="100">'
+            +'<button class="topic-comment-send" data-title="'+te+'" data-tcid="'+tcId+'" onclick="submitTopicComment(this.dataset.title,this.dataset.tcid)">发送</button>'
+          :'<span style="font-size:11px;color:var(--text3);padding:4px 0">登录后参与评论</span>')
+        +'</div><div class="topic-comment-list" id="tcl-'+tcId+'"></div></div></div>';
+    });
+  }
 
-  html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🤖 AI 预测</div><span class="sec-badge badge-green">模型推理</span></div>';
-  const aiText=typeof data.ai_prediction==='string'?data.ai_prediction:(data.ai_prediction?.text||'');
+  /* ── AI 预测 ── */
+  html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🤖 AI 预测</div><span class="sec-badge badge-green">ELO+泊松模型</span></div>';
   html+='<div class="ai-card stagger-item" style="animation-delay:.3s">'
     +'<svg class="ai-neural-bg" width="100%" height="100%" viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice">'
     +'<g stroke="rgba(0,200,83,0.12)" stroke-width="1" fill="none">'+neuralLines()+'</g></svg>'
     +'<div class="ai-head"><div class="ai-icon-wrap">🤖</div><div class="ai-meta">'
-    +'<div class="ai-label-txt">Daily Analyst</div><div class="ai-model-txt">世界杯形势研判</div></div></div>'
+    +'<div class="ai-label-txt">ELO + Poisson v1</div><div class="ai-model-txt">赛事概率预测模型</div></div></div>'
     +'<div class="ai-body" id="ai-body"></div></div>';
 
   document.getElementById('home-content').innerHTML=html;
-  typeWriter(document.getElementById('ai-body'),aiText,25);
+  typeWriter(document.getElementById('ai-body'),buildAISummary(),20);
   if(document.getElementById('wc-countdown'))startCountdown();
 }
 
@@ -1346,20 +1525,43 @@ function renderPredict(data){
     +'<button class="view-toggle-btn'+(schedView==='timeline'?' active':'')+'" onclick="switchScheduleView(\'timeline\')">⏱ 时间轴</button>'
     +'</div>';
   if(schedView==='timeline'){el.innerHTML=toggleHtml+renderTimeline(data);return;}
-  if(!data||!data.today_matches||data.today_matches.length===0){
-    el.innerHTML=toggleHtml+'<div class="predict-empty"><div style="font-size:36px;margin-bottom:8px">📅</div>今日暂无可竞猜赛程</div>';return;
+  if(!data||!data._matchesByDate){
+    el.innerHTML=toggleHtml+'<div class="predict-empty">暂无赛程数据</div>';return;
   }
-  el.innerHTML=toggleHtml+'<div class="sec-head"><div class="sec-title">🎯 今日竞猜</div><span class="sec-badge badge-green">'+data.today_matches.length+' 场可投</span></div>'
-    +data.today_matches.map(m=>{
+  const bjDate=new Date(Date.now()+8*3600000).toISOString().slice(0,10);
+  const upcoming=Object.entries(data._matchesByDate)
+    .filter(([d])=>d>=bjDate).sort(([a],[b])=>a.localeCompare(b));
+  if(!upcoming.length){
+    el.innerHTML=toggleHtml+'<div class="predict-empty">暂无可竞猜赛程</div>';return;
+  }
+  const total=upcoming.reduce((s,[,ms])=>s+ms.length,0);
+  let html=toggleHtml+'<div class="sec-head"><div class="sec-title">🎯 全部赛程竞猜</div>'
+    +'<span class="sec-badge badge-green">共 '+total+' 场</span></div>';
+  upcoming.forEach(([dk,ms])=>{
+    const lbl=dk.slice(5).replace('-','月')+'日';
+    const isToday=dk===bjDate;
+    html+='<div class="date-group-label">'+(isToday?'⚡ 今日 ':'📅 ')+lbl+'<span>'+ms.length+' 场</span></div>';
+    ms.forEach((m,i)=>{
+      const pred=appPreds[m.match_id];
       const mj=JSON.stringify(m).replace(/"/g,'&quot;');
-      return '<div class="predict-card" style="cursor:pointer" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
-        +'<div class="predict-teams"><div class="predict-team">'+flagImg(m.home_code,'predict-flag')+'<div class="predict-tname">'+esc(m.home)+'</div></div>'
+      html+='<div class="predict-card" style="cursor:pointer" onclick="openMatchDetail(JSON.parse(this.dataset.m))" data-m="'+mj+'">'
+        +'<div class="predict-teams" style="margin-bottom:6px">'
+        +'<div class="predict-team">'+flagImg(m.home_code,'predict-flag')+'<div class="predict-tname">'+esc(m.home)+'</div></div>'
+        +'<div style="display:flex;flex-direction:column;align-items:center;gap:2px">'
+        +'<div class="predict-vs" style="font-size:11px;color:var(--glow)">'+esc(m.time)+'</div>'
         +'<div class="predict-vs">VS</div>'
+        +(m.group?'<div style="font-size:9px;color:var(--text3)">'+esc(m.group)+'</div>':'')+'</div>'
         +'<div class="predict-team">'+flagImg(m.away_code,'predict-flag')+'<div class="predict-tname">'+esc(m.away)+'</div></div></div>'
-        +'<div class="predict-meta"><span>'+esc(m.group)+' · 📍'+esc(m.venue)+'</span>'
-        +'<span class="predict-time">⏰ '+esc(m.time)+'</span>'
-        +'<button class="predict-btn" onclick="event.stopPropagation();openMatchDetail(JSON.parse(this.closest(\'[data-m]\').dataset.m))">竞猜</button></div></div>';
-    }).join('');
+        +buildPredBar(pred,m.home,m.away)
+        +buildOddsChips(m)
+        +(pred?'<div class="elo-row"><span>ELO '+Math.round(pred.home_elo||0)+' vs '+Math.round(pred.away_elo||0)+'</span>'
+          +'<span>期望进球 '+esc(pred.adjusted_expected_score||pred.base_expected_score||'')+'</span></div>':'')
+        +'<div class="predict-meta" style="margin-top:6px"><span style="font-size:10px;color:var(--text3)">'+(m.group||'')+'</span>'
+        +'<button class="predict-btn" onclick="event.stopPropagation();openMatchDetail(JSON.parse(this.closest(\'[data-m]\').dataset.m))">竞猜</button></div>'
+        +'</div>';
+    });
+  });
+  el.innerHTML=html;
 }
 
 /* ── empty state ── */
@@ -1450,29 +1652,48 @@ function openMatchDetail(m){
   document.getElementById('mf-name-l').textContent=m.home;
   document.getElementById('mf-name-r').textContent=m.away;
 
-  const odds=calcOdds(m.home,m.away);
-  const dist=betDist(m.home,m.away);
+  const pred=appPreds[m.match_id];
+  const oddsObj=appOdds[m.home+'_'+m.away];
+  /* pick best bookmaker odds available, fall back to calculated */
+  let hoOdds,drOdds,awOdds;
+  if(oddsObj&&oddsObj.bookmakers){
+    const bk=oddsObj.bookmakers.pinnacle||oddsObj.bookmakers.marathonbet||Object.values(oddsObj.bookmakers)[0];
+    if(bk){hoOdds=bk.home_win;drOdds=bk.draw;awOdds=bk.away_win;}
+  }
+  if(!hoOdds){const fc=calcOdds(m.home,m.away);hoOdds=fc.home;drOdds=fc.draw;awOdds=fc.away;}
+  /* distribution: use model probs if available */
+  let dh,dd,da;
+  if(pred){
+    dh=Math.round(pred.final_home_win_probability*100);
+    dd=Math.round(pred.final_draw_probability*100);
+    da=Math.round(pred.final_away_win_probability*100);
+  }else{const dist=betDist(m.home,m.away);dh=dist.h;dd=dist.d;da=dist.a;}
 
   document.getElementById('mf-odds-row').innerHTML=
     '<button class="odds-btn" data-mfc="home"><div class="odds-btn-label">主队胜</div>'
-    +'<div class="odds-btn-val">'+odds.home+'x</div>'
+    +'<div class="odds-btn-val">'+hoOdds+'</div>'
     +'<div class="odds-btn-team">'+esc(m.home)+'</div></button>'
     +'<button class="odds-btn" data-mfc="draw"><div class="odds-btn-label">平局</div>'
-    +'<div class="odds-btn-val">'+odds.draw+'x</div>'
+    +'<div class="odds-btn-val">'+drOdds+'</div>'
     +'<div class="odds-btn-team">—</div></button>'
     +'<button class="odds-btn" data-mfc="away"><div class="odds-btn-label">客队胜</div>'
-    +'<div class="odds-btn-val">'+odds.away+'x</div>'
+    +'<div class="odds-btn-val">'+awOdds+'</div>'
     +'<div class="odds-btn-team">'+esc(m.away)+'</div></button>';
 
   document.getElementById('mf-dist').innerHTML=
     '<div class="dist-bar">'
-    +'<div class="dist-home" style="width:'+dist.h+'%"></div>'
-    +'<div class="dist-draw" style="width:'+dist.d+'%"></div>'
+    +'<div class="dist-home" style="width:'+dh+'%"></div>'
+    +'<div class="dist-draw" style="width:'+dd+'%"></div>'
     +'<div class="dist-away" style="flex:1"></div></div>'
     +'<div class="dist-labels">'
-    +'<span>🟢 '+esc(m.home)+' '+dist.h+'%</span>'
-    +'<span>🟡 平局 '+dist.d+'%</span>'
-    +'<span>🔴 '+esc(m.away)+' '+dist.a+'%</span></div>';
+    +'<span>🟢 '+esc(m.home)+' '+dh+'%</span>'
+    +'<span>🟡 平局 '+dd+'%</span>'
+    +'<span>🔴 '+esc(m.away)+' '+da+'%</span></div>'
+    +(pred?'<div style="text-align:center;margin-top:6px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'
+      +(pred.final_score?'<span class="pred-score-tag">🎯 预测 '+esc(pred.final_score)+'</span>':'')
+      +'<span class="pred-winner-badge">'+esc(pred.final_predicted_winner)+' 胜</span>'
+      +(pred.home_elo?'<span style="font-size:9px;color:var(--text3);align-self:center">ELO '+Math.round(pred.home_elo)+' vs '+Math.round(pred.away_elo)+'</span>':'')
+      +'</div>':'');
 
   document.getElementById('mf-bet-opts').innerHTML=
     '<button class="bet-opt-btn" data-mfv="home">'+esc(m.home)+' 赢</button>'
@@ -1492,8 +1713,19 @@ function openMatchDetail(m){
     document.getElementById('mf-team-l').classList.add('in');
     document.getElementById('mf-team-r').classList.add('in');
   },80);
-  /* AI typewriter */
-  setTimeout(()=>typeWriter(document.getElementById('mf-ai-box'),genAIText(m.home,m.away),28),600);
+  /* AI typewriter — use real prediction if available */
+  let aiAnalysis;
+  if(pred){
+    const conf=Math.round(pred.final_confidence*100);
+    const elo1=Math.round(pred.home_elo||0),elo2=Math.round(pred.away_elo||0);
+    const expScore=pred.adjusted_expected_score||pred.base_expected_score||'';
+    const topLines=pred.base_top_scorelines||'';
+    aiAnalysis='【ELO评分】'+m.home+' '+elo1+' vs '+m.away+' '+elo2
+      +'\n预测结果：'+pred.final_predicted_winner+'胜（置信度 '+conf+'%）'
+      +(expScore?'\n期望进球：'+expScore:'')
+      +(topLines?'\n最可能比分：'+topLines:'');
+  }else{aiAnalysis=genAIText(m.home,m.away);}
+  setTimeout(()=>typeWriter(document.getElementById('mf-ai-box'),aiAnalysis,22),600);
 
   /* bind bet option clicks */
   document.querySelectorAll('[data-mfc]').forEach(b=>b.onclick=()=>{
@@ -1767,17 +1999,18 @@ function startPolling(hasLive){
 }
 async function doPoll(){
   try{
-    const data=await fetch('./data.json',{cache:'no-cache'}).then(r=>r.json());
-    const str=JSON.stringify(data);
+    const raw=await fetch('./data.json',{cache:'no-cache'}).then(r=>r.json());
+    const str=JSON.stringify(raw);
     if(_lastDataStr&&_lastDataStr!==str){
       toast('✅ 数据已更新');
       const hc=document.getElementById('home-content');
       if(hc){hc.classList.remove('data-flash');requestAnimationFrame(()=>hc.classList.add('data-flash'));}
+      const data=transformData(raw);
       renderHome(data);renderPredict(data);
     }
     _lastDataStr=str;
-    startPolling(computeHasLive(data));
-    checkMatchReminders(data);
+    startPolling(computeHasLive(appData));
+    checkMatchReminders(appData);
   }catch(_){}
 }
 document.addEventListener('visibilitychange',()=>{
@@ -2122,8 +2355,16 @@ document.addEventListener('click',e=>{
 async function init(){
   renderProfile();
   try{
-    const data=await fetch('./data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
-    _lastDataStr=JSON.stringify(data);
+    const [rawData,predsData,oddsData]=await Promise.all([
+      fetch('./data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}),
+      fetch('./predictions.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({predictions:[]})),
+      fetch('./odds.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({match_odds:[]})),
+    ]);
+    /* build lookup maps */
+    (predsData.predictions||[]).forEach(p=>appPreds[p.match_id]=p);
+    (oddsData.match_odds||[]).forEach(o=>{appOdds[o.home_team+'_'+o.away_team]=o;});
+    const data=transformData(rawData);
+    _lastDataStr=JSON.stringify(rawData);
     renderHome(data);renderPredict(data);
     startPolling(computeHasLive(data));
     startReminderCheck(data);
