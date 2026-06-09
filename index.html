@@ -50,7 +50,7 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .banner-center{position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;z-index:2;gap:6px;pointer-events:none}
 .banner-trophy{width:72px;height:72px;filter:drop-shadow(0 0 20px rgba(255,215,0,.7));
-  margin-bottom:2px}
+  margin-bottom:2px;object-fit:contain;border-radius:8px}
 .banner-title{font-size:21px;font-weight:900;color:#fff;letter-spacing:.5px;
   text-shadow:0 2px 16px rgba(0,0,0,.9)}
 .banner-subtitle{font-size:11px;color:var(--gold);letter-spacing:2.5px;
@@ -374,7 +374,8 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 /* ══ EMPTY STATE with countdown ══ */
 .empty-state{text-align:center;padding:40px 20px;border-radius:14px;
   background:repeating-linear-gradient(0deg,rgba(0,200,83,.012) 0,rgba(0,200,83,.012) 1px,transparent 1px,transparent 40px)}
-.empty-trophy{width:100px;height:100px;margin:0 auto 12px;
+.empty-trophy{width:120px;height:150px;margin:0 auto 12px;display:block;
+  object-fit:contain;border-radius:10px;
   filter:drop-shadow(0 0 24px rgba(255,215,0,.65));
   animation:trophyFloat 3s ease-in-out infinite}
 @keyframes trophyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
@@ -697,18 +698,7 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   <div class="banner-overlay"></div>
   <div class="banner-glow"></div>
   <div class="banner-center">
-    <svg class="banner-trophy" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#FFD700"/><stop offset="50%" stop-color="#FFF8DC"/><stop offset="100%" stop-color="#C8920A"/>
-      </linearGradient></defs>
-      <rect x="30" y="108" width="40" height="6" rx="3" fill="url(#tg)"/>
-      <rect x="38" y="96" width="24" height="12" rx="2" fill="url(#tg)"/>
-      <rect x="44" y="80" width="12" height="18" rx="2" fill="url(#tg)"/>
-      <path d="M22 10 L26 76 Q50 88 74 76 L78 10 Z" fill="url(#tg)" opacity=".9"/>
-      <path d="M22 18 Q7 26 9 46 Q11 60 24 62" stroke="url(#tg)" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M78 18 Q93 26 91 46 Q89 60 76 62" stroke="url(#tg)" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="40" cy="36" rx="5" ry="14" fill="rgba(255,255,255,0.28)" transform="rotate(-15 40 36)"/>
-    </svg>
+    <img class="banner-trophy" src="./trophy.png" alt="FIFA World Cup Trophy">
     <div class="banner-title">2026 FIFA World Cup</div>
     <div class="banner-subtitle">每日晨报 · AI 数据驱动</div>
   </div>
@@ -1621,17 +1611,7 @@ const TIPS=['裁判正在检查球场草坪...','球员们正在热身，数据�
 let tipIdx=0,_cdInt=null,_tipInt=null;
 function buildEmptyState(){
   return '<div class="empty-state">'
-    +'<svg class="empty-trophy" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<defs><linearGradient id="etg" x1="0%" y1="0%" x2="100%" y2="100%">'
-    +'<stop offset="0%" stop-color="#FFD700"/><stop offset="50%" stop-color="#FFF8DC"/><stop offset="100%" stop-color="#C8920A"/>'
-    +'</linearGradient></defs>'
-    +'<rect x="30" y="108" width="40" height="6" rx="3" fill="url(#etg)"/>'
-    +'<rect x="38" y="96" width="24" height="12" rx="2" fill="url(#etg)"/>'
-    +'<rect x="44" y="80" width="12" height="18" rx="2" fill="url(#etg)"/>'
-    +'<path d="M22 10 L26 76 Q50 88 74 76 L78 10 Z" fill="url(#etg)" opacity=".9"/>'
-    +'<path d="M22 18 Q7 26 9 46 Q11 60 24 62" stroke="url(#etg)" stroke-width="5" fill="none" stroke-linecap="round"/>'
-    +'<path d="M78 18 Q93 26 91 46 Q89 60 76 62" stroke="url(#etg)" stroke-width="5" fill="none" stroke-linecap="round"/>'
-    +'<ellipse cx="40" cy="36" rx="5" ry="14" fill="rgba(255,255,255,0.28)" transform="rotate(-15 40 36)"/></svg>'
+    +'<img class="empty-trophy" src="./trophy.png" alt="FIFA World Cup Trophy">'
     +'<div class="empty-cd-label">距世界杯开幕还有</div>'
     +'<div class="empty-countdown" id="wc-countdown">'
     +'<div class="empty-cd-item"><div class="empty-cd-num" id="cd-days">--</div><div class="empty-cd-unit">天</div></div>'
