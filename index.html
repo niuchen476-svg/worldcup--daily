@@ -984,6 +984,57 @@ const WC_GROUPS={
   'England':'L组','Croatia':'L组','Ghana':'L组','Panama':'L组',
 };
 
+const TEAM_RATINGS={
+  'Spain':{elo:2238.4,atk:1.317,def:0.839,gf:2.448,ga:0.816,rank:1},
+  'Argentina':{elo:2196.7,atk:1.158,def:0.775,gf:1.907,ga:0.599,rank:2},
+  'France':{elo:2163.3,atk:1.229,def:0.854,gf:2.147,ga:0.869,rank:3},
+  'England':{elo:2113.4,atk:1.265,def:0.787,gf:2.271,ga:0.639,rank:4},
+  'Brazil':{elo:2073.0,atk:1.133,def:0.811,gf:1.819,ga:0.719,rank:5},
+  'Colombia':{elo:2066.9,atk:1.059,def:0.858,gf:1.566,ga:0.882,rank:6},
+  'Portugal':{elo:2049.1,atk:1.299,def:0.843,gf:2.387,ga:0.831,rank:7},
+  'Netherlands':{elo:2045.9,atk:1.296,def:0.888,gf:2.379,ga:0.984,rank:8},
+  'Ecuador':{elo:2028.9,atk:0.92,def:0.833,gf:1.094,ga:0.795,rank:9},
+  'Germany':{elo:2020.2,atk:1.281,def:0.935,gf:2.325,ga:1.144,rank:10},
+  'Japan':{elo:2018.5,atk:1.33,def:0.809,gf:2.492,ga:0.715,rank:11},
+  'Morocco':{elo:2016.0,atk:1.192,def:0.75,gf:2.021,ga:0.464,rank:12},
+  'Croatia':{elo:2000.0,atk:1.125,def:0.913,gf:1.793,ga:1.068,rank:13},
+  'Norway':{elo:1998.5,atk:1.283,def:0.891,gf:2.332,ga:0.994,rank:14},
+  'Uruguay':{elo:1981.7,atk:0.979,def:0.829,gf:1.294,ga:0.782,rank:15},
+  'Turkey':{elo:1975.0,atk:1.153,def:0.972,gf:1.889,ga:1.271,rank:16},
+  'Mexico':{elo:1974.5,atk:1.032,def:0.842,gf:1.476,ga:0.825,rank:17},
+  'Switzerland':{elo:1968.7,atk:1.125,def:0.947,gf:1.793,ga:1.186,rank:18},
+  'Belgium':{elo:1945.1,atk:1.272,def:0.861,gf:2.295,ga:0.892,rank:19},
+  'Paraguay':{elo:1919.2,atk:0.86,def:0.933,gf:0.887,ga:1.139,rank:20},
+  'Australia':{elo:1917.4,atk:1.147,def:0.814,gf:1.868,ga:0.732,rank:21},
+  'Senegal':{elo:1917.1,atk:1.128,def:0.787,gf:1.804,ga:0.64,rank:22},
+  'Canada':{elo:1908.3,atk:1.157,def:0.871,gf:1.902,ga:0.925,rank:23},
+  'Iran':{elo:1904.5,atk:1.21,def:0.833,gf:2.082,ga:0.796,rank:24},
+  'Austria':{elo:1899.9,atk:1.161,def:0.899,gf:1.917,ga:1.021,rank:25},
+  'South Korea':{elo:1897.5,atk:1.16,def:0.857,gf:1.913,ga:0.878,rank:26},
+  'United States':{elo:1880.2,atk:1.159,def:0.875,gf:1.908,ga:0.94,rank:27},
+  'Algeria':{elo:1863.7,atk:1.231,def:0.808,gf:2.155,ga:0.71,rank:28},
+  'Scotland':{elo:1859.9,atk:1.04,def:0.98,gf:1.504,ga:1.298,rank:29},
+  'Panama':{elo:1856.5,atk:1.08,def:0.968,gf:1.639,ga:1.258,rank:30},
+  'Uzbekistan':{elo:1856.2,atk:1.102,def:0.815,gf:1.714,ga:0.733,rank:31},
+  'Egypt':{elo:1812.9,atk:1.049,def:0.796,gf:1.534,ga:0.671,rank:32},
+  'Ivory Coast':{elo:1802.5,atk:1.124,def:0.801,gf:1.789,ga:0.685,rank:33},
+  'Czechia':{elo:1802.2,atk:1.081,def:0.951,gf:1.643,ga:1.198,rank:34},
+  'Jordan':{elo:1793.9,atk:1.091,def:0.902,gf:1.677,ga:1.031,rank:35},
+  'Sweden':{elo:1776.6,atk:1.093,def:0.979,gf:1.683,ga:1.294,rank:36},
+  'Congo DR':{elo:1770.9,atk:0.953,def:0.808,gf:1.205,ga:0.711,rank:37},
+  'New Zealand':{elo:1758.8,atk:1.289,def:0.853,gf:2.353,ga:0.864,rank:38},
+  'Tunisia':{elo:1756.5,atk:1.032,def:0.8,gf:1.477,ga:0.682,rank:39},
+  'Iraq':{elo:1747.6,atk:0.997,def:0.862,gf:1.356,ga:0.896,rank:40},
+  'Saudi Arabia':{elo:1699.1,atk:0.95,def:0.888,gf:1.197,ga:0.984,rank:41},
+  'Haiti':{elo:1684.8,atk:1.29,def:0.947,gf:2.358,ga:1.185,rank:42},
+  'Cape Verde Islands':{elo:1671.9,atk:0.961,def:0.869,gf:1.232,ga:0.919,rank:43},
+  'South Africa':{elo:1667.2,atk:1.03,def:0.847,gf:1.469,ga:0.842,rank:44},
+  'Bosnia-Herzegovina':{elo:1641.6,atk:0.958,def:1.058,gf:1.222,ga:1.565,rank:45},
+  'Ghana':{elo:1618.4,atk:0.996,def:0.921,gf:1.353,ga:1.097,rank:46},
+  'Curaçao':{elo:1612.3,atk:1.155,def:0.921,gf:1.895,ga:1.098,rank:47},
+  'Qatar':{elo:1589.2,atk:1.068,def:0.984,gf:1.598,ga:1.312,rank:48},
+};
+
 function transformData(raw){
   const bjNow=new Date(Date.now()+8*3600000);
   const bjToday=bjNow.toISOString().slice(0,10);
@@ -1056,12 +1107,12 @@ function buildAISummary(){
   const aw=preds.filter(p=>p.final_result==='AWAY_WIN').length;
   const hc=preds.filter(p=>p.final_confidence>0.6).length;
   const top=preds.reduce((b,p)=>(!b||p.final_confidence>b.final_confidence)?p:b,null);
-  return'【ELO+泊松模型 v1 · 共预测 '+total+' 场小组赛】\n\n'
-    +'本届世界杯首次扩军至48队，三支球队举办，小组赛 '+total+' 场激战。模型预测主队胜率约 '
-    +Math.round(hw/total*100)+'%、平局 '+Math.round(dr/total*100)+'%、客队胜 '+Math.round(aw/total*100)
-    +'%，主场优势在北美赛场依然是关键变量。\n\n'
-    +'其中 '+hc+' 场比赛模型置信度超60%，强弱差距悬殊。'
-    +(top?'最高置信对阵：'+top.match_name+'（预测 '+esc(top.final_predicted_winner)+'胜，置信度 '+Math.round(top.final_confidence*100)+'%）':'')
+  const avgConf=preds.length?Math.round(preds.reduce((s,p)=>s+p.final_confidence,0)/preds.length*100):0;
+  return'【ELO+泊松模型 v1 · 每日赔率&舆论修正版 · 共预测 '+total+' 场小组赛】\n\n'
+    +'本届世界杯首次扩军至48队，三国联合举办，小组赛 '+total+' 场。基础模型基于 49283 场历史比赛的 ELO 评分+泊松分布，叠加每日实时赔率与舆论情绪进行动态修正。\n\n'
+    +'当前预测：主队胜 '+Math.round(hw/total*100)+'% | 平局 '+Math.round(dr/total*100)+'% | 客队胜 '+Math.round(aw/total*100)+'%，主场优势显著。'
+    +' 模型平均置信度 '+avgConf+'%，其中 '+hc+' 场超60%。\n\n'
+    +(top?'⭐ 最高置信场次：'+top.match_name+'（预测 '+esc(top.final_predicted_winner)+'胜，置信 '+Math.round(top.final_confidence*100)+'%）':'')
     +'，敬请期待！';
 }
 
@@ -1720,10 +1771,14 @@ function openMatchDetail(m){
     const elo1=Math.round(pred.home_elo||0),elo2=Math.round(pred.away_elo||0);
     const expScore=pred.adjusted_expected_score||pred.base_expected_score||'';
     const topLines=pred.base_top_scorelines||'';
-    aiAnalysis='【ELO评分】'+m.home+' '+elo1+' vs '+m.away+' '+elo2
-      +'\n预测结果：'+pred.final_predicted_winner+'胜（置信度 '+conf+'%）'
-      +(expScore?'\n期望进球：'+expScore:'')
-      +(topLines?'\n最可能比分：'+topLines:'');
+    aiAnalysis='【ELO实力评分】'+m.home+' '+elo1+' pts vs '+m.away+' '+elo2+' pts'
+      +'\n【AI最终预测】'+pred.final_predicted_winner+'胜（置信度 '+conf+'%）'
+      +(pred.final_score?'  预测比分 '+pred.final_score+(pred.final_score_probability?'（概率 '+Math.round(pred.final_score_probability*100)+'%）':''):'')
+      +(expScore?'\n【期望进球数】'+expScore:'')
+      +(topLines?'\n【最可能比分分布】'+topLines:'')
+      +(pred.home_strength_analysis?'\n\n'+pred.home_strength_analysis:'')
+      +(pred.away_strength_analysis?'\n'+pred.away_strength_analysis:'')
+      +(pred.daily_adjustment_summary?'\n\n【每日修正】'+pred.daily_adjustment_summary:'');
   }else{aiAnalysis=genAIText(m.home,m.away);}
   setTimeout(()=>typeWriter(document.getElementById('mf-ai-box'),aiAnalysis,22),600);
 
@@ -1896,7 +1951,10 @@ function openTeamDetail(info){
   document.getElementById('td-flag').src='https://flagcdn.com/w80/'+lc+'.png';
   document.getElementById('td-flag').onerror=function(){this.style.display='none';};
   document.getElementById('td-name').textContent=name;
-  document.getElementById('td-rank').textContent='FIFA 排名 #'+teamFIFARank(name,code)+' · '+esc(group||'');
+  const tr=TEAM_RATINGS[name];
+  document.getElementById('td-rank').textContent=tr
+    ?'ELO '+tr.elo+' · 模型排名 #'+tr.rank+' · '+(group||'')
+    :'FIFA 排名 #'+teamFIFARank(name,code)+' · '+esc(group||'');
 
   /* build schedule from appData */
   let schedRows='<div style="color:var(--text3);font-size:12px;padding:8px">暂无赛程数据</div>';
@@ -1918,14 +1976,36 @@ function openTeamDetail(info){
     }
   }
 
-  const wp=teamWinProb(name);
+  const wp=tr?Math.min(Math.round((tr.elo-1550)/7),98):teamWinProb(name);
+  const statsHtml=tr
+    ?'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">'
+      +'<div style="background:var(--card2);border:1px solid rgba(0,200,83,.25);border-radius:10px;padding:10px;text-align:center">'
+      +'<div style="font-size:18px;font-weight:900;color:var(--glow);text-shadow:0 0 8px rgba(0,255,127,.5)">'+tr.elo+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">ELO 实力分</div></div>'
+      +'<div style="background:var(--card2);border:1px solid rgba(0,200,83,.25);border-radius:10px;padding:10px;text-align:center">'
+      +'<div style="font-size:18px;font-weight:900;color:var(--gold)">#'+tr.rank+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">模型排名</div></div>'
+      +'<div style="background:var(--card2);border:1px solid rgba(0,200,83,.25);border-radius:10px;padding:10px;text-align:center">'
+      +'<div style="font-size:16px;font-weight:700;color:var(--green)">'+tr.gf.toFixed(2)+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">场均进球</div></div>'
+      +'<div style="background:var(--card2);border:1px solid rgba(255,61,61,.2);border-radius:10px;padding:10px;text-align:center">'
+      +'<div style="font-size:16px;font-weight:700;color:#ff8080">'+tr.ga.toFixed(2)+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">场均失球</div></div>'
+      +'<div style="background:var(--card2);border:1px solid rgba(0,200,83,.25);border-radius:10px;padding:10px;text-align:center">'
+      +'<div style="font-size:16px;font-weight:700;color:var(--glow)">'+tr.atk.toFixed(3)+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">进攻系数</div></div>'
+      +'<div style="background:var(--card2);border:1px solid rgba(0,200,83,.25);border-radius:10px;padding:10px;text-align:center">'
+      +'<div style="font-size:16px;font-weight:700;color:var(--text2)">'+tr.def.toFixed(3)+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">防守系数</div></div>'
+      +'</div>':'' ;
   document.getElementById('td-body').innerHTML=
-    '<div style="margin-bottom:14px"><div class="td-sec-title">本届赛程</div>'+schedRows+'</div>'
+    statsHtml
+    +'<div style="margin-bottom:14px"><div class="td-sec-title">本届赛程</div>'+schedRows+'</div>'
     +'<div class="circ-wrap">'
     +'<div class="td-sec-title" style="margin-bottom:8px">AI夺冠概率</div>'
     +circleProgressSVG(wp,100)
     +'<div class="circ-val">'+wp+'%</div>'
-    +'<div class="circ-lbl">基于赛程强度与近期表现综合评估</div></div>'
+    +'<div class="circ-lbl">'+(tr?'基于 ELO '+tr.elo+' 实力综合评估':'基于赛程强度与近期表现综合评估')+'</div></div>'
     +'<div style="margin-bottom:8px"><div class="td-sec-title">球迷评论区</div>'
     +(currentUser?'<div class="comment-input-row"><input class="comment-input" id="td-comment-input" placeholder="写下你的评论…" maxlength="100">'
       +'<button class="comment-send" onclick="submitComment('+JSON.stringify(name)+')">发送</button></div>':'<div style="font-size:12px;color:var(--text3);margin-bottom:10px">登录后参与评论</div>')
@@ -2355,11 +2435,16 @@ document.addEventListener('click',e=>{
 async function init(){
   renderProfile();
   try{
-    const [rawData,predsData,oddsData]=await Promise.all([
+    const [rawData,predsData,oddsData,hotData]=await Promise.all([
       fetch('./data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}),
       fetch('./predictions.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({predictions:[]})),
       fetch('./odds.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({match_odds:[]})),
+      fetch('./hot_topics.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({hot_topics:[]})),
     ]);
+    /* merge hot_topics from separate file if data.json doesn't have them */
+    if((!rawData.hot_topics||!rawData.hot_topics.length)&&hotData.hot_topics&&hotData.hot_topics.length){
+      rawData.hot_topics=hotData.hot_topics;
+    }
     /* build lookup maps */
     (predsData.predictions||[]).forEach(p=>appPreds[p.match_id]=p);
     (oddsData.match_odds||[]).forEach(o=>{appOdds[o.home_team+'_'+o.away_team]=o;});

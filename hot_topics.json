@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-06-09T08:00:34.904063+00:00",
+  "timezone": "Asia/Shanghai",
+  "source": "zhibo8.cc (世界杯强相关过滤)",
+  "topic_count": 2,
+  "hot_topics": [
+    {
+      "topic_id": "ab891a7a2c7c0b60",
+      "title": "世界杯相关资讯",
+      "category": "资讯",
+      "keywords": [
+        "世界杯"
+      ],
+      "heat_score": 30,
+      "source_url": "https://news.zhibo8.com/zuqiu/2026-06-09/6a26fd091a9f6native.htm",
+      "published_at": "2026-06-09T08:00:34.904063+00:00",
+      "fetched_at": "2026-06-09T08:00:34.904063+00:00"
+    },
+    {
+      "topic_id": "8c7c28dad3a7b807",
+      "title": "名单相关资讯",
+      "category": "资讯",
+      "keywords": [
+        "名单"
+      ],
+      "heat_score": 20,
+      "source_url": "https://news.zhibo8.com/zuqiu/2026-06-09/6a26fd091a9f6native.htm",
+      "published_at": "2026-06-09T08:00:34.904063+00:00",
+      "fetched_at": "2026-06-09T08:00:34.904063+00:00"
+    }
+  ],
+  "filter_note": "仅包含明确命中世界杯强相关关键词的内容"
+}
