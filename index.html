@@ -1056,7 +1056,8 @@ function transformData(raw){
     return{match_id:m.match_id,home:m.home_team,away:m.away_team,
       home_code:TEAM_CODES[m.home_team]||'',away_code:TEAM_CODES[m.away_team]||'',
       time,date:mdate,group:WC_GROUPS[m.home_team]||'',venue:'',
-      status:m.status,utc_date:m.utc_date,local_time:m.local_time};
+      status:m.status,home_score:m.home_score,away_score:m.away_score,
+      utc_date:m.utc_date,local_time:m.local_time};
   });
   const matchesByDate={};
   allMatches.forEach(m=>{if(!matchesByDate[m.date])matchesByDate[m.date]=[];matchesByDate[m.date].push(m);});
@@ -1317,8 +1318,7 @@ function buildGroupStandings(data){
     if(!name||!group)return;
     if(!teams[name])teams[name]={name,code:code||'',group,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};
   }
-  (data.yesterday_matches||[]).forEach(m=>{
-    if(m.home_score===undefined||m.away_score===undefined)return;
+  (data._allMatches||[]).filter(m=>m.status==='FINISHED'&&m.home_score!=null&&m.away_score!=null).forEach(m=>{
     addTeam(m.home,m.home_code,m.group);addTeam(m.away,m.away_code,m.group);
     const ht=teams[m.home],at=teams[m.away];
     ht.p++;at.p++;ht.gf+=+m.home_score;ht.ga+=+m.away_score;
