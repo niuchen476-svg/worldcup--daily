@@ -1,0 +1,24 @@
+{
+  "updated": "2026-06-15T05:01:00.000000+00:00",
+  "source": "FanDuel via Fox Sports",
+  "odds": [
+    {"team": "Spain",        "american_odds": "+450"},
+    {"team": "France",       "american_odds": "+450"},
+    {"team": "England",      "american_odds": "+700"},
+    {"team": "Portugal",     "american_odds": "+750"},
+    {"team": "Argentina",    "american_odds": "+950"},
+    {"team": "Brazil",       "american_odds": "+1000"},
+    {"team": "Germany",      "american_odds": "+1400"},
+    {"team": "Netherlands",  "american_odds": "+1900"},
+    {"team": "Belgium",      "american_odds": "+3300"},
+    {"team": "Norway",       "american_odds": "+3500"},
+    {"team": "Morocco",      "american_odds": "+3500"},
+    {"team": "United States","american_odds": "+4000"},
+    {"team": "Japan",        "american_odds": "+4500"},
+    {"team": "Colombia",     "american_odds": "+4500"},
+    {"team": "Mexico",       "american_odds": "+5000"},
+    {"team": "Uruguay",      "american_odds": "+6500"},
+    {"team": "Croatia",      "american_odds": "+7500"},
+    {"team": "Switzerland",  "american_odds": "+8000"}
+  ]
+}

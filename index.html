@@ -681,6 +681,21 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
   color:var(--gold);font-weight:600;white-space:nowrap}
 .elo-row{display:flex;justify-content:space-between;font-size:9px;color:var(--text3);
   margin-top:5px;padding-top:5px;border-top:1px solid rgba(255,255,255,.06)}
+.winner-odds-grid{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.wo-row{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid rgba(255,215,0,.2);
+  border-radius:8px;padding:8px 10px}
+.wo-rank{width:18px;font-size:11px;font-weight:700;color:var(--text3);flex-shrink:0}
+.wo-row:nth-child(1) .wo-rank{color:var(--gold);text-shadow:0 0 6px rgba(255,215,0,.6)}
+.wo-row:nth-child(2) .wo-rank{color:#c0c0c0}
+.wo-row:nth-child(3) .wo-rank{color:#cd7f32}
+.wo-flag{width:28px;flex-shrink:0}
+.wo-flag-img{width:24px;height:16px;object-fit:cover;border-radius:2px;vertical-align:middle}
+.wo-info{flex:1;min-width:0}
+.wo-name{font-size:12px;font-weight:600;color:var(--text1);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wo-bar-wrap{height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
+.wo-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),rgba(255,200,0,.4));transition:width .5s ease}
+.wo-odds{font-size:11px;color:var(--gold);font-weight:700;flex-shrink:0;min-width:42px;text-align:right}
+.wo-prob{font-size:10px;color:var(--text3);flex-shrink:0;min-width:32px;text-align:right}
 </style>
 </head>
 <body>
@@ -943,6 +958,7 @@ function toast(msg,isErr){
 }
 
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function oddsToProb(american){const n=parseInt(String(american).replace('+',''));return n>0?100/(n+100):Math.abs(n)/(Math.abs(n)+100);}
 
 /* ── team country codes (ISO 3166-1 alpha-2 for flagcdn) ── */
 const TEAM_CODES={
@@ -1046,13 +1062,14 @@ function transformData(raw){
   allMatches.forEach(m=>{if(!matchesByDate[m.date])matchesByDate[m.date]=[];matchesByDate[m.date].push(m);});
   const hot_topics=(raw.hot_topics||[]).map(t=>({
     title:t.title,summary:(t.keywords||[]).join('、')||'世界杯相关',
-    sentiment:'中性',heat:t.heat_score||0,source:'直播吧',url:t.source_url||'',
+    sentiment:t.sentiment||'中性',heat:t.heat_score||0,source:t.source||'Reddit',url:t.source_url||'',
   }));
   return{
     date:bjToday,
     today_matches:matchesByDate[bjToday]||[],
     yesterday_matches:(matchesByDate[bjYesterday]||[]).filter(m=>m.status==='FINISHED'),
     hot_topics,ai_prediction:'',
+    winner_odds:raw.winner_odds||[],
     _matchesByDate:matchesByDate,_allMatches:allMatches,_raw:raw,
   };
 }
@@ -1537,6 +1554,28 @@ function renderHome(data){
           :'<span style="font-size:11px;color:var(--text3);padding:4px 0">登录后参与评论</span>')
         +'</div><div class="topic-comment-list" id="tcl-'+tcId+'"></div></div></div>';
     });
+  }
+
+  /* ── 冠军赔率 ── */
+  if(data.winner_odds&&data.winner_odds.length){
+    html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🏆 冠军赔率</div><span class="sec-badge badge-gold">FanDuel 实时</span></div>';
+    html+='<div class="winner-odds-grid">';
+    const top8=data.winner_odds.slice(0,8);
+    const maxProb=top8.reduce((mx,o)=>{const p=oddsToProb(o.american_odds);return p>mx?p:mx;},0);
+    top8.forEach((o,i)=>{
+      const prob=oddsToProb(o.american_odds);
+      const pct=maxProb>0?Math.round(prob/maxProb*100):0;
+      const code=TEAM_CODES[o.team]||o.team.slice(0,3).toUpperCase();
+      html+='<div class="wo-row stagger-item" style="animation-delay:'+i*.06+'s">'
+        +'<div class="wo-rank">'+(i+1)+'</div>'
+        +'<div class="wo-flag">'+flagImg(code,'wo-flag-img')+'</div>'
+        +'<div class="wo-info"><div class="wo-name">'+esc(o.team)+'</div>'
+        +'<div class="wo-bar-wrap"><div class="wo-bar" style="width:'+pct+'%"></div></div></div>'
+        +'<div class="wo-odds">'+esc(o.american_odds)+'</div>'
+        +'<div class="wo-prob">'+Math.round(prob*100)+'%</div>'
+        +'</div>';
+    });
+    html+='</div><div style="text-align:right;font-size:10px;color:var(--text3);padding:4px 8px">更新于 Jun.15 · FanDuel 赔率（美式），含抽水</div>';
   }
 
   /* ── AI 预测 ── */
@@ -2415,16 +2454,18 @@ document.addEventListener('click',e=>{
 async function init(){
   renderProfile();
   try{
-    const [rawData,predsData,oddsData,hotData]=await Promise.all([
+    const [rawData,predsData,oddsData,hotData,winnerOddsData]=await Promise.all([
       fetch('./data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}),
       fetch('./predictions.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({predictions:[]})),
       fetch('./odds.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({match_odds:[]})),
       fetch('./hot_topics.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({hot_topics:[]})),
+      fetch('./winner_odds.json',{cache:'no-cache'}).then(r=>r.json()).catch(()=>({odds:[]})),
     ]);
     /* merge hot_topics from separate file if data.json doesn't have them */
     if((!rawData.hot_topics||!rawData.hot_topics.length)&&hotData.hot_topics&&hotData.hot_topics.length){
       rawData.hot_topics=hotData.hot_topics;
     }
+    rawData.winner_odds=winnerOddsData.odds||[];
     /* build lookup maps */
     (predsData.predictions||[]).forEach(p=>appPreds[p.match_id]=p);
     (oddsData.match_odds||[]).forEach(o=>{appOdds[o.home_team+'_'+o.away_team]=o;});

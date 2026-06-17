@@ -1,33 +1,69 @@
 {
-  "generated_at": "2026-06-09T08:00:34.904063+00:00",
+  "generated_at": "2026-06-16T08:00:00.000000+00:00",
   "timezone": "Asia/Shanghai",
-  "source": "zhibo8.cc (世界杯强相关过滤)",
-  "topic_count": 2,
+  "source": "Reddit r/worldcup + FOX Sports + The Guardian",
+  "topic_count": 6,
   "hot_topics": [
     {
-      "topic_id": "ab891a7a2c7c0b60",
-      "title": "世界杯相关资讯",
-      "category": "资讯",
-      "keywords": [
-        "世界杯"
-      ],
-      "heat_score": 30,
-      "source_url": "https://news.zhibo8.com/zuqiu/2026-06-09/6a26fd091a9f6native.htm",
-      "published_at": "2026-06-09T08:00:34.904063+00:00",
-      "fetched_at": "2026-06-09T08:00:34.904063+00:00"
+      "topic_id": "de_7_1",
+      "title": "德国7-1库拉索 大炮重燃！",
+      "category": "战报",
+      "keywords": ["德国", "穆勒", "基米希", "大比分", "E组"],
+      "heat_score": 98,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1u68x19/germany_and_sweden_dominate_with_big_wins_in_the/",
+      "published_at": "2026-06-15T06:00:00.000000+00:00",
+      "sentiment": "正面"
     },
     {
-      "topic_id": "8c7c28dad3a7b807",
-      "title": "名单相关资讯",
-      "category": "资讯",
-      "keywords": [
-        "名单"
-      ],
-      "heat_score": 20,
-      "source_url": "https://news.zhibo8.com/zuqiu/2026-06-09/6a26fd091a9f6native.htm",
-      "published_at": "2026-06-09T08:00:34.904063+00:00",
-      "fetched_at": "2026-06-09T08:00:34.904063+00:00"
+      "topic_id": "ned_jpn_22",
+      "title": "荷兰2-2日本！本届最佳战！",
+      "category": "战报",
+      "keywords": ["荷兰", "日本", "神田大地", "F组", "平局"],
+      "heat_score": 95,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1u67ogw/quite_an_effective_substitution_from_sweden_vs/",
+      "published_at": "2026-06-15T04:00:00.000000+00:00",
+      "sentiment": "中性"
+    },
+    {
+      "topic_id": "swe_5_1",
+      "title": "阿亚里双响！瑞典5-1大胜突尼斯",
+      "category": "战报",
+      "keywords": ["瑞典", "阿亚里", "伊萨克", "久科雷斯", "F组"],
+      "heat_score": 91,
+      "source_url": "https://www.theguardian.com/football/2026/jun/15/sweden-tunisia-world-cup-match-report",
+      "published_at": "2026-06-15T06:50:00.000000+00:00",
+      "sentiment": "正面"
+    },
+    {
+      "topic_id": "ivory_ecua",
+      "title": "阿马德迪亚洛绝杀！科特迪瓦1-0厄瓜多尔",
+      "category": "战报",
+      "keywords": ["科特迪瓦", "阿马德", "厄瓜多尔", "E组", "绝杀"],
+      "heat_score": 82,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1u68x19/germany_and_sweden_dominate_with_big_wins_in_the/",
+      "published_at": "2026-06-15T05:30:00.000000+00:00",
+      "sentiment": "正面"
+    },
+    {
+      "topic_id": "japan_fans_clean",
+      "title": "日本球迷赛后清扫看台 再次圈粉全球",
+      "category": "场外",
+      "keywords": ["日本", "球迷文化", "清扫", "体育精神"],
+      "heat_score": 74,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1u68u20/the_reason_japan_fans_clean_the_stadium_after/",
+      "published_at": "2026-06-15T05:00:00.000000+00:00",
+      "sentiment": "正面"
+    },
+    {
+      "topic_id": "gijón_repeat",
+      "title": "\"希洪之耻\"重演风险？荷兰德国同组引关注",
+      "category": "分析",
+      "keywords": ["荷兰", "德国", "小组赛", "希洪之耻", "F组"],
+      "heat_score": 61,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1u67c6a/there_is_a_chance_disgrace_of_gijón_may_be/",
+      "published_at": "2026-06-15T04:00:00.000000+00:00",
+      "sentiment": "负面"
     }
   ],
-  "filter_note": "仅包含明确命中世界杯强相关关键词的内容"
+  "filter_note": "基于 Reddit r/worldcup 热帖 + FOX Sports 新闻"
 }
