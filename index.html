@@ -132,6 +132,7 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .match-time{font-size:14px;font-weight:700;color:var(--glow);letter-spacing:.5px;
   text-shadow:0 0 10px rgba(0,255,127,.6)}
 .vs-text{font-size:20px;font-weight:900;color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.5)}
+.vs-score-big{font-size:26px;font-weight:900;color:var(--gold);text-shadow:0 0 14px rgba(255,215,0,.7);letter-spacing:2px}
 .match-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px}
 .match-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
 .group-tag{font-size:10px;padding:2px 7px;border-radius:4px;
@@ -1055,9 +1056,10 @@ function transformData(raw){
     const{date:mdate,time}=parseLocal(m.local_time);
     return{match_id:m.match_id,home:m.home_team,away:m.away_team,
       home_code:TEAM_CODES[m.home_team]||'',away_code:TEAM_CODES[m.away_team]||'',
-      time,date:mdate,group:WC_GROUPS[m.home_team]||'',venue:'',
+      time,date:mdate,group:m.group||WC_GROUPS[m.home_team]||'',venue:m.venue_city||m.venue||'',
       status:m.status,home_score:m.home_score,away_score:m.away_score,
-      utc_date:m.utc_date,local_time:m.local_time};
+      utc_date:m.utc_date,local_time:m.local_time,
+      scorers:m.scorers||[],summary:m.summary||''};
   });
   const matchesByDate={};
   allMatches.forEach(m=>{if(!matchesByDate[m.date])matchesByDate[m.date]=[];matchesByDate[m.date].push(m);});
@@ -1470,11 +1472,14 @@ function renderHome(data){
         +'<div class="match-card-inner"><div class="match-teams">'
         +'<div class="team-block team-block-click" onclick="event.stopPropagation();openTeamDetail(JSON.parse(this.dataset.t))" data-t="'+hj+'">'
         +flagImg(m.home_code,'team-flag')+'<div class="team-name">'+esc(m.home)+'</div><div class="team-form">'+formDots()+'</div></div>'
-        +'<div class="vs-block">'+matchStatus(m.time,m.date||data.date)+'<div class="match-time">'+esc(m.time)+'</div><div class="vs-text">VS</div></div>'
+        +(m.status==='FINISHED'
+          ?'<div class="vs-block"><span class="status-tag status-ft">FT</span><div class="vs-score-big">'+m.home_score+' - '+m.away_score+'</div></div>'
+          :'<div class="vs-block">'+matchStatus(m.time,m.date||data.date)+'<div class="match-time">'+esc(m.time)+'</div><div class="vs-text">VS</div></div>')
         +'<div class="team-block team-block-click" onclick="event.stopPropagation();openTeamDetail(JSON.parse(this.dataset.t))" data-t="'+aj+'">'
         +flagImg(m.away_code,'team-flag')+'<div class="team-name">'+esc(m.away)+'</div><div class="team-form">'+formDots()+'</div></div>'
         +'</div>'
-        +buildPredBar(pred,m.home,m.away)
+        +(m.status==='FINISHED'&&m.scorers&&m.scorers.length?'<div class="scorer-row" style="margin:4px 0 2px">'+m.scorers.map(s=>'<span class="scorer-tag">⚽ '+esc(s)+'</span>').join('')+'</div>':'')
+        +(m.status!=='FINISHED'?buildPredBar(pred,m.home,m.away):'')
         +buildOddsChips(m)
         +'<div class="match-footer" style="margin-top:6px"><div class="match-tags"><span class="group-tag">'+esc(m.group)+'</span></div>'
         +'<span class="predict-count">👥 '+pcount+'人竞猜</span></div>'

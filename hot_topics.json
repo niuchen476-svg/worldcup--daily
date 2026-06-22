@@ -1,69 +1,89 @@
-{
-  "generated_at": "2026-06-16T08:00:00.000000+00:00",
-  "timezone": "Asia/Shanghai",
-  "source": "Reddit r/worldcup + FOX Sports + The Guardian",
-  "topic_count": 6,
+﻿{
   "hot_topics": [
     {
-      "topic_id": "de_7_1",
-      "title": "德国7-1库拉索 大炮重燃！",
-      "category": "战报",
-      "keywords": ["德国", "穆勒", "基米希", "大比分", "E组"],
-      "heat_score": 98,
-      "source_url": "https://old.reddit.com/r/worldcup/comments/1u68x19/germany_and_sweden_dominate_with_big_wins_in_the/",
-      "published_at": "2026-06-15T06:00:00.000000+00:00",
-      "sentiment": "正面"
+      "title": "比利时0-0伊朗赛后热议",
+      "keywords": [
+        "比利时",
+        "伊朗",
+        "小组赛"
+      ],
+      "heat_score": 100,
+      "sentiment": "中性",
+      "match_id": "537365",
+      "source_match_id": "537365",
+      "home_score": 0,
+      "away_score": 0,
+      "reddit_comments": 6464,
+      "reddit_score": 368,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1ubvu9n/match_thread_belgium_vs_iran_world_cup_group_g_21/"
     },
     {
-      "topic_id": "ned_jpn_22",
-      "title": "荷兰2-2日本！本届最佳战！",
-      "category": "战报",
-      "keywords": ["荷兰", "日本", "神田大地", "F组", "平局"],
-      "heat_score": 95,
-      "source_url": "https://old.reddit.com/r/worldcup/comments/1u67ogw/quite_an_effective_substitution_from_sweden_vs/",
-      "published_at": "2026-06-15T04:00:00.000000+00:00",
-      "sentiment": "中性"
+      "title": "乌拉圭2-2佛得角赛后热议",
+      "keywords": [
+        "乌拉圭",
+        "佛得角",
+        "小组赛"
+      ],
+      "heat_score": 100,
+      "sentiment": "中性",
+      "match_id": "537372",
+      "source_match_id": "537372",
+      "home_score": 2,
+      "away_score": 2,
+      "reddit_comments": 6410,
+      "reddit_score": 461,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1uc0bfe/match_thread_uruguay_vs_cape_verde_islands_world/"
     },
     {
-      "topic_id": "swe_5_1",
-      "title": "阿亚里双响！瑞典5-1大胜突尼斯",
-      "category": "战报",
-      "keywords": ["瑞典", "阿亚里", "伊萨克", "久科雷斯", "F组"],
-      "heat_score": 91,
-      "source_url": "https://www.theguardian.com/football/2026/jun/15/sweden-tunisia-world-cup-match-report",
-      "published_at": "2026-06-15T06:50:00.000000+00:00",
-      "sentiment": "正面"
+      "title": "西班牙4-0沙特阿拉伯赛后热议",
+      "keywords": [
+        "西班牙",
+        "沙特阿拉伯",
+        "小组赛"
+      ],
+      "heat_score": 78,
+      "sentiment": "中性",
+      "match_id": "537371",
+      "source_match_id": "537371",
+      "home_score": 4,
+      "away_score": 0,
+      "reddit_comments": 3683,
+      "reddit_score": 425,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1ubrfvj/match_thread_spain_vs_saudi_arabia_world_cup/"
     },
     {
-      "topic_id": "ivory_ecua",
-      "title": "阿马德迪亚洛绝杀！科特迪瓦1-0厄瓜多尔",
-      "category": "战报",
-      "keywords": ["科特迪瓦", "阿马德", "厄瓜多尔", "E组", "绝杀"],
-      "heat_score": 82,
-      "source_url": "https://old.reddit.com/r/worldcup/comments/1u68x19/germany_and_sweden_dominate_with_big_wins_in_the/",
-      "published_at": "2026-06-15T05:30:00.000000+00:00",
-      "sentiment": "正面"
+      "title": "厄瓜多尔0-0库拉索赛后热议",
+      "keywords": [
+        "厄瓜多尔",
+        "库拉索",
+        "小组赛"
+      ],
+      "heat_score": 37,
+      "sentiment": "中性",
+      "match_id": "537354",
+      "source_match_id": "537354",
+      "home_score": 0,
+      "away_score": 0,
+      "reddit_comments": 672,
+      "reddit_score": 2372,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1ublm53/dutch_royals_visit_curaçaos_locker_room_after/"
     },
     {
-      "topic_id": "japan_fans_clean",
-      "title": "日本球迷赛后清扫看台 再次圈粉全球",
-      "category": "场外",
-      "keywords": ["日本", "球迷文化", "清扫", "体育精神"],
-      "heat_score": 74,
-      "source_url": "https://old.reddit.com/r/worldcup/comments/1u68u20/the_reason_japan_fans_clean_the_stadium_after/",
-      "published_at": "2026-06-15T05:00:00.000000+00:00",
-      "sentiment": "正面"
-    },
-    {
-      "topic_id": "gijón_repeat",
-      "title": "\"希洪之耻\"重演风险？荷兰德国同组引关注",
-      "category": "分析",
-      "keywords": ["荷兰", "德国", "小组赛", "希洪之耻", "F组"],
-      "heat_score": 61,
-      "source_url": "https://old.reddit.com/r/worldcup/comments/1u67c6a/there_is_a_chance_disgrace_of_gijón_may_be/",
-      "published_at": "2026-06-15T04:00:00.000000+00:00",
-      "sentiment": "负面"
+      "title": "突尼斯0-4日本赛后热议",
+      "keywords": [
+        "突尼斯",
+        "日本",
+        "小组赛"
+      ],
+      "heat_score": 25,
+      "sentiment": "中性",
+      "match_id": "537360",
+      "source_match_id": "537360",
+      "home_score": 0,
+      "away_score": 4,
+      "reddit_comments": 605,
+      "reddit_score": 1314,
+      "source_url": "https://old.reddit.com/r/worldcup/comments/1ubi5ap/postmatch_thread_tunisia_04_japan_world_cup_group/"
     }
-  ],
-  "filter_note": "基于 Reddit r/worldcup 热帖 + FOX Sports 新闻"
+  ]
 }
