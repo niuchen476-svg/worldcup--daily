@@ -1598,7 +1598,7 @@ function renderHome(data){
     html+='<div class="video-scroll">';
     data.latest_videos.forEach((v,i)=>{
       const dur=v.duration_seconds>=60?Math.floor(v.duration_seconds/60)+'\''+String(v.duration_seconds%60).padStart(2,'0')+'"':v.duration_seconds+'"';
-      html+='<div class="video-card stagger-item" style="animation-delay:'+i*.07+'s" onclick="window.open('+JSON.stringify(v.url)+')">'
+      html+='<div class="video-card stagger-item" style="animation-delay:'+i*.07+'s" onclick="window.open(this.dataset.url)" data-url="'+esc(v.url)+'">'
         +'<div class="video-thumb-wrap">'
         +'<img class="video-thumb" src="'+esc(v.thumbnail)+'" loading="lazy" onerror="this.parentElement.style.background=\'#1a2a1a\'">'
         +'<span class="video-dur">'+dur+'</span>'
