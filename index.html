@@ -697,6 +697,14 @@ html,body{height:100%;background:var(--bg);color:var(--text1);
 .wo-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),rgba(255,200,0,.4));transition:width .5s ease}
 .wo-odds{font-size:11px;color:var(--gold);font-weight:700;flex-shrink:0;min-width:42px;text-align:right}
 .wo-prob{font-size:10px;color:var(--text3);flex-shrink:0;min-width:32px;text-align:right}
+.video-scroll{display:flex;gap:10px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none}
+.video-scroll::-webkit-scrollbar{display:none}
+.video-card{flex:0 0 160px;cursor:pointer;border-radius:10px;overflow:hidden;background:var(--card);border:1px solid rgba(0,200,83,.25);transition:transform .2s,box-shadow .2s}
+.video-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,200,83,.2)}
+.video-thumb-wrap{position:relative;width:160px;height:90px;background:#0d1a0d;overflow:hidden}
+.video-thumb{width:100%;height:100%;object-fit:cover;display:block}
+.video-dur{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:4px}
+.video-title{font-size:11px;color:var(--text2);padding:6px 8px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 </style>
 </head>
 <body>
@@ -1073,6 +1081,7 @@ function transformData(raw){
     yesterday_matches:(matchesByDate[bjYesterday]||[]).filter(m=>m.status==='FINISHED'),
     hot_topics,ai_prediction:'',
     winner_odds:raw.winner_odds||[],
+    latest_videos:raw.latest_videos||[],
     _matchesByDate:matchesByDate,_allMatches:allMatches,_raw:raw,
   };
 }
@@ -1581,6 +1590,23 @@ function renderHome(data){
         +'</div>';
     });
     html+='</div><div style="text-align:right;font-size:10px;color:var(--text3);padding:4px 8px">更新于 Jun.15 · FanDuel 赔率（美式），含抽水</div>';
+  }
+
+  /* ── 精彩视频 ── */
+  if(data.latest_videos&&data.latest_videos.length){
+    html+='<div class="sec-head" style="margin-top:16px"><div class="sec-title">🎬 精彩视频</div><span class="sec-badge badge-red">ESPN</span></div>';
+    html+='<div class="video-scroll">';
+    data.latest_videos.forEach((v,i)=>{
+      const dur=v.duration_seconds>=60?Math.floor(v.duration_seconds/60)+'\''+String(v.duration_seconds%60).padStart(2,'0')+'"':v.duration_seconds+'"';
+      html+='<div class="video-card stagger-item" style="animation-delay:'+i*.07+'s" onclick="window.open('+JSON.stringify(v.url)+')">'
+        +'<div class="video-thumb-wrap">'
+        +'<img class="video-thumb" src="'+esc(v.thumbnail)+'" loading="lazy" onerror="this.parentElement.style.background=\'#1a2a1a\'">'
+        +'<span class="video-dur">'+dur+'</span>'
+        +'</div>'
+        +'<div class="video-title">'+esc(v.title)+'</div>'
+        +'</div>';
+    });
+    html+='</div>';
   }
 
   /* ── AI 预测 ── */

@@ -2112,5 +2112,57 @@
       "scorers": null,
       "summary": null
     }
+  ],
+  "latest_videos": [
+    {
+      "source": "ESPN",
+      "video_id": "49139145",
+      "title": "Lamine Yamal scores maiden World Cup goal for Spain",
+      "description": "Eighteen-year-old Lamine Yamal becomes the eighth-youngest scorer in men's World Cup history in Spain's 4-0 win over Saudi Arabia.",
+      "duration_seconds": 19,
+      "published_utc": "2026-06-21T23:41:25Z",
+      "thumbnail": "https://a.espncdn.com/media/motion/2026/0621/dm_260621_World_Cup_Highlight_Lamine_Yamal_scores_maiden_World_Cup_goal_for_Spain__20260622_AUS_ONLY/dm_260621_World_Cup_Highlight_Lamine_Yamal_scores_maiden_World_Cup_goal_for_Spain__20260622_AUS_ONLY.jpg",
+      "url": "https://www.espn.com/video/clip/_/id/49139145/lamine-yamal-scores-maiden-world-cup-goal-spain"
+    },
+    {
+      "source": "ESPN",
+      "video_id": "49134967",
+      "title": "Greatest World Cup Goalkeeping performance of all time from Eloy Room?",
+      "description": "Greatest World Cup Goalkeeping performance of all time from Eloy Room?",
+      "duration_seconds": 153,
+      "published_utc": "2026-06-21T14:12:31Z",
+      "thumbnail": "https://a.espncdn.com/media/motion/2026/0621/dm_260621_COM_SOC_Analysis_Greatest_World_Cup_Goalkeeping_performance_of_all_time_from_Eloy_Room3F_GLOBAL_202/dm_260621_COM_SOC_Analysis_Greatest_World_Cup_Goalkeeping_performance_of_all_time_from_Eloy_Room3F_GLOBAL_202.jpg",
+      "url": "https://www.espn.com/video/clip/_/id/49134967/greatest-world-cup-goalkeeping-performance-all-eloy-room"
+    },
+    {
+      "source": "ESPN",
+      "video_id": "49132176",
+      "title": "Japan fans celebrate early goal vs. Tunisia",
+      "description": "Japan fans celebrate early goal vs. Tunisia",
+      "duration_seconds": 23,
+      "published_utc": "2026-06-21T04:30:54Z",
+      "thumbnail": "https://a.espncdn.com/media/motion/2026/0621/dm_260621_Japan_goal/dm_260621_Japan_goal.jpg",
+      "url": "https://www.espn.com/video/clip/_/id/49132176/japan-fans-celebrate-early-goal-vs-tunisia"
+    },
+    {
+      "source": "ESPN",
+      "video_id": "49127415",
+      "title": "Dutch fans celebrate Brobbey's opening goal vs. Sweden",
+      "description": "Dutch fans celebrate Brobbey's opening goal vs. Sweden.",
+      "duration_seconds": 19,
+      "published_utc": "2026-06-20T17:28:18Z",
+      "thumbnail": "https://a.espncdn.com/media/motion/2026/0620/dm_260620_Dutch_fans_celebrate_Brobbeys_opening_goal_vs_Sweden/dm_260620_Dutch_fans_celebrate_Brobbeys_opening_goal_vs_Sweden.jpg",
+      "url": "https://www.espn.com/video/clip/_/id/49127415/dutch-fans-celebrate-brobbey-opening-goal-vs-sweden"
+    },
+    {
+      "source": "ESPN",
+      "video_id": "49126047",
+      "title": "Will Brazil top Group C after victory vs. Haiti?",
+      "description": "Will Brazil top Group C after victory vs. Haiti?",
+      "duration_seconds": 83,
+      "published_utc": "2026-06-20T13:54:31Z",
+      "thumbnail": "https://a.espncdn.com/media/motion/2026/0620/dm_260620_COM_SOC_Analysis_Will_Brazil_top_Group_C_after_victory_vs_Haiti3F__GLOBAL_2026-06-20/dm_260620_COM_SOC_Analysis_Will_Brazil_top_Group_C_after_victory_vs_Haiti3F__GLOBAL_2026-06-20.jpg",
+      "url": "https://www.espn.com/video/clip/_/id/49126047/will-brazil-top-group-c-victory-vs-haiti"
+    }
   ]
 }
